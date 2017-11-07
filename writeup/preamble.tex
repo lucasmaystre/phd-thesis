@@ -10,7 +10,7 @@
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage[french,german,english]{babel}
+\usepackage[french,english]{babel}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -23,7 +23,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % EDOC THESIS TEMPLATE: Variant 2.0 -> Utopia, Gabarrit A (lighter pages)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\usepackage{fourier} % Utopia font-typesetting including mathematical formula compatible with newer TeX-Distributions (>2010)
+\usepackage{lmodern}
+%\usepackage{fourier} % Utopia font-typesetting including mathematical formula compatible with newer TeX-Distributions (>2010)
 %\usepackage{utopia} % on older systems -> use this package instead of fourier in combination with mathdesign for better looking results
 %\usepackage[adobe-utopia]{mathdesign}
 \setlength{\textwidth}{146.8mm} % = 210mm - 37mm - 26.2mm
@@ -47,12 +48,12 @@
 
 
 \usepackage{graphicx,xcolor}
-\graphicspath{{images/}}
+\graphicspath{{figs/}}
 
 \usepackage{subfig}
 \usepackage{booktabs}
 \usepackage{lipsum}
-\usepackage{microtype}
+\usepackage[babel,final]{microtype}
 \usepackage{url}
 \usepackage[final]{pdfpages}
 
@@ -80,13 +81,12 @@
 \usepackage{listings}
 \lstset{language=[LaTeX]Tex,tabsize=4, basicstyle=\scriptsize\ttfamily, showstringspaces=false, numbers=left, numberstyle=\tiny, numbersep=10pt, breaklines=true, breakautoindent=true, breakindent=10pt}
 
-\usepackage{hyperref}
+\usepackage[backref=page]{hyperref}
 \hypersetup{pdfborder={0 0 0},
 	colorlinks=true,
 	linkcolor=black,
 	citecolor=black,
 	urlcolor=black}
-\urlstyle{same}
 
 \makeatletter
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
@@ -147,3 +147,17 @@
    \end{tikzpicture}
    \gdef\partlabel{}
   } % code before the title body
+
+
+\usepackage{import}
+
+\frenchspacing
+
+% Custom backref, taken from Vincent.
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{{\footnotesize [%
+    \ifcase #1 Not cited%
+          \or Cited on page~#2%
+          \else Cited on pages #2%
+    \fi%
+    ]}}

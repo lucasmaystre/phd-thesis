@@ -2,6 +2,7 @@ thesis.pdf
 *.aux
 *.bbl
 *.blg
+*.brf
 *.lof
 *.log
 *.lot

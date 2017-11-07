@@ -1,35 +1,16 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-%		My Thesis
-%
-%		EDOC Template
-%		2011
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-\input{head/settings_epfl_template.tex}
-\input{head/settings_custom.tex}  % place your custom packages, etc... in this file!
-
+\input{preamble}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% HEAD: Book-Begin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \frontmatter
-\input{head/titlepage.tex}
-\include{head/dedication}
-\input{head/acknowledgements}
-\include{head/preface}
-\include{head/abstracts}
+\input{front/titlepage}
+\include{front/dedication}
+\input{front/acknowledgements}
+\include{front/abstracts}
 
 \tableofcontents
-\addcontentsline{toc}{chapter}{List of figures} % adds an entry to the table of contents
-\listoffigures
-\addcontentsline{toc}{chapter}{List of tables} % adds an entry to the table of contents
-\listoftables
-% your list of symbols here, if needed.
-
 
 % space before each new paragraph according to the template guidelines.
 %(needs to be after titlepage and frontmatter to keep the table of contents lists short)
@@ -40,20 +21,29 @@
 %%%%% MAIN: The chapters of the thesis
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \mainmatter
-\include{main/ch1_introduction}
-\include{main/ch2_figures_tables}
-\include{main/ch3_math}
-\include{main/ch4_more_text}
+\subimport{01-intro/}{main}
+\subimport{02-fastinference/}{main}
+\subimport{03-robustsort/}{main}
+\subimport{04-choicerank/}{main}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%% TAIL: Bibliography, Appendix, CV
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{tail/appendix}
-\include{tail/biblio}
-% Add your glossary here
-% Add your index here
-% Photographic credits (list of pictures&images that have been used with names of the person holding the copyright for them)
-\include{tail/cv}
+\appendix
+\subimport{0A-appendix/}{appendix}
+
+% Bibliography.
+\bibliographystyle{abbrvnat}
+\bibliography{thesis}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+% Curriculum Vitae.
+\backmatter
+\cleardoublepage
+\thispagestyle{empty}
+\phantomsection
+\addcontentsline{toc}{chapter}{Curriculum Vitae}
+\includepdf[pagecommand=\thispagestyle{addpagenumbersforpdfimports},pages=-]{cv.pdf}
 
 \end{document}
