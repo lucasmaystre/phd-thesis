@@ -24,9 +24,6 @@
 % EDOC THESIS TEMPLATE: Variant 2.0 -> Utopia, Gabarrit A (lighter pages)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{lmodern}
-%\usepackage{fourier} % Utopia font-typesetting including mathematical formula compatible with newer TeX-Distributions (>2010)
-%\usepackage{utopia} % on older systems -> use this package instead of fourier in combination with mathdesign for better looking results
-%\usepackage[adobe-utopia]{mathdesign}
 \setlength{\textwidth}{146.8mm} % = 210mm - 37mm - 26.2mm
 \setlength{\oddsidemargin}{11.6mm} % 37mm - 1in (from hoffset)
 \setlength{\evensidemargin}{0.8mm} % = 26.2mm - 1in (from hoffset)
@@ -34,7 +31,6 @@
 \setlength{\textheight}{221.9mm} % = 297mm -29.5mm -31.6mm - 14mm (12 to accomodate footline with pagenumber)
 \setlength{\headheight}{14pt}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 
 
 \setlength{\parindent}{0pt}
@@ -79,7 +75,16 @@
 }
 
 \usepackage{listings}
-\lstset{language=[LaTeX]Tex,tabsize=4, basicstyle=\scriptsize\ttfamily, showstringspaces=false, numbers=left, numberstyle=\tiny, numbersep=10pt, breaklines=true, breakautoindent=true, breakindent=10pt}
+\lstset{
+  language=Python,
+  basicstyle=\scriptsize\ttfamily,
+  showstringspaces=false,           % Don't put underscores in place of spaces.
+  numbers=left,                     % Show line numbers on the left.
+  numberstyle=\ttfamily,
+  numbersep=10pt,                   % Give some space to those poor line numbers.
+  breaklines=true,
+  breakautoindent=true,
+  breakindent=10pt}
 
 \usepackage[backref=page]{hyperref}
 \hypersetup{pdfborder={0 0 0},
@@ -87,6 +92,16 @@
 	linkcolor=black,
 	citecolor=black,
 	urlcolor=black}
+
+% Custom backref, taken from Vincent.
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{{\footnotesize [%
+    \ifcase #1 Not cited%
+          \or Cited on page~#2%
+          \else Cited on pages #2%
+    \fi%
+    ]}}
+
 
 \makeatletter
 \def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
@@ -149,15 +164,30 @@
   } % code before the title body
 
 
-\usepackage{import}
+\usepackage{import} % TODO
+\usepackage{amsmath,amsthm,amssymb,bm,mathtools}
+\usepackage{enumitem}
+\usepackage{algorithm}
+\usepackage{algorithmic} % TODO change to algpseudocode
+\usepackage[detect-weight=true]{siunitx}
+
+\usepackage{natbib}
+\bibliographystyle{abbrvnat}
+
+\newlist{enuminline}{enumerate*}{1}
+\setlist[enuminline,1]{label=\itshape\alph*\upshape)}
 
 \frenchspacing
 
-% Custom backref, taken from Vincent.
-\renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{{\footnotesize [%
-    \ifcase #1 Not cited%
-          \or Cited on page~#2%
-          \else Cited on pages #2%
-    \fi%
-    ]}}
+
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}
+\newcommand{\vpi}{\ensuremath{\bm{\pi}}}
+\newcommand{\rcpi}{\ensuremath{\bar{\bm{\pi}}}}
+\newcommand{\mlpi}{\ensuremath{\hat{\bm{\pi}}}}
+\newcommand{\LSR}{LSR}
+\newcommand{\ILSR}{I-LSR}
+
+\hyphenation{wahrscheinlichkeits-rechnung} % :-)

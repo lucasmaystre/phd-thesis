@@ -1,0 +1,41 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related work}
+\label{sec:relwork}
+
+Spectral methods applied to ranking and scoring items from noisy choices have a long-standing history.
+To the best of our knowledge, \citet{saaty1980analytic} is the first to suggest using the leading eigenvector of a matrix of inconsistent pairwise judgments to score alternatives.
+Two decades later, \citet{page1998pagerank} developed PageRank, an algorithm that ranks Web pages according to the stationary distribution of a random walk on the hyperlink graph.
+In the same vein, \citet{dwork2001rank} proposed several variants of Markov chains for aggregating heterogeneous rankings.
+The idea is to construct a random walk that is biased towards high-ranked items, and use the ranking induced by the stationary distribution.
+More recently, \citet{negahban2012iterative} presented Rank Centrality, an algorithm for aggregating pairwise comparisons close in spirit to that of \citep{dwork2001rank}.
+When the data is generated under the Bradley--Terry model, this algorithm asymptotically recovers model parameters with only $\omega(n \log n)$ pairwise comparisons.
+For the more general case of rankings under the Plackett--Luce model, \citet{azari2013generalized} propose to break rankings into pairwise comparisons and to apply an algorithm similar to Rank Centrality.
+They show that the resulting estimator is statistically consistent.
+%Lastly, we mention \citep{fogel2014serialrank} who take a slightly different approach to spectral ranking, based on seriation, w
+Interestingly, many of these spectral algorithms can be related to the method of moments, a broadly applicable alternative to maximum-likelihood estimation.
+%Spectral methods / method of moments successfuly applied to other problems \citet{anandkumar2012spectral}
+
+%Connection between ML and stationary distribution of a Markov chain: \citet{kumar2015inverting}
+
+The history of algorithms for maximum-likelihood inference under Luce's model goes back even further.
+In the special case of pairwise comparisons, the same iterative algorithm was independently discovered by \citet{zermelo1928berechnung}, \citet{ford1957solution} and \citet{dykstra1960rank}.
+Much later, this algorithm was explained by \citet{hunter2004mm} as an instance of minorization-maximization (MM) algorithm, and extended to the more general choice model.
+Today, Hunter's MM algorithm is the \emph{de facto} standard for ML inference in Luce's model.
+As the likelihood can be written as a concave function, off-the-shelf optimization procedures such as the Newton-Raphson method can also be used, although they have been been reported to be slower and less practical \citep{hunter2004mm}.
+Recently, \citet{kumar2015inverting} looked at the problem of finding the transition matrix of a Markov chain, given its stationary distribution.
+The problem of inferring Luce's model parameters from data can be reformulated in their framework, and the ML estimate is the solution to the inversion of the stationary distribution.
+Their work stands out as the first to link ML inference to Markov chains, albeit very differently from the way presented in our paper.
+Beyond algorithms, properties of the maximum-likelihood estimator in this model were studied extensively.
+%\citet{simons1999asymptotics} show that the estimator is asymptotically normal in the finite sample case.
+\citet{hajek2014minimax} consider the Plackett--Luce model for $k$-way rankings.
+They give an upper bound to the estimation error and show that the ML estimator is minimax-optimal.
+In summary, they show that only $\omega(n/k \log n)$ samples are enough to drive the mean-square error down to zero, as $n$ increases.
+\citet{rajkumar2014statistical} consider the Bradley--Terry model for pairwise comparisons.
+They show that the ML estimator is able to recover the correct ranking, even when the data is generated as per another model, e.g., Thurstone's \citep{thurstone1927method}, as long as a so-called \emph{low-noise} condition is satisfied.
+%These results expose the fact the ML estimate enjoys numerous desirable qualities, and makes are relevant and useful to practitioners.
+We also mention that as an alternative to likelihood maximization, Bayesian inference has also been proposed.
+\citet{caron2012efficient} present a Gibbs sampler, and \citet{guiver2009bayesian} propose an approximate inference algorithm based on expectation propagation.
+
+In this work, we provide a unifying perspective on recent advances in spectral algorithms \citep{negahban2012iterative, azari2013generalized} from a maximum-likelihood estimation perspective.
+It turns out that this perspective enables us to make contributions on both sides:
+On the one hand, we develop an improved and more general spectral ranking algorithm, and on the other hand, we propose a faster procedure for ML inference by using this algorithm iteratively.

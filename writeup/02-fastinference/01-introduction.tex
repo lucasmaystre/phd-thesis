@@ -1,0 +1,61 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+\label{sec:intro}
+
+Aggregating pairwise comparisons and partial rankings are important problems with applications in econometrics \citep{mcfadden1973conditional}, psychometrics \citep{thurstone1927method, bradley1952rank}, sports ranking \citep{plackett1975analysis, elo1978rating} and multiclass classification \citep{hastie1998classification}.
+One possible approach to tackle these problems is to postulate a statistical model of discrete choice.
+In this spirit, \citet{luce1959individual} stated the \emph{choice axiom} in a foundational work published over fifty years ago.
+Denote $p(i \mid A)$ the probability of choosing item $i$ when faced with alternatives in the set $A$.
+Given two items $i$ and $j$, and any two sets of alternatives $A$ and $B$ containing $i$ and $j$, the axiom posits that
+\begin{align*}
+\frac{p(i \mid A)}{p(j \mid A)}
+= \frac{p(i \mid B)}{p(j \mid B)}.
+%p(i \mid A) / p(j \mid A)
+%= p(i \mid B) / p(j \mid B).
+\end{align*}
+In other words, the odds of choosing item $i$ over item $j$ are independent of the rest of the alternatives.
+This simple assumption directly leads to a unique parametric choice model, known as the Bradley--Terry model in the case of pairwise comparisons, and the Plackett--Luce model in the generalized case of $k$-way rankings.
+In this paper, we highlight a connection between the maximum-likelihood (ML) estimate under these models and the stationary distribution of a Markov chain parametrized by the observed choices.
+Markov chains were already used in recent work \citep{dwork2001rank, negahban2012iterative, azari2013generalized} to aggregate pairwise comparisons and rankings.
+These approaches reduce the problem to that of finding a stationary distribution.
+By formalizing the link between the likelihood of observations under the choice model and a certain Markov chain, we unify these algorithms and explicate them from an ML inference perspective.
+We will also take a detour, and use this link in the reverse direction to give an alternative proof to a recent result on the error rate of the ML estimate \cite{hajek2014minimax}, by using spectral analysis techniques.
+
+Beyond this, we make two contributions to statistical inference for this model.
+First, we develop a simple, consistent and computationally efficient spectral algorithm that is applicable to a wide range of models derived from the choice axiom.
+The exact formulation of the Markov chain used in the algorithm is distinct from related work \citep{negahban2012iterative, azari2013generalized} and achieves a significantly better statistical efficiency at no additional computational cost.
+Second, we observe that with a small adjustment, the algorithm can be used iteratively, and it then converges to the ML estimate.
+An evaluation on five real-world datasets reveals that it runs consistently faster than competing approaches and has a much more predictable performance that does not depend on the structure of the data.
+The key step, finding a stationary distribution, can be offloaded to commonly available linear-algebra primitives, which makes our algorithms  scale well.
+Our algorithms are intuitively pleasing, simple to understand and implement, and they outperform the state of the art, hence we believe that they will be highly useful to practitioners.
+
+The rest of the paper is organized as follows.
+We begin by introducing some notations and presenting a few useful facts about the choice model and about Markov chains.
+By necessity, our exposition is succinct, and the reader is encouraged to consult \citet{luce1959individual} and \citet{levin2008markov} for a more thorough exposition.
+In Section~\ref{sec:relwork}, we discuss related work.
+In Section~\ref{sec:algorithms}, we present our algorithms, and in Section~\ref{sec:experimental} we evaluate them on synthetic and real-world data.
+We conclude in Section~\ref{sec:conclusion}.
+
+%Link between a generalized method of moments and maximum-likelihood estimator.
+
+\paragraph{Discrete choice model.}
+%\textbf{Discrete choice model.}
+Denote by $n$ the number of items.
+Luce's choice axiom implies that each item $i \in \{1, \ldots, n\}$ can be parametrized by a positive strength $\pi_i \in \mathbf{R}_{>0}$ such that $p(i \mid A) = \pi_i / \sum_{j \in A} \pi_j$ for any $A$ containing $i$.
+The strengths $\bm{\pi} = [\pi_i]$ are defined up to a multiplicative factor;
+%For identifiability we let $\bm{\pi} \in \Delta_n$, where $\Delta_n = \{ \bm{u} \in \mathbf{R}^n \mid u_i > 0, \sum_i u_i = 1 \}$ is the open $(n\!-\!1)$-dimensional simplex.
+for identifiability, we let $\sum_i \pi_i = 1$.
+An alternative parametrization of the model is given by $\theta_i = \log(\pi_i)$, in which case the model is sometimes referred to as \emph{conditional logit} \citep{mcfadden1973conditional}.
+
+\paragraph{Markov chain theory.}
+%\textbf{Markov chain theory.}
+We represent a finite, stationary, continuous-time Markov chain by a directed graph $G = (V, E)$, where $V$ is the set of states and $E$ is the set of transitions with positive rate.
+If $G$ is strongly connected, the Markov chain is said to be ergodic and admits a unique \emph{stationary distribution} $\bm{\pi}$.
+The global balance equations relate the transition rates $\lambda_{ij}$ to the stationary distribution as follows:
+\begin{align}
+\label{eq:balance}
+%\textstyle
+\sum_{j \ne i} \pi_i \lambda_{ij} = \sum_{j \ne i} \pi_j \lambda_{ji} \quad \forall i.
+\end{align}
+The stationary distribution is therefore invariant to changes in the time scale, i.e., to a rescaling of the transition rates.
+In the supplementary file, we briefly discuss how to find $\bm{\pi}$ given $[\lambda_{ij}]$.

@@ -1,1 +1,17 @@
-\input{ch2_figures_tables}
+\chapter{Fast and Accurate Inference of Plackett--Luce Models}
+
+We show that the maximum-likelihood (ML) estimate of models derived from Luce's choice axiom (e.g., the Plackett--Luce model) can be expressed as the stationary distribution of a Markov chain.
+This conveys insight into several recently proposed spectral inference algorithms.
+We take advantage of this perspective and formulate a new spectral algorithm that is significantly more accurate than previous ones for the Plackett--Luce model.
+With a simple adaptation, this algorithm can be used iteratively, producing a sequence of estimates that converges to the ML estimate.
+The ML version runs faster than competing approaches on a benchmark of five datasets.
+Our algorithms are easy to implement, making them relevant for practitioners at large.
+
+
+\input{01-introduction}
+\input{02-relwork}
+\input{03-algorithms}
+\input{04-experimental}
+\input{05-conclusion}
+
+\input{supplementary}
