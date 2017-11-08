@@ -110,15 +110,15 @@ We call this procedure \ILSR{} and describe it in Algorithm~\ref{alg:ilsr}.
     \caption{Luce Spectral Ranking}
     \label{alg:lsr}
     \begin{algorithmic}[1]
-      \REQUIRE observations $\mathcal{D}$
-      \STATE $\lambda \gets 0_{n \times n}$
-      \FOR{$(i, A) \in \mathcal{D}$}
-        \FOR{$j \in A \setminus \{ i \}$}
-          \STATE $\lambda_{ji} \gets \lambda_{ji} + n / |A|$
-        \ENDFOR
-      \ENDFOR
-      \STATE $\rcpi \gets$ stat. dist. of Markov chain $\lambda$
-      \RETURN $\rcpi$
+      \Require observations $\mathcal{D}$
+      \State $\lambda \gets 0_{n \times n}$
+      \For{$(i, A) \in \mathcal{D}$}
+        \For{$j \in A \setminus \{ i \}$}
+          \State $\lambda_{ji} \gets \lambda_{ji} + n / |A|$
+        \EndFor
+      \EndFor
+      \State $\rcpi \gets$ stat. dist. of Markov chain $\lambda$
+      \Return $\rcpi$
       \newline
       \newline
       \vspace{0.76mm}
@@ -132,17 +132,17 @@ We call this procedure \ILSR{} and describe it in Algorithm~\ref{alg:ilsr}.
     \caption{Iterative Luce Spectral Ranking}
     \label{alg:ilsr}
     \begin{algorithmic}[1]
-      \REQUIRE observations $\mathcal{D}$
-      \STATE $\bm{\pi} \gets [1/n, \ldots, 1/n]^\intercal$
-      \REPEAT
-        \STATE $\lambda \gets 0_{n \times n}$
-        \FOR{$(i, A) \in \mathcal{D}$}
-          \FOR{$j \in A \setminus \{ i \}$}
-            \STATE $\lambda_{ji} \gets \lambda_{ji} + 1 / \sum_{t \in A} \pi_t$
-          \ENDFOR
-        \ENDFOR
-        \STATE $\bm{\pi} \gets$ stat. dist. of Markov chain $\lambda$
-      \UNTIL{convergence}
+      \Require observations $\mathcal{D}$
+      \State $\bm{\pi} \gets [1/n, \ldots, 1/n]^\intercal$
+      \Repeat
+        \State $\lambda \gets 0_{n \times n}$
+        \For{$(i, A) \in \mathcal{D}$}
+          \For{$j \in A \setminus \{ i \}$}
+            \State $\lambda_{ji} \gets \lambda_{ji} + 1 / \sum_{t \in A} \pi_t$
+          \EndFor
+        \EndFor
+        \State $\bm{\pi} \gets$ stat. dist. of Markov chain $\lambda$
+      \Until{convergence}
     \end{algorithmic}
   \end{algorithm}
 \end{minipage}
