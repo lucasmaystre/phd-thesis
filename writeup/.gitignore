@@ -3,8 +3,11 @@ thesis.pdf
 *.bbl
 *.blg
 *.brf
+*.d
+*.fls
 *.lof
 *.log
 *.lot
+*.make
 *.out
 *.toc

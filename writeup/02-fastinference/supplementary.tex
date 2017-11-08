@@ -217,7 +217,7 @@ It is easy to recognize the global balance equations, and it follows that $\bm{\
 
 \section{Bound on error rate of ML estimate}
 
-We use the analytical framework of \citet{negahban2014rank} to bound the error rate of the ML estimator in the case where
+We use the analytical framework of \citet{negahban2017rank} to bound the error rate of the ML estimator in the case where
 \begin{enuminline}
 \item the data is in the form of pairwise comparisons and
 \item for each pair under comparison, we observe exactly $k$ outcomes.
@@ -252,7 +252,7 @@ The ML estimate can be interpreted as the stationary distribution of the discret
 \end{align}
 The factor $\epsilon = \hat{\pi}_{\min} / d_{\max}$ ensures that $\widehat{P}$ is stochastic.
 Given this matrix, it is straightforward to analyze the $\mlpi$ by using the methods developed for Rank Centrality (RC);
-the proof essentially follows that of Theorem~1 of \citet{negahban2014rank}.
+the proof essentially follows that of Theorem~1 of \citet{negahban2017rank}.
 Let $P^*$ be the ideal Markov chain, when  $a_{ij} = \pi^*_j / (\pi^*_i + \pi^*_j)$, i.e., the ratios are noiseless.
 The key observation is to note that the stationary distribution of $P^*$ is $\bm{\pi}^*$, the true model parameters.
 By bounding $\Vert \widehat{P} - P^* \Vert_2$ and $1 - \lambda_{\max}(P^*)$, we can bound the error on the stationary distribution of $P^*$.
