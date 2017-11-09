@@ -44,6 +44,8 @@
 \makeatother
 
 
+% No need to pass `pdftex` option to graphicx:
+% https://tex.stackexchange.com/a/82158/79036
 \usepackage{graphicx,xcolor}
 \graphicspath{{figs/}}
 
@@ -87,21 +89,6 @@
   breakautoindent=true,
   breakindent=10pt}
 
-\usepackage[backref=page]{hyperref}
-\hypersetup{pdfborder={0 0 0},
-	colorlinks=true,
-	linkcolor=black,
-	citecolor=black,
-	urlcolor=black}
-
-% Custom backref, taken from Vincent.
-\renewcommand*{\backref}[1]{}
-\renewcommand*{\backrefalt}[4]{{\footnotesize [%
-    \ifcase #1 Not cited%
-          \or Cited on page~#2%
-          \else Cited on pages #2%
-    \fi%
-    ]}}
 
 
 \makeatletter
@@ -165,12 +152,34 @@
   } % code before the title body
 
 
-\usepackage{import} % TODO
+\usepackage{import}  % See <https://ctan.org/pkg/import>.
 \usepackage{amsmath,amsthm,amssymb,bm,mathtools}
 \usepackage{enumitem}
+\usepackage[detect-weight=true]{siunitx}
+\usepackage{xifthen}  % Enables if-then-else statements in command defs.
+
+% `hyperref` should be loaded close to the end:
+% - http://mirror.switch.ch/ftp/mirror/tex/macros/latex/contrib/hyperref/README.pdf
+% - https://tex.stackexchange.com/questions/1863/
+\usepackage[backref=page]{hyperref}
+\hypersetup{pdfborder={0 0 0},
+	colorlinks=true,
+	linkcolor=black,
+	citecolor=black,
+	urlcolor=black}
+
+% `algorithm` should be loaded after `hyperref`.
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage[detect-weight=true]{siunitx}
+
+% Custom backref, taken from Vincent.
+\renewcommand*{\backref}[1]{}
+\renewcommand*{\backrefalt}[4]{{\footnotesize [%
+    \ifcase #1 Not cited%
+          \or Cited on page~#2%
+          \else Cited on pages #2%
+    \fi%
+    ]}}
 
 \bibliographystyle{abbrvnat}
 
@@ -179,15 +188,52 @@
 
 \frenchspacing
 
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
 
-\newtheorem{definition}{Definition}
-\newtheorem{lemma}{Lemma}
-\newtheorem{theorem}{Theorem}
-\newtheorem{corollary}{Corollary}
+% For fastinference.
 \newcommand{\vpi}{\ensuremath{\bm{\pi}}}
 \newcommand{\rcpi}{\ensuremath{\bar{\bm{\pi}}}}
 \newcommand{\mlpi}{\ensuremath{\hat{\bm{\pi}}}}
 \newcommand{\LSR}{LSR}
 \newcommand{\ILSR}{I-LSR}
+
+% For robustsort.
+\newcommand{\intint}[2]{\ensuremath{\{#1 \; .. \; #2 \}}}
+\newcommand{\BigO}[2][]{\ensuremath{%
+\ifthenelse{\isempty{#1}}{O( #2 )}{O_{ #1 }( #2 )}}}
+\newcommand{\LittleO}[1]{\ensuremath{o(#1)}}
+\newcommand{\BigOmega}[1]{\ensuremath{\Omega(#1)}}
+\newcommand{\LittleOmega}[1]{\ensuremath{\omega(#1)}}
+\newcommand{\Set}[1]{\ensuremath{\mathbf{#1}}}
+\newcommand{\Prob}[1]{\ensuremath{\mathbf{P}\left[ #1 \right]}}
+\newcommand{\Exp}[2][]{\ensuremath{%
+\ifthenelse{\isempty{#1}}{\mathbf{E}\left[ #2 \right]}{\mathbf{E}_{#1}\left[ #2 \right]}}}
+\newcommand{\Cov}[2]{\ensuremath{\mathbf{Cov}\left[ #1, #2 \right]}}
+\newcommand{\Var}[1]{\ensuremath{\mathbf{Var}\left[ #1 \right]}}
+\newcommand{\Abs}[1]{\ensuremath{\lvert #1 \rvert}}
+\newcommand{\Indic}[1]{\ensuremath{\mathbf{1} \left \{ #1 \right \} }}
+
+\newcommand{\DExp}[1]{\ensuremath{\mathrm{Exp}( #1 )}}
+\newcommand{\DGamma}[1]{\ensuremath{\mathrm{Gamma}( #1 )}}
+\newcommand{\DBeta}[1]{\ensuremath{\mathrm{Beta}( #1 )}}
+\newcommand{\DUniform}[1]{\ensuremath{\mathrm{U}( #1 )}}
+
+\newcommand{\Disp}[2][]{\ensuremath{%
+\ifthenelse{\isempty{#1}}{\Delta( #2 )}{\Delta_{#1}( #2 )}}}
+\newcommand{\Dispp}{\ensuremath{\Delta}}
+\newcommand{\id}{\ensuremath{\mathrm{id}}}
+\newcommand{\ssigma}{\ensuremath{\sigma^{\star}}}
+\newcommand{\hsigma}{\ensuremath{\hat{\sigma}}}
+\newcommand{\tsigma}{\ensuremath{\tilde{\sigma}}}
+\newcommand{\bsigma}{\ensuremath{\bar{\sigma}}}
+
+\DeclareMathOperator{\BT}{BT}
+\DeclareMathOperator{\KL}{KL}
+\DeclareMathOperator*{\Argmin}{arg\,min}
+\DeclareMathOperator*{\Argmax}{arg\,max}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
 \hyphenation{wahrscheinlichkeits-rechnung} % :-)

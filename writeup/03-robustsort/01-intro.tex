@@ -1,0 +1,65 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:intro}
+
+The problem of recovering a ranking over $n$ items from noisy outcomes of pairwise comparisons has attracted, in the last century, much research interest, driven by applications in sports \citep{elo1978rating}, social sciences \citep{thurstone1927law, salganik2015wiki} and---more recently---recommender systems \citep{houlsby2012collaborative}.
+Whereas pairwise comparison models and related inference algorithms have been extensively studied, the issue of \emph{which pairwise comparisons to sample}, also known as active learning, has received significantly less attention.
+To understand the potential benefits of adaptively selecting samples, consider the case where comparison outcomes are noiseless, i.e., consistent with a linear order on a set of $n$ items.
+If pairs of items are selected at random, it is necessary to collect \BigOmega{n^2} comparisons to recover the ranking \citep{alon1994linear}.
+In contrast, by using an efficient sorting algorithm, \BigO{n \log n} adaptively chosen comparisons are sufficient.
+In this work, we demonstrate that sorting algorithms can also be helpful in the \emph{noisy} setting, where some comparison outcomes are inconsistent with the ranking: despite errors, sorting algorithms tend to select informative samples.
+We focus on the Bradley--Terry (BT) model, a widely-used probabilistic model of comparison outcomes.
+In this model, each item is associated with a parameter on the real line, and the probability of observing an incorrect outcome decreases as the distance between the items' parameters increases.
+
+First, we study the output of a single execution of Quicksort when comparison outcomes are generated from a BT model, under the assumption that the distance between adjacent parameters is (stochastically) uniform across the ranking.
+We measure the quality of a ranking estimate by its displacement with respect to the ground truth, i.e., the sum of rank differences.
+We show that Quicksort's output is a good approximation to the ground-truth ranking: no method comparing every pair of items at most once can do better (up to constant factors).
+Furthermore, we show that by aggregating \BigO{\log^5 n} independent runs of Quicksort, it is possible to recover the exact rank for all but a vanishing fraction of the items.
+These theoretical results suggest that adaptive sampling is able to bring a substantial acceleration to the learning process.
+
+Second, we propose a practical active-learning (AL) strategy that consists of repeatedly sorting the items.
+We evaluate our sorting-based method on three datasets and compare it to existing AL methods.
+We observe that \emph{all} the strategies that we consider lead to better ranking estimates noticeably faster than random sampling.
+However, most strategies are challenging to operate and computationally expensive, thus hindering wider adoption \citep{schein2007active}.
+In this regard, sorting-based AL stands out, as
+\begin{enuminline}
+\item it is computationally-speaking as inexpensive as random sampling, 
+\item it is trivial to implement, and
+\item it requires no tuning of hyperparameters.
+\end{enuminline}
+
+\subsection{Preliminaries and Notation}
+
+We consider $n$ items that are represented by consecutive integers $[n] = \{1, \ldots, n\}$.
+Without loss of generality, we assume that the items are ranked by increasing preference\footnote{
+This convention greatly simplifies the notation throughout the paper, but differs from that used in most of the preference learning literature.
+In our paper, the item with rank $1$ is the \emph{worst}.}, i.e., $i < j$ means that $j$ is (in expectation) preferred to $i$.
+When $j$ is preferred to $i$ as a result of a pairwise comparison, we denote the observation by $i \prec j$.
+If $i < j$, we say that $i \prec j$ is a \emph{consistent} outcome and $j \prec i$ an \emph{inconsistent} (incorrect) outcome.
+In most of the paper, pairwise comparison outcomes follow a Bradley--Terry model with parameters $\bm{\theta} = \begin{bmatrix} \theta_1 & \cdots & \theta_n \end{bmatrix} \in \Set{R}^n$, denoted $\BT(\bm{\theta})$.
+The parameters $\theta_1 < \cdots < \theta_n$ represent the utilities of items $1, \ldots, n$, and the probability of observing the outcome $i \prec j$ is
+\begin{align*}
+p(i \prec j \mid \bm{\theta}) = \frac{1}{1 + \exp[-(\theta_j - \theta_i)]}.
+\end{align*}
+The probability of observing an inconsistent comparison decreases with the distance between the items.
+This captures the intuitive notion that some pairs of items are easy to compare and some are more difficult \citep{zermelo1928berechnung, bradley1952rank}.
+
+A ranking $\sigma$ is a function that maps an item to its rank, i.e., $\sigma(i) =$ rank of item $i$.
+The (ground-truth) identity ranking is denoted by \id, i.e. $\id(i) = i$.
+To measure the quality of a ranking $\sigma$ with respect to the ground-truth, we consider the \emph{displacement}
+\begin{align*}
+\Disp{\sigma} = \sum_{i=1}^n | \sigma(i) - i |,
+\end{align*}
+also known as Spearman's footrule distance.
+Another metric widely used in practice is the Kendall--Tau distance, defined as
+$K(\sigma) = \sum_{i < j} \Indic{\sigma(i) > \sigma(j)}$.
+Both metrics are equivalent up to a factor of two\footnote{$\Disp{\sigma} / 2 \le K(\sigma) \le \Disp{\sigma}$ \citep{diaconis1977spearman}.}, such that bounds on \Disp{\sigma} also hold for $K(\sigma)$ up to constant factors.
+
+Finally, we say that an event $A$ holds \emph{with high probability} if $\Prob{A} \to 1$ as $n \to \infty$.
+For a random variable $X$ and a sequence of numbers $a_n$, we say that $X = \BigO{a_n}$ with high probability if $\Prob{\Abs{X} \le c a_n} \to 1$ as $n \to \infty$ for some constant $c$ that does not depend on $n$.
+
+\paragraph{Outline of the paper.}
+We begin by briefly reviewing related literature in Section~\ref{sec:relwork}.
+Next, in Section~\ref{sec:theory}, we study the displacement of Quicksort's output under noisy comparisons.
+In Section~\ref{sec:experiments}, we empirically evaluate several AL strategies on three datasets.
+Finally, we conclude in Section~\ref{sec:conclusion}.

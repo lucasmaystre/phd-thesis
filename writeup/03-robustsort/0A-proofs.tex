@@ -1,0 +1,362 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Proofs}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{app:proofs}
+
+Section~\ref{sec:pflemmas} contains the proofs of Lemmas~\ref{lem:samplecomp} and~\ref{lem:dispbound}.
+Section~\ref{sec:pfqdisp} presents the proof for our result on the displacement of the output of a single call to Quicksort (Theorem~\ref{thm:quickdisp}), and Section~\ref{sec:pfmdisp} that of our result on the displacement of the Copeland aggregation of multiple outputs.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Lemmas~\ref{lem:samplecomp} and~\ref{lem:dispbound}}
+\label{sec:pflemmas}
+
+We start by briefly presenting a result from graph theory that will be useful in the proof of Lemma~\ref{lem:samplecomp}.
+A \emph{tournament} is a directed graph obtained by assigning a direction to every edge of a complete graph.
+The \emph{score sequence} of a tournament is defined as the nondecreasing sequence of the vertices' outdegrees.
+The following proposition is due to \citet{landau1953dominance}.
+
+\begin{proposition}
+\label{prop:landau}
+Let $(s_1, \ldots, s_n)$ with $0 \le s_1 \le \cdots \le s_n$ be the score sequence of a tournament on $n$ vertices.
+Then,
+\begin{align*}
+\frac{k - 1}{2} \le s_k \le \frac{n + k - 2}{2} \quad \forall\ k \in [n].
+\end{align*}
+\end{proposition}
+
+We use a tournament on $n$ vertices to represent the outcome of a comparison between each pair of items.
+In particular, we represent the outcome $i \prec j$ by an edge $(i, j)$.
+In this case, the outdegree of a vertex $i$ corresponds to the number of items which ``won'' in a comparison against $i$.
+Note that the comparison outcomes do not need to be transitive, i.e., the tournament can contain cycles.
+
+The proof of Lemma~\ref{lem:samplecomp} is adapted from standard results on Quicksort, see, e.g., \citet[][Section 3.3.3]{dubhashi2009concentration}.
+These results are based on the fact that it is likely that the random choice of pivot leads to a well-balanced partition into subsets $L$ and $R$.
+In our setting, the comparison outcomes do not need to be consistent with an ordering of the items, therefore we cannot use the standard argument based on the pivot's \emph{rank}.
+Instead, we use the tournament representation of the comparison outcomes and analyze the pivot's \emph{out-degree} (using Proposition~\ref{prop:landau}) to ensure that the partition is balanced often enough.
+
+\begin{proof}[Proof of Lemma~\ref{lem:samplecomp}]
+We show that the maximum call depth of Quicksort is at most $\ceil{48 \log n}$ with high probability.
+The statement follows by noticing that at most $n$ comparisons are used at each level of the call tree.
+
+By Lemma~\ref{lem:termination}, Quicksort samples a comparison outcome for each pair of items at most once.
+Therefore, we can represent these (a priori unobserved) pairwise outcomes as a tournament $T = ([n], A)$.
+At each step of the recursion, we select a pivot $p$ uniformly at random in the set $V$ (line~\ref{line:pivot}), and compare it to the rest of the items in the set (line~\ref{line:comp}).
+Let $T_V$ denote the subgraph of $T$ induced by $V$.
+Given that the comparison outcomes follow from the edges of the tournament, $L$ is equal to the set of incoming neighbors of $p$ in $T_V$.
+(Correspondingly, $R$ is equal to the set of the outgoing neighbors.)
+Hence, the outdegree of $p$ in $T_V$ determines how balanced the partition is.
+The probability that the outdegree of $p$ lies in the middle half of the score sequence is $1/2$, and if it does, Proposition~\ref{prop:landau} tells us that
+\begin{align*}
+\frac{\Abs{V} - 7}{8} \le \mathrm{outdeg}(p) \le \frac{7 \Abs{V} - 5}{8}.
+\end{align*}
+In this case, at the end of the partition \Abs{L} and \Abs{R} are of size at most $7\Abs{V}/8$, and in at most $\log_{8/7}(n) \le 8 \log n $ such partitions we get to a subset of size one and match the terminating case.
+Even though we do not select the pivot in the middle half every time, it is unlikely that more than $c \cdot 8 \log n$ recursions are needed (for some small constant $c$) to select the pivot in the middle range at least $8 \log n$ times.
+Let $z_d$ i.i.d $\sim \text{Bern}(1/2)$ be the indicator variable for the event ``the pivot is selected in the middle half at level of recursion $d$''.
+Using a Chernoff bound, we have
+\begin{align*}
+\Prob{\sum_{d=1}^{\ceil{48 \log n}} z_d \le 8 \log n} \le \frac{1}{n^2},
+\end{align*}
+i.e., the depth of a leaf in the call tree is at most $\ceil{48 \log n}$ with probability at least $1 - 1/n^2$.
+As there are at most $n$ leaves in the tree, the \emph{maximum} depth is bounded by the same value with probability at least $1 - 1/n$.
+\end{proof}
+
+In order to prove Lemma~\ref{lem:dispbound}, we introduce some additional notation.
+For any $\sigma \in \Set{S}_n$ and $V \subseteq [n]$, let $\sigma_V : V \to \{1, \ldots, \Abs{V}\}$ be the ordering induced by $\sigma$ on $V$.
+We generalize the definition of displacement as
+\begin{align*}
+\Disp[V]{\sigma, \tau} = \sum_{i \in V} \Abs{\sigma_V(i) - \tau_V(i)}.
+\end{align*}
+For conciseness, we use the shorthand $\Disp[V]{\sigma} \doteq \Disp[V]{\sigma, \id}$, where $\id$ is the identity permutation.
+
+\begin{proof}[Proof of Lemma~\ref{lem:dispbound}]
+Denote by $\mathcal{V}$ the collection of working sets that were used as input to one of the recursive calls to Quicksort.
+For $V \in \mathcal{V}$, let $E_V$ be the set of pairs sampled by Quicksort to partition $V$ and which results in an error.
+Note that $E_V \cap E_{V'} = \varnothing$ for $V \ne V'$, and that $\bigcup_V E_V = E$.
+We will show that for all $V \in \mathcal{V}$,
+\begin{align}
+\label{eq:recursive}
+\Disp[V]{\sigma} \le \Disp[L]{\sigma} + \Disp[R]{\sigma} + 2 \sum_{\mathclap{(i, j) \in E_V}}\; \Abs{i - j},
+\end{align}
+where $L$ and $R$ are the two sets obtained at the end of the partition operation.
+The lemma follows by taking $V = [n]$ and recursively bounding \Disp[L]{\sigma} and \Disp[R]{\sigma}.
+
+Consider the partition operation on $V$, with pivot $p$, resulting in partitions $L$ and $R$.
+Let $\tsigma$ be the ordering on $V$ that
+\begin{enuminline}
+\item \label{itm:tsa} ranks $L$ at the bottom, $p$ in the middle and $R$ at the top, and
+\item \label{itm:tsb} matches the identity permutation on $L$ and $R$, i.e., $\Disp[L]{\tsigma} = \Disp[R]{\tsigma} = 0$.
+\end{enuminline}
+In a sense, $\tsigma$ is the ordering that would be obtained if there were no further errors in the remaining recursive calls.
+Using the triangle inequality, we have that
+\begin{align}
+\label{eq:tridisp}
+\Disp[V]{\sigma} \le \Disp[V]{\sigma, \tsigma} + \Disp[V]{\tsigma}.
+\end{align}
+By definition of $\tsigma$, we have that
+\begin{align}
+\begin{split}
+\label{eq:recdisp}
+\Disp[V]{\sigma, \tsigma}
+    = \Disp[L]{\sigma, \tsigma} + \Disp[R]{\sigma, \tsigma}
+    = \Disp[L]{\sigma} + \Disp[R]{\sigma},
+\end{split}
+\end{align}
+where the first equality follows from \ref{itm:tsa}, and the second follows from \ref{itm:tsb}.
+
+\begin{figure}[t]
+\centering
+\includegraphics{rs-lemma3}
+\caption{Illustration of the decomposition of \Disp[V]{\tsigma} into contributions of individual errors over a sequence of steps.
+In this example, $V = \{ 1, \ldots, 9 \}$, $p = 5$ and there are five errors.
+At step $t = 1$, we process the errors $(5, 3)$ and $(5, 6)$;
+at step $t = 2$, we process the errors $(5, 2)$ and $(5, 8)$, and finally, at step $t = 3$, we process the error $(5, 9)$.
+The shifts caused by an error are highlighted in red and green.
+In this example, $\Disp[V]{\tsigma} = 25 < 2 \sum_{(i,j) \in E_V} \Abs{i - j} = 26$.
+}
+\label{fig:lemma3}
+\end{figure}
+
+Finally, we bound $\Disp[V]{\tsigma}$.
+Let $E_V^- = \{ (p, i) \in E_V : i < p \}$, and similarly $E_V^+ = \{ (p, i) \in E_V : i > p \}$.
+Without loss of generality, we can assume that $V$ consists of consecutive integers, and that $\kappa \doteq \Abs{E_V^-} \le \Abs{E_V^+}$.
+We proceed as follows: starting from the ranking $\id_V$, we progressively incorporate errors into the ranking, ending with $\tsigma$ once all errors have been treated.
+To understand the impact of each error on \Disp[V]{\tsigma}, we look at errors in the following specific sequence.
+\begin{enumerate}
+\item At steps $t = 1, \ldots, \kappa$, we consider the $t$-th ``smallest'' errors in $E_V^-$ and $E_V^+$.
+That is, we process $(p, i) \in E_V^-$ and $(p, i') \in E_V^+$ such that $\Abs{p - i}$ and $\Abs{p - i'}$, respectively, are smallest among errors not yet treated.
+
+\item At steps $t = \kappa + 1, \ldots, \Abs{E_V^+}$, we process the remaining errors in $E_V^+$, once again in increasing order of distance to  $p$.
+\end{enumerate}
+Figure~\ref{fig:lemma3} illustrates the state of the ranking at different steps on a concrete example.
+We start with the first case, i.e., $t \le \kappa$.
+The effect of the errors $(p, i)$ and $(p, i')$ on $\Disp[V]{\tsigma}$ is as follows.
+\begin{itemize}
+\item All items $j < i$ and $j > i'$ are not affected by the two errors: their position remains the same.
+
+\item The position of the pivot $p$ remains the same, as the two errors balance out.
+
+\item Item $i$ is shifted by $\Abs{p - i} + 1$ positions to the right, just right of $p$.
+Similary, item $i'$ is shifted by $\Abs{p - i'} + 1$ positions to the left, just left of $p$.
+
+\item The $\Abs{p - i} - 1$ items that are between $p$ (excluded) and $i$ are shifted by $1$ position to the left.
+Similarly, the $\Abs{p - i'} - 1$ items that are between $p$ and $i'$ are shifted by $1$ position to the right.
+\end{itemize}
+Hence, the two errors contribute $2 ( \Abs{p - i} + \Abs{p - i'} )$ towards $\Disp[V]{\tsigma}$.
+Now consider the second case, when $t > \kappa$.
+The effect of an error $(p, i)$ is as follows.
+\begin{itemize}
+\item All items $j > i$ and all the items on the left of $p$ are not affected by the error: their position remains the same.
+
+\item The (at most) $\Abs{p - i}$ items that are between $p$ (included) and $i$ are shifted by $1$ position to the right.
+
+\item Item $i$ is shifted by at most $\Abs{p - i}$ positions to the left, just left of $p$.
+\end{itemize}
+As a result, the error contributes at most $2 \Abs{p - i}$ to the displacement.
+Adding up the contributions of all the errors, it follows that
+\begin{align}
+\label{eq:localdisp}
+\Disp[V]{\tsigma} \le 2 \sum_{\mathclap{(i,j) \in E_V}}\; \Abs{i - j}.
+\end{align}
+Combining \eqref{eq:recdisp} and \eqref{eq:localdisp} using \eqref{eq:tridisp} we obtain \eqref{eq:recursive}, which concludes the proof.
+\end{proof}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Theorem \ref{thm:quickdisp}}
+\label{sec:pfqdisp}
+
+From now on, we focus on parameters drawn from a Poisson process of rate $\lambda$, as described in \eqref{eq:poisson} in the main text.
+We consider a worst-case scenario and assume that Quicksort samples a comparison outcome for every pair of items.
+Let $z_{ij}$ be the indicator random variable of the event ``the comparison between $i$ and $j$ resulted in an error''.
+By Lemma~\ref{lem:dispbound}, we have
+\begin{align}
+\label{eq:probbound}
+\Disp{\sigma} \le 2 \sum_{i < j}\; \Abs{i - j} z_{ij}
+\end{align}
+In the following, we will bound some of the statistical properties of the random variables $\{ z_{ij} \}$.
+We start with a lemma that bounds their mean.
+
+\begin{lemma}
+\label{lem:expz}
+For any $1 \le i < j \le n$,
+\begin{align*}
+\Exp{z_{ij}} \le \left( \frac{\lambda}{\lambda + 1} \right)^{j-i}.
+\end{align*}
+\end{lemma}
+\begin{proof}
+Let $d_{ij} = \theta_i - \theta_j$ be the (random) distance between items $i$ and $j$.
+This distance is a sum of $k = j-i$ independent exponential random variables, and therefore $d_{ij} \sim \text{Gamma}(k, \lambda)$.
+The comparison outcome is generated as per the BT model; conditioned on the distance $d_{ij}$, the random variable $z_{ij}$ is a Bernoulli trial with probability $[1 + \exp(d_{ij})]^{-1}$.
+Therefore, we have that
+\begin{align*}
+\Exp{z_{ij}} \le \Exp{\exp(-d_{ij})} = \left( \frac{\lambda}{\lambda + 1} \right)^k
+\end{align*}
+\end{proof}
+
+Next, we bound their covariance.
+Note that the random variables $\{ z_{ij} \}$ are in general \emph{not} unconditionally independent.
+They become independent only when conditioned on $\bm{\theta}$.
+
+\begin{lemma}
+\label{lem:covz}
+For any $1 \le i < j \le n$ and any $1 \le u < v \le n$, let $A = \intint{i}{j\!-\!1}$ and $B = \intint{u}{v\!-\!1}$.
+\begin{align*}
+\Cov{z_{ij}}{z_{uv}} \le
+\begin{dcases}
+0
+    & \text{if $A \cap B = \varnothing$,} \\
+\left( \frac{\lambda}{\lambda + 1} \right)^{j - i}
+    & \text{if $A = B$,} \\
+\left( \frac{\lambda + 1}{\lambda + 2} \right)^{j - i + v - u}
+    & \text{otherwise.}
+\end{dcases}
+\end{align*}
+\end{lemma}
+\begin{proof}
+If $A$ and $B$ are disjoint, the distances $d_{ij}$ and $d_{uv}$ are independent random variables.
+Conditioned on the distances, the comparison outcomes are independent Bernoulli trials, and we conclude that $z_{ij}$ and $z_{uv}$ are independent.
+In the two remaining cases, we bound $\Exp{z_{ij}z_{uv}} \ge \Cov{z_{ij}}{z_{uv}}$.
+If $A = B$, then $z_{ij} = z_{uv}$ and we have
+\begin{align*}
+\Exp{z_{ij} z_{uv}} = \Exp{z_{ij}^2} = \Exp{z_{ij}}
+\end{align*}
+and we apply Lemma~\ref{lem:expz}.
+Finally, if $A$ and $B$ are neither equivalent nor disjoint, the two comparison outcomes are independent Bernoulli trials conditioned on the distances $d_{ij}$ and $d_{uv}$, but the distances are not independent.
+Consider the case where $i < u < j < v$.
+Even though $d_{ij}$ and $d_{uv}$ are dependent, the distances $d_{iu}$, $d_{uj}$, $d_{jv}$ are independent Gamma random variables of rate $\lambda$ and shape $u-i$, $j-u$ and $v-j$, respectively, and
+\begin{align*}
+\Exp{z_{ij}z_{uv}} &\le \Exp{\exp\{-(d_{iu} + d_{uj}) - (d_{uj} + d_{jv})\}} \\
+    &= \left( \frac{\lambda}{\lambda + 1} \right)^{u-i} \left( \frac{\lambda}{\lambda + 2} \right)^{j-u} \left( \frac{\lambda}{\lambda + 1} \right)^{v-j}
+    \le \left( \frac{\lambda + 1}{\lambda + 2} \right)^{j-i + v-u}
+\end{align*}
+The other cases are treated analogously.
+\end{proof}
+
+Lemmas~\ref{lem:expz} and~\ref{lem:covz} will be useful in proving the first part of Theorem~\ref{thm:quickdisp}.
+For the second part, we need a result from \citet{ailon2008reconciling}, which characterizes the pairwise marginals of the distribution over rankings induced by Quicksort with comparisons sampled from a BT model.
+
+\begin{theorem}[\citealp{ailon2008reconciling}, Theorem~$4.1$]
+\label{thm:stability}
+Let $\sigma$ be the output of Quicksort using comparison outcomes sampled from $\BT(\bm{\theta})$.
+Then, for any $i, j \in [n]$,
+\begin{align*}
+\Prob{\sigma(i) < \sigma(j) \mid \bm{\theta}} = p(i \prec j \mid \bm{\theta})
+\end{align*}
+\end{theorem}
+
+Note that the result is non-trivial as $i$ and $j$ might not have been directly compared to each other: their relative position might have been deduced by transitivity from other comparison outcomes.
+We are now ready to prove Theorem~\ref{thm:quickdisp}.
+
+\begin{proof}[Proof of Theorem~\ref{thm:quickdisp}]
+We begin with the first part of the theorem, which bounds the displacement \Disp{\sigma}.
+For clarity of exposition, we use the notation $z_{i \to k}$ instead of $z_{ij}$ if $j = i+k$.
+Using~\eqref{eq:probbound} and Lemma~\ref{lem:expz}, we can bound the expected displacement as
+\begin{align*}
+\Exp{\Delta}
+    \le \sum_{i=1}^{n-1} \sum_{k=1}^{n-i} 2k \Exp{z_{i \to k}}
+    \le n \sum_{k = 1}^{\infty} 2k \left( \frac{\lambda}{\lambda + 1} \right)^{k} = 2n \lambda (\lambda + 1).
+\end{align*}
+In a similar way, using Lemma~\ref{lem:covz}, we can bound the variance of the displacement as
+\begin{align*}
+\Var{\Delta}
+    &\le \sum_{i=1}^{n-1} \sum_{k=1}^{n-i} 4k^2 \Var{z_{i \to k}}
+     + 2\sum_{i=1}^{n-1} \sum_{k=1}^{n-i} 2k
+         \sum_{u=i+1}^{i+k} \sum_{\ell=1}^{n-u} 2\ell \Cov{z_{i \to k}}{z_{u \to \ell}} \\
+    &\le n \sum_{k=1}^{\infty} 4k^2 \left( \frac{\lambda}{\lambda + 1} \right)^k
+     + 2n \sum_{k=1}^{\infty} 2k^2 \left( \frac{\lambda + 1}{\lambda + 2} \right)^k
+         \cdot \sum_{\ell=1}^{\infty} 2\ell \left( \frac{\lambda + 1}{\lambda + 2} \right)^\ell \\
+    &\le 1500 n(\lambda^5 + 1).
+\end{align*}
+% Expressions used to solve the series on Wolfram Alpha:
+% A: `sum from 1 to infinity of k^2 (x / (x+1))^k` -> x(x + 1)(2x + 1)
+% B: `sum from 1 to infinity of k^2 ((x+1) / (x+2))^k` -> (x+1)(x+2)(2x+3)
+% C: `sum from 1 to infinity of k ((x+1) / (x+2))^k` -> (x+1)(x+2)
+% var(delta) < n*(4*A + 8*B*C)
+Combining the bounds for the mean and the variance with Chebyshev's inequality, we have that
+\begin{align*}
+\Prob{\Disp{\sigma} \ge 50 n (\lambda^2 + 1)} \le \lambda / n,
+\end{align*}
+which concludes the proof of the first part of the claim.
+
+The second part of the theorem bounds the maximum displacement for any single item.
+We start by showing that with high probability, there is no pair of items separated by at least $\BigO{\lambda \log n}$ positions that is ``flipped'' in the output of Quicksort.
+Let $i$ and $j$ be two items such that $i < j$ and let $k = \Abs{i - j}$.
+Then $d_{ij} \sim \DGamma{k, \lambda}$, and using a Chernoff bound we obtain
+\begin{align*}
+\Prob{d_{ij} \le k/(e\lambda)} \le \exp(-k/e).
+\end{align*}
+If $k \ge 3 (\lambda + 1)e \log n$, we find that
+\begin{align}
+\label{eq:maxz1}
+\Prob{d_{ij} \le k/(e\lambda) } \le \Prob{d_{ij} \le 3 \log n} \le n^{-3}.
+\end{align}
+Using the fact that the pairwise marginals of Quicksort match the pairwise comparison outcome probabilities (Theorem~\ref{thm:stability}), we find
+\begin{align}
+\label{eq:maxz2}
+\Prob{\sigma(j) < \sigma(i)}
+    = p(j \prec i)
+    \le \exp(-3 \log n) = n^{-3}.
+\end{align}
+Combining \eqref{eq:maxz1} and \eqref{eq:maxz2}, and using a union bound over the $\tbinom{n}{k}$ pairs, we see that with probability $1 - 1/n$ there is no pairs of items $(i, j)$ separated by at least $3 (\lambda + 1)e \log n$ position with $i < j$ but $\sigma(j) < \sigma(i)$.
+Finally, suppose that there is an $i$ such $\Abs{\sigma(i) - i} = k$.
+Without loss of generality, we can assume that $i < \sigma(i)$.
+This means that there are $k$ items larger than $i$ that are on the left of $i$ in $\sigma$.
+In particular, there is an item $j > i$ such that $\Abs{i - j} \ge k$ and $\sigma(j) < \sigma(i)$.
+This concludes the proof.
+\end{proof}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Theorem \ref{thm:multidisp}}
+\label{sec:pfmdisp}
+
+In order to prove Theorem~\ref{thm:multidisp}, we first need a basic result on the order statistics of exponential random variables.
+Let $x_1, \ldots, x_n$, be i.i.d. exponential random variables of rate $\lambda$.
+Let $x_{(1)}, \ldots, x_{(n)}$ be their order statistics, i.e., the random variables arranged in increasing order.
+Then,
+\begin{align}
+\label{eq:expordstat}
+x_{(i)} = \sum_{j = 1}^{i} \frac{1}{n - j + 1} y_j,
+\end{align}
+where $y_1, \ldots, y_n$ are i.i.d. exponential random variables of rate $\lambda$ \citep[see, e.g.,][Section 4.6]{arnold2008first}.
+
+\begin{proof}[Proof of Theorem~\ref{thm:multidisp}]
+We consider the order statistics of the $n - 1$ i.i.d. exponential random variables $x_1, \ldots, x_{n-1}$ which define the distances between neighboring items.
+Let $\hat{n} = \ceil{n / \log^2 n}$, and denote by $B \subset [n]$ the set of items at both ends of $x_{(1)}, \ldots, x_{(\hat{n} - 1)}$.
+These ``bad'' items are close to their nearest neighbor, and we simply invoke Theorem~\ref{thm:quickdisp} to claim that each of these items is shifted by at most \BigO{\lambda \log n} positions with high probability.
+%Nevertheless, note that $B$ represents a vanishing fraction of the items.
+Consider now the ``good'' items, i.e., those in $G = [n] \setminus B$.
+Using \eqref{eq:expordstat} and for $n$ large enough,
+\begin{align*}
+\Prob{x_{(\hat{n})} \le 1/(e \lambda \log^2 n)}
+    \le \Prob{\sum_{j=1}^{\hat{n}} y_j / n \le 1/(e \lambda \log^2 n)}
+    \le \exp(-\hat{n} / e) \le 1 / n.
+\end{align*}
+The second-to-last inequality follows from a Chernoff bound similar to that used in the proof of Theorem~\ref{thm:quickdisp}.
+Therefore, with high probability all items in $G$ are at distance larger than $c / (\lambda \log^2 n)$ from their nearest neighbor.
+
+We will now show that after $m = \BigO{\lambda^2 \log^5 n}$ runs of Quicksort, $\hsigma(i) = i$ with high probability for all $i \in G$.
+Let $i \in G$, $j \in [n]$ be a pair of items, and without loss of generality assume that $i < j$.
+Let $t_k$ be the indicator random variable for the event ``$\sigma(i) < \sigma(j)$ in the $k$-th run of Quicksort'', and let $p = \Prob{t_k = 1}$.
+Then, using Theorem~\ref{thm:stability},
+%As $d_{ij} \ge 1 / (e \lambda \log^2 n)$ with high probability,
+\begin{align*}
+p - \frac{1}{2}
+    = p(i \prec j) - \frac{1}{2} = \frac{1 - \exp(-d_{ij})}{2[1 + \exp(-d_{ij})]}
+    \ge \frac{1 - \exp[- 1/(e \lambda \log^2 n)]}{4}
+    \ge \frac{1}{8e \lambda \log^2 n}
+\end{align*}
+with high probability.
+In the last inequality, we used the fact that $1 - e^{-x} \ge x/2$ for $x \in [0, 1]$.
+The random variables $t_1, \ldots, t_m$ are independent Bernoulli trials, and using a Chernoff bound we obtain
+\begin{align*}
+\Prob{\hsigma(j) < \hsigma(i)} = \Prob{ \sum_{k = 1}^m t_k \le n/2}
+    \le \exp[-2m(p - 1/2)^2] \le \exp \left[ -\frac{m}{32e^2 \lambda^2 \log^4 n} \right].
+\end{align*}
+With $m = 96e^2 \lambda^2 \log^5 n$, we have $\Prob{\hsigma(j) < \hsigma(i)} \le n^{-3}$, and using a union bound we see that with probability $1 - 1/n$ we have $\hsigma(i) = i$ for all $i \in G$.
+Therefore, the total displacement is
+\begin{align*}
+\Disp{\hsigma} = \sum_{i \in B} \Abs{\hsigma(i) - i}
+    \le \Abs{B} \cdot 3(\lambda + 1) e \log n
+    = \BigO{\lambda n / \log n}.
+\end{align*}
+This concludes the proof.
+\end{proof}
