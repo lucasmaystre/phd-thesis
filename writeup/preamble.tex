@@ -49,7 +49,6 @@
 \usepackage{graphicx,xcolor}
 \graphicspath{{figs/}}
 
-\usepackage{subfig}
 \usepackage{booktabs}
 \usepackage[babel,final]{microtype}
 \usepackage{url}
@@ -156,6 +155,8 @@
 \usepackage{enumitem}
 \usepackage[detect-weight=true]{siunitx}
 \usepackage{xifthen}  % Enables if-then-else statements in command defs.
+\usepackage{caption}  % TODO: Do we need the option `style=base`?
+\usepackage{subcaption}
 
 % `hyperref` should be loaded close to the end:
 % - http://mirror.switch.ch/ftp/mirror/tex/macros/latex/contrib/hyperref/README.pdf
@@ -185,12 +186,17 @@
 \newlist{enuminline}{enumerate*}{1}
 \setlist[enuminline,1]{label=\itshape\alph*\upshape)}
 
+% Removes double spacing after end of sentence.
+% See: http://practicaltypography.com/one-space-between-sentences.html.
 \frenchspacing
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
+
+\theoremstyle{definition}
+\newtheorem*{definition}{Definition}
 
 % For fastinference.
 \newcommand{\vpi}{\ensuremath{\bm{\pi}}}
@@ -235,4 +241,8 @@
 \DeclareMathOperator*{\Argmax}{arg\,max}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
-\hyphenation{wahrscheinlichkeits-rechnung} % :-)
+% For choicerank.
+\newcommand{\transp}{\top}
+\algnewcommand{\OneLineFor}[1]{\State \algorithmicfor\ #1\ \algorithmicdo}
+
+\hyphenation{wahrscheinlichkeits-rechnung PageRank ChoiceRank}

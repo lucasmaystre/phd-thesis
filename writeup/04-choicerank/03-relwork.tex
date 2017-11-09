@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Related Work}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{sec:relwork}
+
+A variant of the network choice model was recently introduced by \citet{kumar2015inverting}, in an article that lays much of the groundwork for the present paper.
+Their generative model of traffic and the parametrization of transition probabilities based on Luce's axiom form the basis of our work.
+\citeauthor{kumar2015inverting} define the \emph{steady-state inversion} problem as follows:
+Given a graph $G$ and a target stationary distribution, find transition probabilities that lead to the desired stationary distribution.
+This problem formulation assumes that $G$ satisfies restrictive structural properties (strong-connectedness, aperiodicity) and is valid only asymptotically, when the sequences of choices made by users are very long.
+Our formulation is, in contrast, more general.
+In particular, we eliminate any assumptions about the structure of $G$ and cope with finite data in a principled way---in fact, our derivations are valid for choice sequences of any length.
+One of our contributions is to explain the steady-state inversion problem in terms of (asymptotic) maximum-likelihood inference in the network choice model.
+Furthermore, the statistical viewpoint that we develop also leads to
+\begin{enuminline}
+\item a robust regularization scheme, and
+\item a simple and efficient EM-type inference algorithm.
+\end{enuminline}
+These important extensions make the model easier to apply to real-world data.
+
+\paragraph{Luce's choice axiom.}
+The general problem of estimating parameters of models based on Luce's axiom has received considerable attention.
+Several decades before Luce's seminal book \citep{luce1959individual}, \citet{zermelo1928berechnung} proposed a model and an algorithm that estimates the strengths of chess players based on pairwise comparison outcomes (his model would later be rediscovered by \citet{bradley1952rank}).
+More recently, \citet{hunter2004mm} explained \citeauthor{zermelo1928berechnung}'s algorithm from the perspective of the minorization-maximization (MM) method.
+This method is easily generalized to other models that are based on Luce's axiom, and it yields simple, provably convergent algorithms for maximum-likelihood (ML) or maximum-a-posteriori point estimates.
+\citet{caron2012efficient} observe that these MM algorithms can be further recast as expectation-maximization (EM) algorithms by introducing suitable latent variables.
+They use this observation to derive Gibbs samplers for a wide family of models.
+We take advantage of this long line of work in Section~\ref{sec:algorithm} when developing an inference algorithm for the network choice model.
+In recent years, several authors have also analyzed the sample complexity of the ML estimate in Luce's choice model \citep{hajek2014minimax, vojnovic2016parameter} and investigated alternative spectral inference methods \citep{negahban2012iterative, azari2013generalized, maystre2015fast}.
+Some of these results could be applied to our setting, but in general they require observing choices among well-identified sets of alternatives.
+Finally, we note that models based on Luce's axiom have been successfully applied to problems ranging from ranking players based on game outcomes \citep{zermelo1928berechnung, elo1978rating} to understanding consumer behavior based on discrete choices \citep{mcfadden1973conditional}, and to discriminating among multiple classes based on the output of pairwise classifiers \citep{hastie1998classification}.
+
+\paragraph{Network analysis.}
+Understanding the preferences of users in networks is of significant interest in many domains.
+For brevity, we focus on literature related to hyperlink graphs.
+A method that has undoubtedly had a tremendous impact in this context is PageRank \citep{brin1998anatomy}.
+PageRank computes a set of scores that are proportional to the amount of time a surfer, who clicks on links randomly and uniformly, spends at each node.
+These scores are based only on the structure of the graph.
+The network choice model presented in this paper appears similar at first, but tackles a different problem.
+In addition to the structure of the graph, it uses the traffic at each page, and computes a set of scores that reflect the (non-uniform) probability of clicking on each link.
+Nevertheless, there are striking similarities in the implementation of the respective inference algorithms (see Section~\ref{sec:experiments}).
+The HOTness method proposed by \citet{tomlin2003new} is somewhat related, but tries to tackle a harder problem.
+It attempts to estimate jointly the traffic and the probability of clicking on each link, by using a maximum-entropy approach.
+At the other end of the spectrum, BrowseRank \citep{liu2008browserank} uses detailed data collected in users' browsers to improve on PageRank.
+Our method uses only marginal traffic data that can be obtained without tracking users.
+%In the context of mobility analysis, we mention that \citet{ashbrook2003using} and \citet{kafsi2015traveling}
