@@ -1,9 +1,16 @@
+@String(AISTATS2015 = "Proceedings of AISTATS 2015")
+@String(ICDM2015 = "Proceedings of ICDM'15")
 @String(ICML2005 = "Proceedings of ICML 2005")
+@String(ICML2009 = "Proceedings of ICML 2009")
 @String(ICML2014 = "Proceedings of ICML 2014")
 @String(NIPS2005rank = "Proceedings of the NIPS 2005 Workshop on Learning to Rank")
 @String(NIPS2008 = "Advances in Neural Information Processing Systems 21")
+@String(NIPS2011 = "Advances in Neural Information Processing Systems 24")
 @String(NIPS2012 = "Advances in Neural Information Processing Systems 25")
 @String(NIPS2013 = "Advances in Neural Information Processing Systems 26")
+@String(NIPS2014 = "Advances in Neural Information Processing Systems 27")
+@String(OSDI2012 = "Proceedings of OSDI'12")
+@String(OSDI2014 = "Proceedings of OSDI'14")
 @String(SODA2008 = "Proceedings of SODA'08")
 @String(WSDM2013 = "Proceedings of WSDM'13")
 @String(WWW1998 = "Proceedings of WWW'98")
@@ -207,8 +214,8 @@
 @book{casella2002statistical,
   author = "Casella, George and Berger, Roger L.",
   title = "Statistical Inference",
-  year = 2002,
   publisher = "Duxbury Press",
+  year = 2002,
   edition = "Second",
 }
 
@@ -288,8 +295,8 @@
 @book{dubhashi2009concentration,
   author = "Dubhashi, Devdatt P. and Panconesi, Alessandro",
   title = "Concentration of Measure for the Analysis of Randomized Algorithms",
-  year = "2009",
   publisher = "Cambridge University Press",
+  year = "2009",
 }
 
 @inproceedings{dwork2001rank,
@@ -318,190 +325,207 @@
   title = "Rank Analysis of Incomplete Block Designs:
       {A} Method of Paired Comparisons Employing Unequal Repetitions on Pairs",
   journal = "Biometrics",
+  year = 1960,
   volume = 16,
   number = 2,
   pages = "176--188",
-  year = 1960,
   _doi = "10.2307/2527550",
 }
 
 @book{elo1978rating,
-  author = {Elo, A.},
-  title = {{The Rating Of Chess Players, Past \& Present}},
-  publisher = {Arco},
-  year = {1978}
+  author = "Elo, Arpad",
+  title = "The Rating Of Chess Players, Past \& Present",
+  publisher = "Arco Publishing",
+  year = 1978,
 }
 
 @inproceedings{fogel2014serialrank,
-  title={{SerialRank: Spectral Ranking using Seriation}},
-  author={Fogel, F. and d'Aspremont, A. and Vojnovic, M.},
-  booktitle={Advances in Neural Information Processing Systems 27 (NIPS 2014)},
-  address = {Lake Tahoe, CA},
-  year={2014}
+  author = "Fogel, Fajwel and d'Aspremont, Alexandre and Vojnovic, Milan",
+  title = "{SerialRank}: {Spectral} Ranking using Seriation",
+  booktitle = NIPS2014,
+  year = 2014,
+  month = dec,
+  address = "Montréal, QC, Canada",
 }
 
 @article{ford1957solution,
-  title={{Solution of a Ranking Problem from Binary Comparisons}},
-  author={Ford, Jr., L. R.},
-  journal={The American Mathematical Monthly},
-  pages={28--33},
-  year={1957},
-  volume={64},
-  number={8}
+  author = "Ford, Jr., Lester R.",
+  title = "Solution of a Ranking Problem from Binary Comparisons",
+  journal = "The American Mathematical Monthly",
+  year = 1957,
+  volume = 64,
+  number = 8,
+  pages = "28--33",
+  _doi = "10.2307/2308513",
 }
 
 @inproceedings{gonzalez2012powergraph,
-  title={{PowerGraph: Distributed Graph-Parallel Computation on Natural Graphs}},
-  author={Gonzalez, J. E. and Low, Y. and Gu, H. and Bickson, D. and Guestrin, C.},
-  booktitle={OSDI'12},
-  pages={17--30},
-  year={2012}
+  author = "Gonzalez, Joseph E. and Low, Yucheng and Gu, Haijie
+      and Bickson, Danny and Guestrin, Carlos",
+  title = "{PowerGraph}: {Distributed} Graph-Parallel Computation
+      on Natural Graphs",
+  booktitle = OSDI2012,
+  year = 2012,
+  month = oct,
+  address = "Hollywood, CA, USA",
 }
 
 @inproceedings{gonzalez2014graphx,
-  title={{Graphx: Graph Processing in a Distributed Dataflow Framework}},
-  author={Gonzalez, J. E. and Xin, R. S. and Dave, A. and Crankshaw, D. and Franklin, M. J. and Stoica, I.},
-  booktitle={OSDI'14},
-  pages={599--613},
-  year={2014}
+  author = "Gonzalez, Joseph E. and Xin, Reynold S. and Dave, Ankur
+      and Crankshaw, Daniel and Franklin, Michaeld J. and Stoica, Ion",
+  title = "{GraphX}: {Graph} Processing in a Distributed Dataflow Framework",
+  booktitle = OSDI2014,
+  year = 2014,
+  month = oct,
+  address = "Broomfield, CO, USA",
 }
 
 @inproceedings{guiver2009bayesian,
-  author = {Guiver, J. and Snelson, E.},
-  title = {{Bayesian inference for Plackett--Luce ranking models}},
-  year = {2009},
-  booktitle = {Proceedings of the 26$^{th}$ International Conference on Machine Learning (ICML 2009)},
-  address = {Montreal, Canada}
+  author = "Guiver, John and Snelson, Edward",
+  title = "{Bayesian} inference for {Plackett--Luce} ranking models",
+  booktitle = ICML2009,
+  year = 2009,
+  month = jun,
+  address = "Montréal, QC, Canada",
 }
 
 @inproceedings{hajek2014minimax,
-  author = {Hajek, B. and Oh, S. and Xu, J.},
-  title = {{Minimax-optimal Inference from Partial Rankings}},
-  year = {2014},
-  booktitle = {Advances in Neural Information Processing Systems 27 (NIPS 2014)},
-  address = {Montreal, QC, Canada}
+  author = "Hajek, Bruce and Oh, Sewoong and Xu, Jiaming",
+  title = "Minimax-optimal Inference from Partial Rankings",
+  year = 2014,
+  booktitle = NIPS2014,
+  address = "Montréal, QC, Canada",
 }
 
 @article{halko2011finding,
-  title={{Finding Structure with Randomness: Probabilistic Algorithms for Constructing Approximate Matrix Decompositions}},
-  author={Halko, N. and Martinsson, P.-G. and Tropp, J. A.},
-  journal={SIAM Review},
-  volume={53},
-  number={2},
-  pages={217--288},
-  year={2011},
-  publisher={SIAM}
+  author = "Halko, Nathan and Martinsson, P. Gunnar and Tropp, Joel A.",
+  title = "Finding Structure with Randomness: {Probabilistic} Algorithms for
+      Constructing Approximate Matrix Decompositions",
+  journal = "SIAM Review",
+  year = 2011,
+  volume = 53,
+  number = 2,
+  pages = "217--288",
+  _doi = "10.1137/090771806",
 }
 
 @article{hastie1998classification,
-  title={{Classification by pairwise coupling}},
-  author={Hastie, T. and Tibshirani, R.},
-  journal={The Annals of Statistics},
-  volume={26},
-  number={2},
-  pages={451--471},
-  year={1998}
+  author = "Hastie, Trevor and Tibshirani, Robert",
+  title = "Classification by Pairwise Coupling",
+  journal = "The Annals of Statistics",
+  year = 1998,
+  volume = 26,
+  number = 2,
+  pages = "451--471",
+  _doi = "10.1214/aos/1028144844",
 }
 
 @unpublished{heckel2016active,
-  title={{Active Ranking from Pairwise Comparisons and when Parametric
-  Assumptions Don't Help}},
-  author={Heckel, R. and Shah, N. B. and Ramchandran, K. and Wainwright, M. J.},
-  archivePrefix={arXiv},
-  eprint={1606.08842},
-  primaryClass={cs.LG},
-  note={preprint, {\tt arXiv:1606.08842 [cs.LG]}},
-  month=sep,
-  year={2016}
+  author = "Heckel, Reinhard and Shah, Nihar B. and Ramchandran, Kannan
+      and Wainwright, Martin J.",
+  title = "Active Ranking from Pairwise Comparisons
+      and when Parametric Assumptions Don't Help",
+  note = "preprint, \texttt{arXiv:1606.08842v2 [cs.LG]}",
+  month = sep,
+  year = 2016,
 }
 
 @article{hoare1962quicksort,
-  title={Quicksort},
-  author={Hoare, C. A. R.},
-  journal={The Computer Journal},
-  volume={5},
-  number={1},
-  pages={10--16},
-  year={1962},
+  author = "Hoare, C. A. R.",
+  title = "Quicksort",
+  journal = "The Computer Journal",
+  year = 1962,
+  volume = 5,
+  number = 1,
+  pages = "10--16",
+  _doi = "10.1093/comjnl/5.1.10",
 }
 
 @inproceedings{houlsby2012collaborative,
-  title={{Collaborative Gaussian Processes for Preference Learning}},
-  author={Houlsby, N. and Huszár, F. and Ghahramani, Z. and Hernández-lobato,
-  J. M.},
-  booktitle={Advances in Neural Information Processing Systems 25},
-  address={Lake Tahoe, CA},
-  year={2012}
+  title = "Collaborative {Gaussian} Processes for Preference Learning",
+  author = "Houlsby, Neil and Hernández-Lobato, Jose Miguel and Huszár, Ferenc
+      and Ghahramani, Zoubin",
+  booktitle = NIPS2012,
+  year = 2012,
+  month = dec,
+  address = "Lake Tahoe, CA",
 }
 
 @article{hunter2004mm,
-  author = {Hunter, D. R.},
-  title = {{MM algorithms for generalized Bradley--Terry models}},
-  journal =	{The Annals of Statistics},
-  year = {2004},
-  volume = {32},
-  number = {1},
-  pages = {384--406}
+  author = "Hunter, David R.",
+  title = "{MM} algorithms for generalized {Bradley--Terry} models",
+  journal =	"The Annals of Statistics",
+  year = 2004,
+  volume = 32,
+  number = 1,
+  pages = "384--406",
+  _doi = "10.1214/aos/1079120141",
 }
 
 @inproceedings{jamieson2011active,
-  title={{Active Ranking using Pairwise Comparisons}},
-  author={Jamieson, K. and Nowak, R.},
-  booktitle={Advances in Neural Information Processing Systems 24},
-  address={Granada, Spain},
-  year={2011}
+  author = "Jamieson, Kevin G. and Nowak, Robert D.",
+  title = "Active Ranking using Pairwise Comparisons",
+  booktitle = NIPS2011,
+  year = 2011,
+  month = dec,
+  address = "Granada, Spain",
 }
 
 @inproceedings{jamieson2015sparse,
-  title={Sparse Dueling Bandits},
-  author={Jamieson, K. G. and Katariya, S. and Deshpande, A. and Nowak, R. D.},
-  booktitle={Proceedings of AISTATS 2015},
-  address={San Diego, CA},
-  year={2015}
+  author = "Jamieson, Kevin G. and Katariya, Sumeet and Deshpande, Atul
+      and Nowak, Robert D.",
+  title = "Sparse Dueling Bandits",
+  booktitle = AISTATS2015,
+  year = 2015,
+  month = may,
+  address = "San Diego, CA, USA",
 }
 
 @article{jiang2010statistical,
-  title={{Statistical ranking and combinatorial Hodge theory}},
-  author={Jiang, X. and Lim, L.-H. and Yao, Y. and Ye, Y.},
-  journal={Mathematical Programming},
-  volume={127},
-  number={1},
-  pages={203--244},
-  year={2011}
+  author = "Jiang, Xiaoye and Lim, Lek-Heng and Yao, Yuan and Ye, Yinyu",
+  title = "Statistical ranking and combinatorial {Hodge} theory",
+  journal = "Mathematical Programming",
+  year = 2011,
+  volume = 127,
+  number = 1,
+  pages = "203--244",
+  _doi = "10.1007/s10107-010-0419-x",
 }
 
 @inproceedings{kafsi2015traveling,
-  title={{Traveling Salesman in Reverse: Conditional Markov Entropy for Trajectory Segmentation}},
-  author={Kafsi, M. and Grossglauser, M. and Thiran, P.},
-  booktitle={ICDM'15},
-  pages={201--210},
-  year={2015},
-  organization={IEEE}
+  author = "Kafsi, Mohamed and Grossglauser, Matthias and Thiran, Patrick",
+  title = "Traveling Salesman in Reverse: {Conditional} {Markov} Entropy
+      for Trajectory Segmentation",
+  booktitle = ICDM2015,
+  year = 2015,
+  month = nov,
+  address = "Atlantic City, NJ, USA",
 }
 
 @incollection{kamishima2009efficient,
-  title={{Efficient Clustering for Orders}},
-  author={Kamishima, T. and Akaho, S.},
-  booktitle={Mining Complex Data},
-  pages={261--279},
-  year={2009},
-  publisher={Springer}
+  author = "Kamishima, Toshihiro and Akaho, Shotaro",
+  title = "Efficient Clustering for Orders",
+  booktitle = "Mining Complex Data",
+  publisher = "Springer",
+  year = 2009,
+  pages = "261--279",
+  _doi = "10.1007/978-3-540-88067-7_15",
 }
 
 @book{kemeny1976finite,
-  title={{Finite Markov Chains}},
-  author={Kemeny, J. G. and Snell, J. L.},
-  year={1976},
-  publisher={Springer-Verlag}
+  author = "Kemeny, John G. and Snell, J. Laurie",
+  title = "Finite Markov Chains",
+  publisher = "Springer",
+  year = "1976",
 }
 
 @book{knuth1998art,
-  title={The art of computer programming: sorting and searching},
-  author={Knuth, D. E.},
-  volume={3},
-  edition={2nd},
-  year={1998},
-  publisher={Addison-Wesley}
+  author = "Knuth, Donald Ervin",
+  title = "The art of computer programming: {Sorting} and searching",
+  publisher = "Addison-Wesley",
+  year = 1998,
+  volume = 3,
+  edition = "Second",
 }
 
 @inproceedings{kumar2015inverting,
@@ -598,7 +622,7 @@
   author = {Maystre, L. and Grossglauser, M.},
   booktitle = {NIPS 2015},
   year = {2015},
-  address = {Montreal, Canada}
+  address = {Montréal, Canada}
 }
 
 @incollection{mcfadden1973conditional,
@@ -809,7 +833,7 @@
   Approach}},
   author={Szörényi, B. and Busa-Fekete, R. and Paul, A. and Hüllermeier, E.},
   booktitle={Advances in Neural Information Processing Systems 28},
-  address={Montreal, QC, Canada},
+  address={Montréal, QC, Canada},
   year={2015}
 }
 
@@ -895,7 +919,7 @@
   title={The $K$-armed Dueling Bandits Problem},
   author={Yue, Y. and Broder, J. and Kleinberg, R. and Joachims, T.},
   booktitle={Proceedings of COLT 2009},
-  address={Montreal, QC, Canada},
+  address={Montréal, QC, Canada},
   year={2009}
 }
 
