@@ -3,16 +3,21 @@
 @String(ICML2005 = "Proceedings of ICML 2005")
 @String(ICML2009 = "Proceedings of ICML 2009")
 @String(ICML2014 = "Proceedings of ICML 2014")
+@String(NIPS2002 = "Advances in Neural Information Processing Systems 15")
 @String(NIPS2005rank = "Proceedings of the NIPS 2005 Workshop on Learning to Rank")
 @String(NIPS2008 = "Advances in Neural Information Processing Systems 21")
 @String(NIPS2011 = "Advances in Neural Information Processing Systems 24")
 @String(NIPS2012 = "Advances in Neural Information Processing Systems 25")
 @String(NIPS2013 = "Advances in Neural Information Processing Systems 26")
 @String(NIPS2014 = "Advances in Neural Information Processing Systems 27")
+@String(NIPS2015 = "Advances in Neural Information Processing Systems 28")
 @String(OSDI2012 = "Proceedings of OSDI'12")
 @String(OSDI2014 = "Proceedings of OSDI'14")
+@String(SIGIR2008 = "Proceedings of SIGIR'08")
+@String(SIGMOD2010 = "Proceedings of SIGMOD'10")
 @String(SODA2008 = "Proceedings of SODA'08")
 @String(WSDM2013 = "Proceedings of WSDM'13")
+@String(WSDM2015 = "Proceedings of WSDM'15")
 @String(WWW1998 = "Proceedings of WWW'98")
 @String(WWW2001 = "Proceedings of WWW'01")
 
@@ -159,7 +164,7 @@
   author = "Bradley, Ralph Allan and Terry, Milton E.",
   title = "Rank Analysis of Incomplete Block Designs:
       {I.} {The} Method of Paired Comparisons",
-  journal =	"Biometrika",
+  journal = "Biometrika",
   year = 1952,
   volume = 39,
   number = "3/4",
@@ -454,7 +459,7 @@
 @article{hunter2004mm,
   author = "Hunter, David R.",
   title = "{MM} algorithms for generalized {Bradley--Terry} models",
-  journal =	"The Annals of Statistics",
+  journal = "The Annals of Statistics",
   year = 2004,
   volume = 32,
   number = 1,
@@ -529,100 +534,109 @@
 }
 
 @inproceedings{kumar2015inverting,
-  title={{Inverting a Steady-State}},
-  author={Kumar, Ravi and Tomkins, Andrew and Vassilvitskii, Sergei
-      and Vee, Erik},
-  booktitle={Proceedings of the 8$^{th}$ International Conference on Web Search and Data Mining (WSDM 2015)},
-  pages={359--368},
-  year={2015}
+  author = "Kumar, Ravi and Tomkins, Andrew and Vassilvitskii, Sergei
+      and Vee, Erik",
+  title = "Inverting a Steady-State",
+  booktitle = WSDM2015,
+  year = 2015,
+  month = feb,
+  address = "Shanghai, China",
 }
 
 @article{landau1953dominance,
-  title={{On Dominance Relations and the Structure of Animal Societies: III The
-  Condition for a Score Structure}},
-  author={Landau, H. G.},
-  journal={Bulletin of Mathematical Biophysics},
-  volume={15},
-  number={2},
-  pages={143--148},
-  year={1953}
+  author = "Landau, H. G.",
+  title = "On Dominance Relations and the Structure of Animal Societies:
+      {III} {The} Condition for a Score Structure",
+  journal = "The Bulletin of Mathematical Biophysics",
+  year = 1953,
+  volume = 15,
+  number = 2,
+  pages = "143--148",
+  _doi = "10.1007/BF02476378",
 }
 
 @article{lange2000optimization,
-  title={{Optimization Transfer Using Surrogate Objective Functions}},
-  author={Lange, K. and Hunter, D. R. and Yang, I.},
-  journal={Journal of Computational and Graphical Statistics},
-  volume={9},
-  number={1},
-  pages={1--20},
-  year={2000},
+  author = "Lange, Kenneth and Hunter, David R. and Yang, Ilsoon",
+  title = "Optimization Transfer Using Surrogate Objective Functions",
+  journal = "Journal of Computational and Graphical Statistics",
+  year = 2000,
+  volume = 9,
+  number = 1,
+  pages = "1--20",
+  _doi = "10.2307/1390605",
 }
 
-@inproceedings{lawrence2003fast,
-  title={{Fast Sparse Gaussian Process Methods: The Informative Vector
-  Machine}},
-  author={Lawrence, N. and Seeger, M. and Herbrich, R.},
-  booktitle={Advances in Neural Information Processing Systems 15},
-  address={Vancouver, BC, Canada},
-  year={2002}
+@inproceedings{lawrence2002fast,
+  author = "Lawrence, Neil and Seeger, Matthias and Herbrich, Ralf",
+  title = "Fast Sparse {Gaussian} Process Methods:
+      {The} Informative Vector Machine",
+  booktitle = NIPS2002,
+  year = 2002,
+  month = dec,
+  address = "Vancouver, BC, Canada",
 }
 
 @book{levin2008markov,
-  title={{Markov Chains and Mixing Times}},
-  author={Levin, D. A. and Peres, Y. and Wilmer, E. L.},
-  year={2008},
-  publisher={American Mathematical Society}
+  author = "Levin, David A. and Peres, Yuval and Wilmer, Elizabeth L.",
+  title = "Markov Chains and Mixing Times",
+  publisher = "American Mathematical Society",
+  year = 2008,
 }
 
 @inproceedings{liu2008browserank,
-  title={{BrowseRank: Letting Web Users Vote For Page Importance}},
-  author={Liu, Y. and Gao, B. and Liu, T.-Y. and Zhang, Y. and Ma, Z. and He, S. and Li, H.},
-  booktitle={SIGIR'08},
-  pages={451--458},
-  year={2008},
-  organization={ACM}
+  author = "Liu, Yuting and Gao, B. and Liu, Tie-Yan and Zhang, Ying
+      and Ma, Zhiming and He, Shuyuan and Li, Hang",
+  title = "{BrowseRank}: {Letting} Web Users Vote For Page Importance",
+  booktitle = SIGIR2008,
+  year = 2008,
+  month = jul,
+  address = "Singapore",
 }
 
 @article{long2015active,
-  title={{Active Learning for Ranking through Expected Loss Optimization}},
-  author={Long, B. and Bian, J. and Chapelle, O. and Zhang, Y. and Inagaki, Y.
-  and Chang, Y.},
-  journal={IEEE Transactions on Knowledge and Data Engineering},
-  volume={27},
-  number={5},
-  pages={1180--1191},
-  year={2015}
+  author = "Long, Bo and Bian, Jiang and Chapelle, Olivier and Zhang, Ya
+      and Inagaki, Yoshiyuki and Chang, Yi",
+  title = "Active Learning for Ranking through Expected Loss Optimization",
+  journal = "IEEE Transactions on Knowledge and Data Engineering",
+  year = 2015,
+  volume = 27,
+  number = 5,
+  pages = "1180--1191",
+  _doi = "10.1109/TKDE.2014.2365785",
 }
 
 @book{luce1959individual,
-  title={{Individual Choice Behavior: A Theoretical Analysis}},
-  author={Luce, R. D.},
-  year={1959},
-  publisher={Wiley}
+  author = "Luce, R. Duncan",
+  title = "Individual Choice Behavior: {A} Theoretical Analysis",
+  publisher = "Wiley",
+  year = "1959",
 }
 
 @phdthesis{mackay1992bayesian,
-  title={{Bayesian Methods for Adaptive Models}},
-  author={MacKay, D. J. C.},
-  year={1992},
-  school={California Institute of Technology}
+  author = "MacKay, David J. C.",
+  title = "Bayesian Methods for Adaptive Models",
+  school = "California Institute of Technology",
+  year = 1992,
 }
 
 @inproceedings{malewicz2010pregel,
-  title={{Pregel: A System for Large-Scale Graph Processing}},
-  author={Malewicz, G. and Austern, M. H. and Bik, A. J. C. and Dehnert, J. C. and Horn, I. and Leiser, N. and Czajkowski, G.},
-  booktitle={SIGMOD'10},
-  pages={135--145},
-  year={2010},
-  organization={ACM}
+  author = "Malewicz, Grzegorz and Austern, Matthew H. and Bik, Aart J. C.
+      and Dehnert, James C. and Horn, Ilan and Leiser, Naty
+      and Czajkowski, Grzegorz",
+  title = "Pregel: {A} System for Large-Scale Graph Processing",
+  booktitle = SIGMOD2010,
+  year = 2010,
+  month = jun,
+  address = "Indianapolis, IN, USA",
 }
 
 @inproceedings{maystre2015fast,
-  title = {{Fast and Accurate Inference of Plackett--Luce Models}},
-  author = {Maystre, L. and Grossglauser, M.},
-  booktitle = {NIPS 2015},
-  year = {2015},
-  address = {Montréal, Canada}
+  author = "Maystre, Lucas and Grossglauser, Matthias",
+  title = "Fast and Accurate Inference of {Plackett--Luce} Models",
+  booktitle = NIPS2015,
+  year = 2015,
+  month = dec,
+  address = "Montréal, QC, Canada",
 }
 
 @incollection{mcfadden1973conditional,
@@ -840,7 +854,7 @@
 @article{thurstone1927law,
   author = {Thurstone, L.L.},
   title = {{A Law of Comparative Judgment}},
-  journal =	{Psychological Review},
+  journal = {Psychological Review},
   year = {1927},
   volume = {34},
   number = {4},
@@ -934,7 +948,7 @@
 @article{zermelo1928berechnung,
   author = {Zermelo, E.},
   title = {{Die Berechnung der Turnier-Ergebnisse als ein Maximumproblem der Wahrscheinlichkeitsrechnung}},
-  journal =	{Mathematische Zeitschrift},
+  journal = {Mathematische Zeitschrift},
   year = {1928},
   volume = {29},
   number = {1},
