@@ -1,0 +1,70 @@
+\section{Experimental Evaluation}
+\label{sec:evaluation}
+
+In this section, we evaluate our predictive model on the matches of the Euro 2008, 2012 and 2016 final tournaments and compare it to several baselines.
+
+We collect a dataset of matches from
+\begin{enuminline}
+\item official and friendly competitions involving national teams, and
+\item the most prestigious European club competitions,
+\end{enuminline}
+starting from July 1\textsuperscript{st}, 2006.
+There are approximately $15 \times$ more matches between clubs than there are matches between national teams in our dataset.
+With respect to the model outlined in Section~\ref{sec:methods}, our final predictive model processes one additional feature that encodes which team played at home (this feature is null for matches played on neutral ground).
+We train the model using all $N$ matches that were played prior to the start of the competition on which we test.
+When computing the kernel matrix (whether on training or on test data) we use the starting lineups, usually announced shortly before the start of the game.
+It is interesting to note that the number of distinct players $P$ appearing in the dataset exceeds the number of training instances in each case (the values of $N$ and $P$ are shown in Table~\ref{tab:eval}).
+We use the GPy Python library\footnote{See: \url{https://sheffieldml.github.io/GPy/}.} to fit the model; inference takes a minute for the 2008 test set (17 minutes for 2016).
+The predictions come in the form of probability distributions $[p^{\text{W}}, p^{\text{D}}, p^{\text{L}}]$ over the three outcomes (win, draw, loss).
+
+We compare our predictive distributions against three baselines.
+First, we consider a simple Rao-Kupper model based on national team ratings obtained from a popular Web site\footnote{See: \url{http://www.eloratings.net/}.}.
+This model is similar to ours, but
+\begin{enuminline}
+\item it does not relate matches through player, and thus does not consider club outcomes, and
+\item as ratings are fixed values, it does not consider uncertainty in the ratings.
+\end{enuminline}
+Second, we consider average probabilities derived from the odds given by three large betting companies.
+Third, we consider a random baseline which always outputs $[1/3, 1/3, 1/3]$.
+The predictive distributions are evaluated using the average logarithmic loss over $T$ test instances
+\begin{align*}
+- \frac{1}{T} \sum_{i=1}^{T} \left[
+\mathbf{1}_{\{y_i = \text{W}\}} \log p^{\text{W}}_i
++ \mathbf{1}_{\{y_i = \text{D}\}} \log p^{\text{D}}_i
++ \mathbf{1}_{\{y_i = \text{L}\}} \log p^{\text{L}}_i
+\right].
+\end{align*}
+The logarithmic loss penalizes more strongly predictions that are both confident and incorrect.
+Table~\ref{tab:eval} summarizes the results.
+
+
+\begin{table}[t]
+  \caption{
+  Average logarithmic loss of our predictive model (PlayerKern), a model based on national team ratings (Elo), betting odds (Odds) and a random baseline (Random) on the final tournaments of three European championships.
+  $N$ is the number of training instances, $P$ the number of distinct players and $T$ the number of test instances.}
+  \label{tab:eval}
+  \centering
+  \setlength\tabcolsep{0.2cm}
+  \begin{tabular}{l rr rrrrr}
+    \toprule
+    Competition & $N$         & $P$         & $T$      & PlayerKern           & Elo                  & Odds                 &  Random \\
+    \midrule
+    Euro 2008   & \num{4390}  & \num{7875}  & \num{31} & \num{0.969}          & \textbf{\num{0.910}} & \num{0.979}          & \num{1.099} \\
+    Euro 2012   & \num{15594} & \num{21735} & \num{31} & \textbf{\num{0.939}} & \num{1.003}          & \num{0.953}          & \num{1.099} \\
+    Euro 2016   & \num{24887} & \num{33157} & \num{51} & \num{1.067}          & \num{1.102}          & \textbf{\num{1.020}} & \num{1.099} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Our predictive model performs well in 2008 and 2012, but slightly less so in 2016.
+It is noteworthy that the 2016 final tournament has been generally less predictable than earlier editions.
+The case of the Elo baseline is interesting, as its accuracy varies wildly.
+Reasons for this might include the noise due to the online gradient updates, and the lack of proper uncertainty quantification in the ratings.
+Our method, in contrast, seems to produce more conservative predictions, but manages to achieve a more consistent performance
+
+
+\subsection{Conclusion}
+
+In this short report, we exposed a connection between a well-known pairwise comparison model and Gaussian process classification, and proposed a kernel that is able to transfer knowledge across different types of football matches---those between clubs and those between national teams.
+We showed that a predictive model building on these ideas achieves a logarithmic loss that is competitive with betting odds.
+In future work, we would like to investigate how to incorporate aging into the model, i.e., how to progressively downweight older data.

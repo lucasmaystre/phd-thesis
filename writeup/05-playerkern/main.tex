@@ -1,0 +1,17 @@
+\chapter{The Player Kernel}
+
+In this work, we draw attention to a connection between skill-based models of game outcomes and Gaussian process classification models.
+The Gaussian process perspective enables
+\begin{enuminline}
+\item a principled way of dealing with uncertainty and
+\item rich models, specified through kernel functions.
+\end{enuminline}
+Using this connection, we tackle the problem of predicting outcomes of football matches between national teams.
+We develop a \emph{player kernel} that relates any two football matches through the players lined up on the field.
+This makes it possible to share knowledge gained from observing matches between clubs (available in large quantities) and matches between national teams (available only in limited quantities).
+We evaluate our approach on the Euro 2008, 2012 and 2016 final tournaments.
+
+
+\input{01-intro}
+\input{02-methods}
+\input{03-evaluation}
