@@ -1,6 +1,0 @@
-thesis/__init__.py
-thesis/util.py
-thesis.egg-info/PKG-INFO
-thesis.egg-info/SOURCES.txt
-thesis.egg-info/dependency_links.txt
-thesis.egg-info/top_level.txt
