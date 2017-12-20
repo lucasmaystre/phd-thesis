@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:relwork}
+\label{rs:sec:relwork}
 
 \paragraph{Passive setting.}
 Recently, there have been a number of results on the sample complexity of the BT model, based on the assumption that all pairs of items are chosen \emph{before} any comparison outcome is revealed
@@ -25,14 +25,14 @@ However, they can be difficult to scale if the number of items is large.
 Work on Bayesian active preference learning includes
 \citet{chu2005extensions}, \citet{houlsby2012collaborative}, \citet{salimans2012collaborative} and \citet{chen2013pairwise}.
 %While the methods in these papers generally assume that outcomes follow Thurstone's model \citep{thurstone1927law}, they are easy to extend to the BT model.
-We compare our AL strategy to these methods in Section~\ref{sec:experiments}.
+We compare our AL strategy to these methods in Section~\ref{rs:sec:experiments}.
 
 \paragraph{Multi-armed bandit.}
 The \emph{dueling bandit} problem \citep{yue2009karmed} is somewhat related to our work.
 In this problem, the goal is to identify the best item based on noisy comparison outcomes, using as few adaptively chosen samples as possible.
 Two recent papers also extend the problem to that of recovering the entire ranking (instead of only the top element).
 The work of \citet{szorenyi2015online} is the closest to ours, as it also uses the BT model.
-One of their results is similar to our Theorem~\ref{thm:multidisp}: They show that a quasi-linear number of comparisons is sufficient to recover the true ranking, under some conditions on $\bm{\theta}$.
+One of their results is similar to our Theorem~\ref{rs:thm:multidisp}: They show that a quasi-linear number of comparisons is sufficient to recover the true ranking, under some conditions on $\bm{\theta}$.
 \citet{heckel2016active} investigate a non-parametric model and develop some theoretical guarantees.
 In contrast to these works, our paper studies practical comparison budgets: we give theoretical guarantees for the output obtained from a single call to Quicksort, and in our experiments we never exceed $\approx 10$ calls.
 
@@ -41,4 +41,4 @@ The Quicksort algorithm \citep{hoare1962quicksort} is one of the most widely stu
 Quicksort has been shown to produce useful rankings beyond classic sorting problems.
 For example, \citet{ailon2008aggregating} show that Quicksort produces (in expectation) a $3$-approximation to the MFAST problem.
 Quicksort combined with BT comparison outcomes has also been proposed as a probabilistic ranking model \citep{ailon2008reconciling}.
-We take advantage of some of the properties of this ranking model in order to derive the theoretical results of Section~\ref{sec:theory}.
+We take advantage of some of the properties of this ranking model in order to derive the theoretical results of Section~\ref{rs:sec:theory}.

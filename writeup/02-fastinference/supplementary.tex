@@ -6,7 +6,7 @@ In this section, we briefly explain why the log-likelihood in Luce's model has a
 Recall that we assume that the comparison graph $G_{\mathcal{D}}$ is strongly connected.
 The log-likelihood is given by
 \begin{align}
-\label{eq:loglik}
+\label{fix:eq:loglik}
 \log \mathcal{L}(\bm{\pi} \mid \mathcal{D}) = \sum_{\ell = 1}^d \left( \log \pi_\ell - \log{\sum_{j \in A_\ell} \pi_j} \right).
 \end{align}
 This function is not concave in $\bm{\pi}$; however, this does not preclude the existence of a unique stationary point.
@@ -33,13 +33,13 @@ For any two items $i$ and $j$, recall that $\mathcal{D}_{i \succ j} \subseteq \m
 Let $\Delta_n = \{ \bm{u} \in \mathbf{R}^n \mid u_i > 0, \sum_i u_i = 1 \}$ be the open $(n\!-\!1)$-dimensional simplex.
 Recall that for $\mathcal{S} \subseteq \mathcal{D}$ and $\vpi \in \Delta_n$, we define
 \begin{align}
-\label{eq:rate}
+\label{fix:eq:rate}
 f(\mathcal{S}, \bm{\pi}) \doteq \sum_{A \in \mathcal{S}} \frac{1}{\sum_{i \in A} \pi_i}.
 \end{align}
 We will now prove the following theorem.
 
 \begin{theorem}
-\label{thm:convergence}
+\label{fix:thm:convergence}
 The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \vpi)$ converges to the maximum-likelihood estimate $\mlpi$, for any initial distribution $\vpi^0 \in \Delta_n$.
 \end{theorem}
 
@@ -57,7 +57,7 @@ as a consequence, standard ergodic results do not apply directly.
 From the development at the beginning of Section 3 of the main text, it follows that $\mlpi$ is the unique invariant distribution of the Markov chain, i.e., satisfying $\mlpi = \mlpi P(\mlpi)$.
 Consider the mapping $T: \Delta_n \to \Delta_n$ defined by
 \begin{align}
-\label{eq:mapping}
+\label{fix:eq:mapping}
 T(\vpi) = \vpi P(\vpi),
 \end{align}
 representing the distribution after one step of the Markov chain.
@@ -72,8 +72,8 @@ T^k(\vpi) = \underbrace{T \circ T \circ \ldots \circ T}_{\text{$k$ times}}(\vpi)
 for $k$ successive applications of the mapping.
 We will also extend our notation for subsets of observations, and let $\D{i}{j,k} \subseteq \mathcal{D}$ be the observations where $i$ wins among a set of alternatives containing $j$ and $k$.
 \begin{lemma}
-\label{lem:jacobian}
-The Jacobian matrix of the mapping $T(\vpi)$ defined in \eqref{eq:mapping} is given by
+\label{fix:lem:jacobian}
+The Jacobian matrix of the mapping $T(\vpi)$ defined in \eqref{fix:eq:mapping} is given by
 \begin{align}
 T'(\vpi)_{ij} = \left[ \frac{\partial T(\vpi)}{\partial \pi_i} \right]_j =
 \begin{dcases}
@@ -93,12 +93,12 @@ The partial derivative of $T$ with respect to $\pi_\ell$ at $j \ne \ell$ is
 &= \epsilon \sum_{A \in \D{j}{\ell}} \frac{1}{\sum_{t \in A} \pi_t}
     - \epsilon \sum_{k \ne j} \sum_{A \in \D{j}{k,\ell}} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
     & \qquad\qquad\qquad\qquad\quad + \epsilon \sum_{k \ne j} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}
-\end{split} \label{eq:before}\\
+\end{split} \label{fix:eq:before}\\
 &= \epsilon \sum_{A \in \D{j}{\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}
-    + \epsilon \sum_{k \ne j} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2} \label{eq:after}\\
+    + \epsilon \sum_{k \ne j} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2} \label{fix:eq:after}\\
 &= \epsilon \sum_{k} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}.
 \end{align} 
-To go from \eqref{eq:before} to \eqref{eq:after}, we reverse the order of summation in the subtracted term and rewrite the fraction inside the left term.
+To go from \eqref{fix:eq:before} to \eqref{fix:eq:after}, we reverse the order of summation in the subtracted term and rewrite the fraction inside the left term.
 \begin{align}
  & \sum_{A \in \D{j}{\ell}} \frac{1}{\sum_{t \in A} \pi_t}
     - \sum_{k \ne j} \sum_{A \in \D{j}{k,\ell}} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
@@ -127,8 +127,8 @@ Furthermore, $S'(\vpi)$ is a product of stochastic matrices, hence $\Vert S'(\vp
 Now we will use the properties of the Jacobian matrix to show that $T$ is a fixed-point iteration, using a standard argument.
 Our proof is inspired by the lecture notes of \citet{tresch2007convergence} and \citet{petersdorff2014fixed}.
 
-\begin{proof}[Proof of Theorem~\ref{thm:convergence}]
-Using the results of Lemma~\ref{lem:jacobian}, let $S(\vpi) = T^m(\vpi)$ and write $S'(\vpi)$ as
+\begin{proof}[Proof of Theorem~\ref{fix:thm:convergence}]
+Using the results of Lemma~\ref{fix:lem:jacobian}, let $S(\vpi) = T^m(\vpi)$ and write $S'(\vpi)$ as
 \begin{align}
 S'(\vpi) = \delta 1_{n \times n} + R(\vpi),
 \end{align}
@@ -157,7 +157,7 @@ All sequences converge to $\mlpi$, and therefore
 \end{proof}
 
 \begin{theorem}
-\label{thm:consistency}
+\label{fix:thm:consistency}
 Let $\mathcal{A} = \{ A_\ell \}$ be a collection of sets of alternatives such that for any partition of $\mathcal{A}$ into two non-empty sets $S$ and $T$, $\left( \cup_{A \in S} A \right) \cap \left( \cup_{A \in T} A \right) \ne \varnothing$.
 Let $d_\ell$ be the number of choices observed over alternatives $A_\ell$.
 Then $\rcpi \to \bm{\pi}^*$ as $d_\ell \to \infty \ \forall \ell$.
@@ -182,7 +182,7 @@ Now that we know that the Markov chain is asymptotically ergodic, we will show t
 Let $C_\ell^s$ be a random variable denoting the item chosen in the $s$-th observation over alternatives $A_\ell$.
 By the law of large numbers, for any item $i \in A_\ell$
 \begin{align}
-\label{eq:lln}
+\label{fix:eq:lln}
 \lim_{d_\ell \to \infty} \frac{1}{d_\ell} \sum_{s = 1}^{d_\ell} 1\{C_\ell^s = i\} = \frac{\pi^*_i}{\sum_{t \in A_\ell} \pi^*_t}.
 \end{align}
 Now consider two items $i$ and $j$.
@@ -191,12 +191,12 @@ Otherwise, suppose that they have been compared in alternative sets whose indice
 Let $\mathbf{1}\{X\}$ be the indicator variable for event $X$.
 By construction of the transition rates in \LSR{}, we have that
 \begin{align}
-\label{eq:ratio}
+\label{fix:eq:ratio}
 \frac{\lambda_{ij}}{\lambda_{ji}}
 = \frac{\sum_{\ell \in B} \sum_{s = 1}^{d_\ell} \mathbf{1}\{C_\ell^s = j\} \ n / |A_\ell|}
        {\sum_{\ell \in B} \sum_{s = 1}^{d_\ell} \mathbf{1}\{C_\ell^s = i\} \ n / |A_\ell|}.
 \end{align}
-From \eqref{eq:lln} it follows that
+From \eqref{fix:eq:lln} it follows that
 \begin{align}
 \lim_{d \to \infty}\frac{\lambda_{ij}}{\lambda_{ji}}
 & = \frac{\sum_{\ell \in B} (\pi^*_j / \sum_{t \in A_\ell} \pi^*_t) \ n / |A_\ell|}
@@ -232,7 +232,7 @@ Let $A_{ji}$ denote the number of times $i$ wins against $j$ and $a_{ji} = A_{ji
 We say that an event $X$ occurs with high probability if $\mathbf{P}(X) \ge 1 - c / n^\alpha$ for $c, \alpha$ fixed.
 
 \begin{theorem}
-\label{thm:mlbound}
+\label{fix:thm:mlbound}
 For $k \ge 4C^2 (1 + (b^6 \kappa^2 / (d_{\max} \gamma^2)) \log n)$, the error on the ML estimate $\mlpi$ satisfies w.h.p.
 \begin{align}
 \frac{\Vert \mlpi - \bm{\pi}^* \Vert_2}{\Vert \bm{\pi}^* \Vert_2} < C \frac{b^{7/2} \kappa}{\gamma} \sqrt{\frac{\log n}{kd_{\max}}},
@@ -243,7 +243,7 @@ where $C$ is a constant, $b = \max_{i,j} \pi^*_i / \pi^*_j$ and $\kappa = d_{\ma
 \begin{proof}
 The ML estimate can be interpreted as the stationary distribution of the discrete-time Markov chain
 \begin{align}
-\label{eq:mlchain}
+\label{fix:eq:mlchain}
   \widehat{P}_{ij} =
   \begin{dcases}
     \epsilon \frac{a_{ij}}{\hat{\pi}_i + \hat{\pi}_j}                    & \text{if } i \ne j, \\
@@ -336,7 +336,7 @@ Beyond these well-known algorithms, the recently proposed randomized approach of
 For our experiments, we have implemented \LSR{} and \ILSR{} using a dense LU factorization of the generator matrix.
 The Python code, which relies on the \texttt{numpy} and \texttt{scipy} libraries\footnote{
 See: \url{http://www.scipy.org/}.
-}, is displayed in Figure~\ref{lst:implementation}
+}, is displayed in Figure~\ref{fix:lst:implementation}
 
 %\lstset{
 %  language=Python,
@@ -349,7 +349,6 @@ See: \url{http://www.scipy.org/}.
 %  %columns=fixed,               % No idea what this is for.
 %}
 \begin{figure}
-\label{lst:implementation}
 \begin{lstlisting}
 import numpy as np
 import scipy.linalg as spl
@@ -375,13 +374,14 @@ def statdist(chain):
 \caption{
 Python implementation of one iteration of \ILSR{}.
 }
+\label{fix:lst:implementation}
 \end{figure}
 
 \section{Experimental procedure}
 
 We give a few additional details on the procedure that we followed for the experiments of Section~4 in the main paper.
 All experiments were run on a machine with a quad-core 2.0 GHz Haswell processor, and 16GB of RAM, running Mac OS X 10.9.
-For \LSR{} and \ILSR{}, we used a slightly adapted version the code presented in Figure~\ref{lst:implementation}.
+For \LSR{} and \ILSR{}, we used a slightly adapted version the code presented in Figure~\ref{fix:lst:implementation}.
 We implemented the Rank Centrality (RC), GMM-F \citep{azari2013generalized}, and MM \citep{hunter2004mm} algorithms in Python.
 For Newton-Raphson, we implemented our choice model on top of the popular \texttt{statsmodels} Python library\footnote{
 See: \url{http://statsmodels.sourceforge.net/}

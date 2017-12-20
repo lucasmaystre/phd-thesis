@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
-\label{sec:intro}
+\label{fi:sec:intro}
 
 Aggregating pairwise comparisons and partial rankings are important problems with applications in econometrics \citep{mcfadden1973conditional}, psychometrics \citep{thurstone1927method, bradley1952rank}, sports ranking \citep{plackett1975analysis, elo1978rating} and multiclass classification \citep{hastie1998classification}.
 One possible approach to tackle these problems is to postulate a statistical model of discrete choice.
@@ -32,9 +32,9 @@ Our algorithms are intuitively pleasing, simple to understand and implement, and
 The rest of the paper is organized as follows.
 We begin by introducing some notations and presenting a few useful facts about the choice model and about Markov chains.
 By necessity, our exposition is succinct, and the reader is encouraged to consult \citet{luce1959individual} and \citet{levin2008markov} for a more thorough exposition.
-In Section~\ref{sec:relwork}, we discuss related work.
-In Section~\ref{sec:algorithms}, we present our algorithms, and in Section~\ref{sec:experimental} we evaluate them on synthetic and real-world data.
-We conclude in Section~\ref{sec:conclusion}.
+In Section~\ref{fi:sec:relwork}, we discuss related work.
+In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experimental} we evaluate them on synthetic and real-world data.
+We conclude in Section~\ref{fi:sec:conclusion}.
 
 %Link between a generalized method of moments and maximum-likelihood estimator.
 
@@ -53,7 +53,7 @@ We represent a finite, stationary, continuous-time Markov chain by a directed gr
 If $G$ is strongly connected, the Markov chain is said to be ergodic and admits a unique \emph{stationary distribution} $\bm{\pi}$.
 The global balance equations relate the transition rates $\lambda_{ij}$ to the stationary distribution as follows:
 \begin{align}
-\label{eq:balance}
+\label{fi:eq:balance}
 %\textstyle
 \sum_{j \ne i} \pi_i \lambda_{ij} = \sum_{j \ne i} \pi_j \lambda_{ji} \quad \forall i.
 \end{align}

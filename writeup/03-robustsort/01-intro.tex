@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:intro}
+\label{rs:sec:intro}
 
 The problem of recovering a ranking over $n$ items from noisy outcomes of pairwise comparisons has attracted, in the last century, much research interest, driven by applications in sports \citep{elo1978rating}, social sciences \citep{thurstone1927law, salganik2015wiki} and---more recently---recommender systems \citep{houlsby2012collaborative}.
 Whereas pairwise comparison models and related inference algorithms have been extensively studied, the issue of \emph{which pairwise comparisons to sample}, also known as active learning, has received significantly less attention.
@@ -59,7 +59,7 @@ Finally, we say that an event $A$ holds \emph{with high probability} if $\Prob{A
 For a random variable $X$ and a sequence of numbers $a_n$, we say that $X = \BigO{a_n}$ with high probability if $\Prob{\Abs{X} \le c a_n} \to 1$ as $n \to \infty$ for some constant $c$ that does not depend on $n$.
 
 \paragraph{Outline of the paper.}
-We begin by briefly reviewing related literature in Section~\ref{sec:relwork}.
-Next, in Section~\ref{sec:theory}, we study the displacement of Quicksort's output under noisy comparisons.
-In Section~\ref{sec:experiments}, we empirically evaluate several AL strategies on three datasets.
-Finally, we conclude in Section~\ref{sec:conclusion}.
+We begin by briefly reviewing related literature in Section~\ref{rs:sec:relwork}.
+Next, in Section~\ref{rs:sec:theory}, we study the displacement of Quicksort's output under noisy comparisons.
+In Section~\ref{rs:sec:experiments}, we empirically evaluate several AL strategies on three datasets.
+Finally, we conclude in Section~\ref{rs:sec:conclusion}.

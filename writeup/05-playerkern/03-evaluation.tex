@@ -1,5 +1,5 @@
 \section{Experimental Evaluation}
-\label{sec:evaluation}
+\label{pk:sec:evaluation}
 
 In this section, we evaluate our predictive model on the matches of the Euro 2008, 2012 and 2016 final tournaments and compare it to several baselines.
 
@@ -10,10 +10,10 @@ We collect a dataset of matches from
 \end{enuminline}
 starting from July 1\textsuperscript{st}, 2006.
 There are approximately $15 \times$ more matches between clubs than there are matches between national teams in our dataset.
-With respect to the model outlined in Section~\ref{sec:methods}, our final predictive model processes one additional feature that encodes which team played at home (this feature is null for matches played on neutral ground).
+With respect to the model outlined in Section~\ref{pk:sec:methods}, our final predictive model processes one additional feature that encodes which team played at home (this feature is null for matches played on neutral ground).
 We train the model using all $N$ matches that were played prior to the start of the competition on which we test.
 When computing the kernel matrix (whether on training or on test data) we use the starting lineups, usually announced shortly before the start of the game.
-It is interesting to note that the number of distinct players $P$ appearing in the dataset exceeds the number of training instances in each case (the values of $N$ and $P$ are shown in Table~\ref{tab:eval}).
+It is interesting to note that the number of distinct players $P$ appearing in the dataset exceeds the number of training instances in each case (the values of $N$ and $P$ are shown in Table~\ref{pk:tab:eval}).
 We use the GPy Python library\footnote{See: \url{https://sheffieldml.github.io/GPy/}.} to fit the model; inference takes a minute for the 2008 test set (17 minutes for 2016).
 The predictions come in the form of probability distributions $[p^{\text{W}}, p^{\text{D}}, p^{\text{L}}]$ over the three outcomes (win, draw, loss).
 
@@ -35,14 +35,14 @@ The predictive distributions are evaluated using the average logarithmic loss ov
 \right].
 \end{align*}
 The logarithmic loss penalizes more strongly predictions that are both confident and incorrect.
-Table~\ref{tab:eval} summarizes the results.
+Table~\ref{pk:tab:eval} summarizes the results.
 
 
 \begin{table}[t]
   \caption{
   Average logarithmic loss of our predictive model (PlayerKern), a model based on national team ratings (Elo), betting odds (Odds) and a random baseline (Random) on the final tournaments of three European championships.
   $N$ is the number of training instances, $P$ the number of distinct players and $T$ the number of test instances.}
-  \label{tab:eval}
+  \label{pk:tab:eval}
   \centering
   \setlength\tabcolsep{0.2cm}
   \begin{tabular}{l rr rrrrr}

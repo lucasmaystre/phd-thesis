@@ -1,10 +1,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Algorithms}
-\label{sec:algorithms}
+\label{fi:sec:algorithms}
 
 We begin by expressing the ML estimate under the choice model as the stationary distribution of a Markov chain.
 We then take advantage of this formulation to propose novel algorithms for model inference.
-Although our derivation is made in the general choice model, we will also discuss implications for the special cases of pairwise data in Section~\ref{sec:pairwise} and $k$-way ranking data in Section~\ref{sec:partial}.
+Although our derivation is made in the general choice model, we will also discuss implications for the special cases of pairwise data in Section~\ref{fi:sec:pairwise} and $k$-way ranking data in Section~\ref{fi:sec:partial}.
 Suppose that we collect $d$ independent observations in the multiset $\mathcal{D} = \{(c_\ell, A_\ell) \mid \ell = 1, \ldots, d\}$.
 Each observation consists of a choice $c_\ell$ among a set of alternatives $A_\ell$;
 we say that \emph{$i$ wins over $j$} and denote by $i \succ j$ whenever $i, j \in A$ and $c_\ell = i$.
@@ -17,49 +17,49 @@ In practice, if this assumption does not hold, we can consider each strongly con
 For simplicity, we denote the model parameter associated with item $c_\ell$ by $\pi_\ell$.
 The log-likelihood of parameters $\bm{\pi}$ given observations $\mathcal{D}$ is
 \begin{equation}
-\label{eq:loglik}
+\label{fi:eq:loglik}
 \log \mathcal{L}(\bm{\pi} \mid \mathcal{D}) = \sum_{\ell = 1}^d \left( \log \pi_\ell - \log{\sum_{j \in A_\ell} \pi_j} \right).
 \end{equation}
 For each item, we define two sets of indices.
 Let $W_i \doteq \{ \ell \mid i \in A_\ell, c_\ell = i \}$ and $L_i \doteq \{ \ell \mid i \in A_\ell, c_\ell \ne i \}$ be the indices of the observations where item $i$ wins over and loses against the alternatives, respectively.
-The log-likelihood \eqref{eq:loglik} is not concave in $\bm{\pi}$ (it can be made strictly concave using a simple reparametrization), but we briefly show in the supplementary material that it admits a unique stationary point, at the ML estimate $\mlpi$.
+The log-likelihood \eqref{fi:eq:loglik} is not concave in $\bm{\pi}$ (it can be made strictly concave using a simple reparametrization), but we briefly show in the supplementary material that it admits a unique stationary point, at the ML estimate $\mlpi$.
 The optimality condition $\nabla_{\mlpi} \log \mathcal{L} = 0$ implies
 \begin{align}
  \frac{\partial \log \mathcal{L}}{\partial \hat{\pi}_i}
      = \sum_{\ell \in W_i} \left( \frac{1}{\hat{\pi}_i} - \frac{1}{\sum_{j \in A_\ell} \hat{\pi}_j} \right)
-       - \sum_{\ell \in L_i} \frac{1}{\sum_{j \in A_\ell} \hat{\pi}_j} = 0 \quad \forall i \label{eq:step1} \\
+       - \sum_{\ell \in L_i} \frac{1}{\sum_{j \in A_\ell} \hat{\pi}_j} = 0 \quad \forall i \label{fi:eq:step1} \\
  \iff  \sum_{j \ne i} \left(
       \sum_{\ell \in W_i \cap L_j} \frac{\hat{\pi}_j}{\sum_{t \in A_\ell} \hat{\pi}_t}
       \;-\; \sum_{\ell \in W_j \cap L_i} \frac{\hat{\pi}_i}{\sum_{t \in A_\ell} \hat{\pi}_t}
-      \right) = 0 \quad \forall i. \label{eq:mlbalance}
+      \right) = 0 \quad \forall i. \label{fi:eq:mlbalance}
 \end{align}
-In order to go from \eqref{eq:step1} to \eqref{eq:mlbalance}, we multiply by $\hat{\pi}_i$ and rearrange the terms.
+In order to go from \eqref{fi:eq:step1} to \eqref{fi:eq:mlbalance}, we multiply by $\hat{\pi}_i$ and rearrange the terms.
 To simplify the notation, let us further introduce the function
 \begin{align*}
 f(\mathcal{S}, \bm{\pi}) \doteq \sum_{A \in \mathcal{S}} \frac{1}{\sum_{i \in A} \pi_i},
 \end{align*}
 which takes observations $\mathcal{S} \subseteq \mathcal{D}$ and an instance of model parameters $\bm{\pi}$, and returns a non-negative real number.
 Let $\mathcal{D}_{i \succ j} \doteq \{ (c_\ell, A_\ell) \in \mathcal{D} \mid \ell \in W_i \cap L_j \}$, i.e., the set of observations where $i$ wins over $j$.
-Then \eqref{eq:mlbalance} can be rewritten as
+Then \eqref{fi:eq:mlbalance} can be rewritten as
 \begin{align}
-\label{eq:master}
+\label{fi:eq:master}
 \sum_{j \ne i} \hat{\pi}_i \cdot f(\mathcal{D}_{j \succ i}, \mlpi)
 = \sum_{j \ne i} \hat{\pi}_j \cdot f(\mathcal{D}_{i \succ j}, \mlpi) \quad \forall i.
 \end{align}
 This formulation conveys a new viewpoint on the ML estimate.
-It is easy to recognize the global balance equations \eqref{eq:balance} of a Markov chain on $n$ states (representing the items), with transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \mlpi)$ and stationary distribution $\mlpi$.
+It is easy to recognize the global balance equations \eqref{fi:eq:balance} of a Markov chain on $n$ states (representing the items), with transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \mlpi)$ and stationary distribution $\mlpi$.
 These transition rates have an interesting interpretation: $f(\mathcal{D}_{i \succ j}, \bm{\pi})$ is the count of how many times $i$ wins over $j$, weighted by the strength of the alternatives.
 At this point, it is useful to observe that for any parameters $\bm{\pi}$, $f(\mathcal{D}_{i \succ j}, \bm{\pi}) \ge 1$ if $(j,i) \in E$, and $0$ otherwise.
 Combined with the assumption that $G_\mathcal{D}$ is strongly connected, it follows that any $\bm{\pi}$ parametrizes the transition rates of an ergodic (homogeneous) Markov chain.
 The ergodicity of the inhomogeneous Markov chain, where the transition rates are constantly updated to reflect the current distribution over states, is shown by the following theorem.
 \begin{theorem}
-\label{thm:convergence}
+\label{fi:thm:convergence}
 The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \vpi)$ converges to the maximum-likelihood estimate $\mlpi$, for any initial distribution in the open probability simplex.
 \end{theorem}
 
 \vspace{-0.3cm}
 \begin{proof}[Proof (sketch)]
-By \eqref{eq:master}, $\mlpi$ is the unique invariant distribution of the Markov chain.
+By \eqref{fi:eq:master}, $\mlpi$ is the unique invariant distribution of the Markov chain.
 In the supplementary file, we look at an equivalent uniformized discrete-time chain.
 Using the contraction mapping principle, one can show that this chain converges to the invariant distribution.
 \end{proof}
@@ -67,17 +67,17 @@ Using the contraction mapping principle, one can show that this chain converges 
 
 \subsection{Approximate and exact ML inference}
 
-We approximate the Markov chain described in \eqref{eq:master} by considering a priori that all alternatives have equal strength.
+We approximate the Markov chain described in \eqref{fi:eq:master} by considering a priori that all alternatives have equal strength.
 That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\pi})$ by fixing $\bm{\pi}$ to $[1/n, \ldots, 1/n]^\intercal$.
 For $i \ne j$, the contribution of $i$ winning over $j$ to the rate of transition $\lambda_{ji}$ is $n / |A|$.
 In other words, for each observation, the winning item is rewarded by a fixed amount of incoming rate that is evenly split across the alternatives (the chunk allocated to itself is discarded.)
 We interpret the stationary distribution $\rcpi$ as an estimate of model parameters.
-Algorithm~\ref{alg:lsr} summarizes this procedure, called \emph{Luce Spectral Ranking} (\LSR{}.)
-%Note that as this Markov chain has different transition rates than that of \eqref{eq:master}, $\rcpi \ne \mlpi$ in general.
+Algorithm~\ref{fi:alg:lsr} summarizes this procedure, called \emph{Luce Spectral Ranking} (\LSR{}.)
+%Note that as this Markov chain has different transition rates than that of \eqref{fi:eq:master}, $\rcpi \ne \mlpi$ in general.
 If we consider a growing number of observations, \LSR{} converges to the true model parameters $\bm{\pi}^*$, even in the restrictive case where the sets of alternatives are fixed.
 
 \begin{theorem}
-\label{thm:consistency}
+\label{fi:thm:consistency}
 Let $\mathcal{A} = \{ A_\ell \}$ be a collection of sets of alternatives such that for any partition of $\mathcal{A}$ into two non-empty sets $S$ and $T$, $\left( \cup_{A \in S} A \right) \cap \left( \cup_{A \in T} A \right) \ne \varnothing$\footnote{
 This is equivalent to stating that the hypergraph $H = (V, \mathcal{A})$ is connected.
 }.
@@ -95,10 +95,10 @@ A rigorous proof is given in the supplementary file.
 \end{proof}
 
 Starting from the \LSR{} estimate, we can iteratively refine the transition rates of the Markov chain and obtain a sequence of estimates.
-By \eqref{eq:master}, the only fixed point of this iteration is the ML estimate $\mlpi$.
-We call this procedure \ILSR{} and describe it in Algorithm~\ref{alg:ilsr}.
+By \eqref{fi:eq:master}, the only fixed point of this iteration is the ML estimate $\mlpi$.
+We call this procedure \ILSR{} and describe it in Algorithm~\ref{fi:alg:ilsr}.
 
-%In Section~\ref{sec:experimental}, we will investigate in detail the performance and practical advantages of this algorithm over the others for computing the ML estimate.
+%In Section~\ref{fi:sec:experimental}, we will investigate in detail the performance and practical advantages of this algorithm over the others for computing the ML estimate.
 %For now, we will only note that because \LSR{} is consistent implies that asymptotically, a single iteration is enough.
 %This is in contrast to the MM algorithm \citep{hunter2004mm}, which is not consistent.
 
@@ -108,7 +108,7 @@ We call this procedure \ILSR{} and describe it in Algorithm~\ref{alg:ilsr}.
   \vspace{0pt}
   \begin{algorithm}[H]
     \caption{Luce Spectral Ranking}
-    \label{alg:lsr}
+    \label{fi:alg:lsr}
     \begin{algorithmic}[1]
       \Require observations $\mathcal{D}$
       \State $\lambda \gets 0_{n \times n}$
@@ -130,7 +130,7 @@ We call this procedure \ILSR{} and describe it in Algorithm~\ref{alg:ilsr}.
   \vspace{0pt}
   \begin{algorithm}[H]
     \caption{Iterative Luce Spectral Ranking}
-    \label{alg:ilsr}
+    \label{fi:alg:ilsr}
     \begin{algorithmic}[1]
       \Require observations $\mathcal{D}$
       \State $\bm{\pi} \gets [1/n, \ldots, 1/n]^\intercal$
@@ -164,7 +164,7 @@ In the supplementary file, we give more details about possible implementations.
 In practice, whether $D$ or $S$ turns out to be dominant in the running time is not a foregone conclusion.
 
 \subsection{Aggregating pairwise comparisons}
-\label{sec:pairwise}
+\label{fi:sec:pairwise}
 
 A widely-used special case of Luce's choice model occurs when all sets of alternatives contain exactly two items, i.e., when the data consists of pairwise comparisons.
 This model was proposed by \citet{zermelo1928berechnung}, and later by \citet{bradley1952rank}.
@@ -173,7 +173,7 @@ Let $S$ be the set containing the pairs of items that have been compared at leas
 In the case where each pair $(i, j) \in S$ has been compared exactly $p$ times, \LSR{} is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
 In fact, our derivation justifies Rank Centrality as an approximate ML inference algorithm for the Bradley--Terry model.
 Furthermore, we provide a principled extension of Rank Centrality to the case where the number of comparisons observed is unbalanced.
-Rank Centrality considers transition rates proportional to the \emph{ratio} of wins, whereas \eqref{eq:master} justifies making transition rates proportional to the \emph{count} of wins.
+Rank Centrality considers transition rates proportional to the \emph{ratio} of wins, whereas \eqref{fi:eq:master} justifies making transition rates proportional to the \emph{count} of wins.
 
 \citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that it is minimax-optimal.
 Because the two estimators are equivalent in the setting of balanced pairwise comparisons, the bound also applies to \LSR{}.
@@ -181,7 +181,7 @@ More interestingly, the expression of the ML estimate as a stationary distributi
 In the supplementary file, we therefore provide an alternative proof of the recent result of \citet{hajek2014minimax} on the minimax-optimality of the ML estimate.
 
 \subsection{Aggregating partial rankings}
-\label{sec:partial}
+\label{fi:sec:partial}
 
 Another case of interest is when observations do not consist of only a single choice, but of a ranking over the alternatives.
 We now suppose $m$ observations consisting of $k$-way rankings, $2 \le k \le n$.
@@ -201,7 +201,7 @@ Although they explain their algorithms from a generalized-method-of-moments pers
 In fact, for $k = 2$, their algorithm GMM-F is identical to \LSR{}.
 When $k > 2$ however, breaking a ranking into $\binom{k}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
 The Markov chain that \LSR{} builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
-In Section~\ref{sec:experimental}, we show that this weighting turns out to be crucial.
+In Section~\ref{fi:sec:experimental}, we show that this weighting turns out to be crucial.
 Our approach yields a significant improvement in statistical efficiency, yet keeps the same attractive computational cost and ease of use.
 
 

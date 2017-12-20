@@ -1,11 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Inference Algorithm}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:algorithm}
+\label{cr:sec:algorithm}
 
 The maximizer of the log-posterior does not have a closed-form solution.
 In the spirit of the algorithms of \citet{hunter2004mm} for variants of Luce's choice model, we develop a minorization-maximization (MM) algorithm.
 Simply put, the algorithm iteratively refines an estimate of the maximizer by solving a sequence of surrogates of the log-posterior.
-Using the inequality $\log x \le \log \tilde{x} + x/\tilde{x} - 1$ (with equality if and only if $x = \tilde{x}$), we can lower-bound the log-posterior~\eqref{eq:logpost} by
+Using the inequality $\log x \le \log \tilde{x} + x/\tilde{x} - 1$ (with equality if and only if $x = \tilde{x}$), we can lower-bound the log-posterior~\eqref{cr:eq:logpost} by
 \begin{align*}
 &f^{(t)}(\bm{\lambda}) =
     \sum_{i = 1}^n \bigg[ (c^-_i + \alpha - 1) \log \lambda_i 
@@ -20,25 +20,25 @@ Starting with an arbitrary $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{>0}$, we repeat
 \end{align*}
 Unlike the maximization of the log-posterior, the surrogate optimization problem has a closed-form solution, obtained by setting $\nabla f^{(t)}$ to $\bm{0}$:
 \begin{align}
-\label{eq:mmiter}
+\label{cr:eq:mmiter}
 \lambda_i^{(t + 1)} = \frac{c^-_i + \alpha - 1}{\sum_{j \in N^-_i} \gamma_j^{(t)} + \beta},
 \ \gamma_j^{(t)} = \frac{c^+_j}{\sum_{k \in N^+_j} \lambda_k^{(t)}}.
 \end{align}
-The iterates provably converge to the maximizer of~\eqref{eq:logpost}, as shown by the following theorem.
+The iterates provably converge to the maximizer of~\eqref{cr:eq:logpost}, as shown by the following theorem.
 
 \begin{theorem}
-\label{thm:mmconv}
+\label{cr:thm:mmconv}
 Let $\bm{\lambda}^\star$ be the unique maximum a-posteriori estimate.
-Then for any initial $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{> 0}$ the sequence of iterates defined by~\eqref{eq:mmiter} converges to $\bm{\lambda}^\star$.
+Then for any initial $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{> 0}$ the sequence of iterates defined by~\eqref{cr:eq:mmiter} converges to $\bm{\lambda}^\star$.
 \end{theorem}
 
-Theorem~\ref{thm:mmconv} follows from a standard result on the convergence of MM algorithms and uses the fact that the log-posterior increases after each iteration.
+Theorem~\ref{cr:thm:mmconv} follows from a standard result on the convergence of MM algorithms and uses the fact that the log-posterior increases after each iteration.
 Furthermore, it is known that MM algorithms exhibit geometric convergence in a neighborhood of the maximizer \citep{lange2000optimization}.
 A thorough investigation of the convergence properties is left for future work.
 
 \begin{algorithm}[t]
   \caption{ChoiceRank}
-  \label{alg:choicerank}
+  \label{cr:alg:choicerank}
   \begin{algorithmic}[1]
     \Require graph $G = (V, E)$, counts $\{ (c^-_i, c^+_i) \}$
     \State $\bm{\lambda} \gets [1, \ldots, 1]$
@@ -56,8 +56,8 @@ A thorough investigation of the convergence properties is left for future work.
 \end{algorithm}
 %In practice, we notice that adding a little bit of regularization through the Gamma prior greatly improves convergence.
 
-The structure of the updates in~\eqref{eq:mmiter} leads to an extremely simple and efficient implementation, given in Algorithm~\ref{alg:choicerank}: we call it ChoiceRank.
-A graphical representation of an iteration from the perspective of a single node is given in Figure~\ref{fig:msgpassing}.
+The structure of the updates in~\eqref{cr:eq:mmiter} leads to an extremely simple and efficient implementation, given in Algorithm~\ref{cr:alg:choicerank}: we call it ChoiceRank.
+A graphical representation of an iteration from the perspective of a single node is given in Figure~\ref{cr:fig:msgpassing}.
 Each iteration consists of two phases of message passing, with $\gamma_i$ flowing towards in-neighbors $N^-_i$, then $\lambda_i$ flowing towards out-neighbors $N^+_i$.
 The updates to a node's state are a function of the sum of the messages.
 As the algorithm does two passes over the edges and two passes over the vertices, an iteration takes $O(m + n)$ time.
@@ -70,10 +70,10 @@ This makes it easy to implement ChoiceRank inside scalable, optimized graph-proc
   \includegraphics[width=0.5\linewidth]{cr-message-passing}
   \caption{One iteration of ChoiceRank from the perspective of node $2$.
   Messages flow in both directions along the edges of the graph $G$, first in the reverse direction (in dotted) then in the forward direction (in solid).}
-  \label{fig:msgpassing}
+  \label{cr:fig:msgpassing}
 \end{figure}
 
 \paragraph{EM viewpoint.}
-The update~\eqref{eq:mmiter} can also be explained from an expectation-maximization (EM) viewpoint, by introducing suitable latent variables \citep{caron2012efficient}.
+The update~\eqref{cr:eq:mmiter} can also be explained from an expectation-maximization (EM) viewpoint, by introducing suitable latent variables \citep{caron2012efficient}.
 This viewpoint enables a Gibbs sampler that can be used for Bayesian inference.
-We present the EM derivation in Appendix~\ref{app:algorithm}, but leave a study of fully Bayesian inference in the network choice model for future work.
+We present the EM derivation in Appendix~\ref{cr:app:algorithm}, but leave a study of fully Bayesian inference in the network choice model for future work.

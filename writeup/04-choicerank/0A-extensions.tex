@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Extensions and Proofs}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{app:extensions}
+\label{cr:app:extensions}
 
 In this section, we start by generalizing the network choice model to account for edge weights.
 Then, we present formal proofs for
@@ -17,7 +17,7 @@ Let $G = (V, E)$ be a weighted, directed graph with edge weights $w_{ij} > 0$ fo
 \citet{kumar2015inverting} propose the following generalization of Luce's choice model.
 Given a parameter vector $\bm{\lambda} \in \mathbf{R}_{>0}^n$, they define the choice probabilities as
 \begin{align}
-\label{eq:wsinglelik}
+\label{cr:eq:wsinglelik}
 p_{ij} = \frac{w_{ij} \lambda_j}{\sum_{k \in N^+_i} w_{ik} \lambda_k}, \quad j \in N^+_i.
 \end{align}
 We refer to this model as the \emph{weighted network choice model}.
@@ -29,7 +29,7 @@ In this general model, the log-likelihood becomes
     &= \sum_{(i,j) \in E} c_{ij} \bigg[ \log w_{ij} \lambda_j - \log \sum_{k \in N^+_i} w_{ik} \lambda_k \bigg] \nonumber \\
     &= \sum_{(i,j) \in E} c_{ij} \bigg[ \log \lambda_j - \log \sum_{k \in N^+_i} w_{ik} \lambda_k \bigg] \nonumber
        + \sum_{(i,j) \in E} c_{ij} \log w_{ij}, \nonumber \\
-    &= \sum_{i = 1}^n \bigg[ c^-_i \log \lambda_i - c^+_i \log\!\sum_{k \in N^+_i}\!w_{ik} \lambda_k \bigg] + \kappa_1, \label{eq:wloglik}
+    &= \sum_{i = 1}^n \bigg[ c^-_i \log \lambda_i - c^+_i \log\!\sum_{k \in N^+_i}\!w_{ik} \lambda_k \bigg] + \kappa_1, \label{cr:eq:wloglik}
 \end{align}
 where $c^-_i = \sum_{j \in N^-_i} c_{ji}$ and $c^+_i = \sum_{j \in N^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
 Note that for every $i$, the weights $\{ w_{ij} \mid j \in N^+_i \}$ are equivalent up to rescaling.
@@ -53,19 +53,19 @@ Then, $\{ (c^-_i, c^+_i) \mid i \in V \}$ is a minimally sufficient statistic fo
 Let $f(\{ c_{ij} \} \mid \bm{\lambda})$ be the discrete probability density function of the data under the model with parameters $\bm{\lambda}$.
 Theorem $6.2.13$ in \citet{casella2002statistical} states that $\{ (c^-_i, c^+_i) \}$ is a minimally sufficient statistic for $\bm{\lambda}$ if and only if, for any $\{ c_{ij} \}$ and $\{ d_{ij} \}$ in the support of $f$,
 \begin{align}
-\label{eq:minsuff}
+\label{cr:eq:minsuff}
 \begin{aligned}
 \frac{ f(\{ c_{ij} \} \mid \bm{\lambda}) }{ f(\{ d_{ij} \} \mid \bm{\lambda}) }\ \text{is independent of $\bm{\lambda}$}
 \iff (c^-_i, c^+_i) = (d^-_i, d^+_i) \quad \forall i.
 \end{aligned}
 \end{align}
-Taking the log of the ratio on the left-hand side and using~\eqref{eq:wloglik}, we find that
+Taking the log of the ratio on the left-hand side and using~\eqref{cr:eq:wloglik}, we find that
 \begin{align*}
 \log \frac{ f(\{ c_{ij} \} \mid \bm{\lambda}) }{ f(\{ d_{ij} \} \mid \bm{\lambda}) } =
   \sum_{i = 1}^n \bigg[ (c^-_i\!-\!d^-_i) \log \lambda_i
                        - (c^+_i\!-\!d^+_i) \log\!\sum_{k \in N^+_i}\!w_{ik} \lambda_k \bigg] + \kappa_2.
 \end{align*}
-From this, it is easy to see that the ratio of densities is independent of $\bm{\lambda}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{eq:minsuff}.
+From this, it is easy to see that the ratio of densities is independent of $\bm{\lambda}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{cr:eq:minsuff}.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -73,7 +73,7 @@ From this, it is easy to see that the ratio of densities is independent of $\bm{
 
 Using a $\text{Gamma}(\alpha, \beta)$ prior for each parameter, the log-posterior of the weighted network choice model can be written as
 \begin{align}
-\label{eq:wlogpost}
+\label{cr:eq:wlogpost}
 \begin{aligned}
 &\log p(\bm{\lambda} \mid \mathcal{D}) =
     \sum_{i = 1}^n \bigg[ (c^-_i + \alpha - 1) \log \lambda_i
@@ -81,15 +81,15 @@ Using a $\text{Gamma}(\alpha, \beta)$ prior for each parameter, the log-posterio
     + \kappa_3.
 \end{aligned}
 \end{align}
-We prove a theorem that guarantees that MAP estimation is well-posed in this generalized model; the proof of Theorem~\ref{thm:map} follows trivially.
+We prove a theorem that guarantees that MAP estimation is well-posed in this generalized model; the proof of Theorem~\ref{cr:thm:map} follows trivially.
 
 \begin{theorem}
-\label{thm:wmap}
-If i.i.d. $\lambda_1, \ldots, \lambda_n \sim \text{Gamma}(\alpha, \beta)$ with $\alpha > 1$, then there exists a unique maximizer $\bm{\lambda}^\star \in \mathbf{R}^n_{>0}$ of the weighted network choice model's log-posterior~\eqref{eq:wlogpost}.
+\label{cr:thm:wmap}
+If i.i.d. $\lambda_1, \ldots, \lambda_n \sim \text{Gamma}(\alpha, \beta)$ with $\alpha > 1$, then there exists a unique maximizer $\bm{\lambda}^\star \in \mathbf{R}^n_{>0}$ of the weighted network choice model's log-posterior~\eqref{cr:eq:wlogpost}.
 \end{theorem}
 
 \begin{proof}
-The log-posterior~\eqref{eq:wlogpost} is not concave in $\bm{\lambda}$, but it can be made concave using the simple reparametrization $\lambda_i = e^{\theta_i}$.
+The log-posterior~\eqref{cr:eq:wlogpost} is not concave in $\bm{\lambda}$, but it can be made concave using the simple reparametrization $\lambda_i = e^{\theta_i}$.
 Under this reparametrization, the log-prior and the log-likelihood become
 \begin{align*}
 \log p(\bm{\theta})
@@ -112,4 +112,4 @@ The log-posterior can be written as
 For $\alpha > 1$, it follows that $\lim_{\lVert \bm{\theta} \rVert \to \infty} \log p(\bm{\theta} \mid \mathcal{D}) = -\infty$, which ensures that there is at least one maximizer.
 \end{proof}
 
-Note that Theorem~\ref{thm:wmap} can easily be extended to independent but non-identical Gamma priors, where $\lambda_i \sim \text{Gamma}(\alpha_i, \beta_i)$ and $\alpha_i \ne \alpha_j$, $\beta_i \ne \beta_j$ in general.
+Note that Theorem~\ref{cr:thm:wmap} can easily be extended to independent but non-identical Gamma priors, where $\lambda_i \sim \text{Gamma}(\alpha_i, \beta_i)$ and $\alpha_i \ne \alpha_j$, $\beta_i \ne \beta_j$ in general.

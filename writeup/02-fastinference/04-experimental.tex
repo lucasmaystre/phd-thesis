@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental evaluation}
-\label{sec:experimental}
+\label{fi:sec:experimental}
 
 In this section, we compare \LSR{} and \ILSR{} to other inference algorithms in terms of
 \begin{enuminline}
@@ -38,7 +38,7 @@ In short, the four estimators vary according to
 \item whether they use as-is rankings or derived comparisons, and
 \item whether the model is fitted using an approximate spectral algorithm or using exact maximum likelihood.
 \end{enuminline}
-Figure~\ref{fig:efficiency} plots $E_{\text{RMS}}$ for increasing sizes of partial rankings, as well as a lower bound to the error of any estimator for the Plackett-Luce model (see \citet{hajek2014minimax} for details.)
+Figure~\ref{fi:fig:efficiency} plots $E_{\text{RMS}}$ for increasing sizes of partial rankings, as well as a lower bound to the error of any estimator for the Plackett-Luce model (see \citet{hajek2014minimax} for details.)
 We observe that breaking the rankings into pairwise comparisons (*-F estimators) incurs a significant efficiency loss over using the $k$-way rankings directly (\LSR{} and ML.)
 We conclude that by correctly weighting pairwise rates in the Markov chain, \LSR{} distinctly outperforms the rank-breaking approach as $k$ increases.
 We also observe that the ML estimate is always more efficient.
@@ -56,7 +56,7 @@ As $k$ grows, breaking rankings into pairwise comparisons becomes increasingly i
 \LSR{} remains efficient at no additional computational cost.
 }
 \vskip -0.1in
-\label{fig:efficiency}
+\label{fi:fig:efficiency}
 \end{figure}
 
 \subsection{Empirical performance}
@@ -69,18 +69,18 @@ See \url{https://archive.ics.uci.edu/ml/machine-learning-databases/00223/}, \url
 Among those, the chess dataset is particular in that it features 45\% of ties;
 in this case we use the extension of the Bradley--Terry model proposed by \citet{rao1967ties}.
 We preprocess each dataset by discarding items that are not part of the largest strongly connected component in the comparison graph.
-The number of items $n$, the number of rankings $m$, as well as the size of a partial rankings $k$ for each dataset are given in Table~\ref{tab:approxalg}.
+The number of items $n$, the number of rankings $m$, as well as the size of a partial rankings $k$ for each dataset are given in Table~\ref{fi:tab:approxalg}.
 Additional details on the experimental setup are given in the supplementary material.
 We first compare the estimates produced by three approximate ML inference algorithms, \LSR{}, GMM-F and Rank Centrality (RC.)
 Note that RC applies only to pairwise comparisons, and that \LSR{} is the only algorithm able to infer the parameters in the Rao-Kupper model.
 Also note that in the case of pairwise comparisons, GMM-F and \LSR{} are strictly equivalent.
-In Table~\ref{tab:approxalg}, we report the root-mean-square deviation to the ML estimate $\hat{\bm{\theta}}$ and the running time $T$ of the algorithm.
+In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the ML estimate $\hat{\bm{\theta}}$ and the running time $T$ of the algorithm.
 
 \sisetup{group-minimum-digits=4,detect-weight=true}
 \begin{table}[ht]
   \vspace{-0.3cm}
   \caption{Performance of approximate ML inference algorithms}
-  \label{tab:approxalg}
+  \label{fi:tab:approxalg}
   \centering
   \small{
   \begin{tabular}{l rrr rr rr rr rr}
@@ -103,19 +103,19 @@ In Table~\ref{tab:approxalg}, we report the root-mean-square deviation to the ML
 
 The smallest value of $E_{\text{RMS}}$ is highlighted in bold for each dataset.
 We observe that in the case of multiway partial rankings, \LSR{} is almost four times more accurate than GMM-F on the datasets considered.
-In the case of pairwise comparisons, RC is slightly worse than \LSR{} and GMM-F, because the number of comparisons per pair is not homogeneous (see Section~\ref{sec:pairwise}.)
+In the case of pairwise comparisons, RC is slightly worse than \LSR{} and GMM-F, because the number of comparisons per pair is not homogeneous (see Section~\ref{fi:sec:pairwise}.)
 The running time of the three algorithms is comparable.
 
 Next, we turn our attention to ML inference and consider three iterative algorithms: \ILSR{}, MM and Newton-Raphson.
 For Newton-Raphson, we use an off-the-shelf solver.
 Each algorithm is initialized with $\bm{\pi}^{(0)} = [1/n, \ldots, 1/n]^\intercal$, and convergence is declared when $E_{\text{RMS}} < 0.01$.
-In Table~\ref{tab:mlalg}, we report the number of iterations $I$ needed to reach convergence, as well as the total running time $T$ of the algorithm.
+In Table~\ref{fi:tab:mlalg}, we report the number of iterations $I$ needed to reach convergence, as well as the total running time $T$ of the algorithm.
 
 \begin{table}[ht]
   \vspace{-0.3cm}
   \caption{Performance of iterative ML inference algorithms.}
   %The algorithms are stopped when the estimate has a RMSE $< 0.01$.}
-  \label{tab:mlalg}
+  \label{fi:tab:mlalg}
   \centering
   \small{
   \begin{tabular}{l r rr rr rr}
@@ -156,11 +156,11 @@ intuitively, the larger the spectral gap is, the better the expansion properties
 The original comparison graph is almost complete, and $\gamma_{\mathcal{D}} = 0.890$.
 By breaking each $10$-way ranking into $5$ independent pairwise comparisons, we effectively sparsify the comparison graph.
 As a result, the spectral gap decreases to $0.784$.
-In Figure~\ref{fig:convergence}, we show the convergence rate of MM and \ILSR{} for the original ($k = 10$) and modified ($k = 2$) datasets.
+In Figure~\ref{fi:fig:convergence}, we show the convergence rate of MM and \ILSR{} for the original ($k = 10$) and modified ($k = 2$) datasets.
 We observe that both algorithms display linear convergence, however the rate at which MM converges appears to be sensitive to the structure of the comparison graph.
 In contrast, \ILSR{} is robust to changes in the structure.
-The spectral gap of each dataset is listed in Table~\ref{tab:mlalg}.
-%Therefore, to better interpret the result of Table~\ref{tab:mlalg}, we also list for each dataset the spectral gap of its comparison graph.
+The spectral gap of each dataset is listed in Table~\ref{fi:tab:mlalg}.
+%Therefore, to better interpret the result of Table~\ref{fi:tab:mlalg}, we also list for each dataset the spectral gap of its comparison graph.
 
 
 \begin{figure}[ht]
@@ -171,43 +171,6 @@ Convergence rate of \ILSR{} and MM on the sushi dataset.
 When partial rankings ($k = 10$) are broken down into independent comparisons ($k = 2$), the comparison graph becomes sparser.
 \ILSR{} is robust to this change, whereas the convergence rate of MM significantly decreases.
 }
-\label{fig:convergence}
+\label{fi:fig:convergence}
 %\vskip -0.25in
 \end{figure}
-
-%\begin{figure}[ht]
-%\vskip -0.1in
-%\centering
-%\begin{subfigure}[b]{0.5\textwidth}
-%    \includegraphics[width=\textwidth]{hajek}
-%    \caption{A gull}
-%    \label{fig:gull}
-%\end{subfigure}%
-%\begin{subfigure}[b]{0.5\textwidth}
-%    \includegraphics[width=\textwidth]{convergence}
-%    \caption{A gull}
-%    \label{fig:gull}
-%\end{subfigure}%
-%\caption{Blablabla bla bla bla lba lbl ba l labl asbdlsdj ladlkasj dlkasj dalskdj salkdj laskdj lkasjd lkasjdlkasjd laskjd lkasjd laksjd laksdj }
-%\vskip -0.25in
-%\end{figure}
-
-%\begin{figure}[ht]
-%\vskip -0.1in
-%\centering
-%\begin{minipage}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=\linewidth]{hajek}
-%  \vskip -0.2in
-%  \captionof{figure}{Another figure blabl abla slkjd llaskjd laskdj laskdj lkasjd lkasjdl ksaj dlkasjd laskjd lkasjd lkasjd lkasdjl djlkj dsalkj ssyyd}
-%  \label{fig:hajek}
-%\end{minipage}%
-%\begin{minipage}{.5\textwidth}
-%  \centering
-%  \includegraphics[width=\linewidth]{convergence}
-%  \vskip -0.2in
-%  \captionof{figure}{Another figure blabl abla slkjd llaskjd laskdj laskdj lkasjd lkasjdl ksaj dlkasjd laskjd lkasjd lkasjd lkasdjl djlkj dsalkj %syyd}
-%  \label{fig:convergence}
-%\end{minipage}
-%\end{figure}
-

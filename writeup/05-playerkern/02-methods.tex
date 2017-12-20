@@ -1,5 +1,5 @@
 \section{Methods}
-\label{sec:methods}
+\label{pk:sec:methods}
 
 In this section, we first show how the model of pairwise comparisons proposed by Zermelo \cite{zermelo1928berechnung} and popularized by Bradley and Terry \cite{bradley1952rank} and Elo \cite{elo1978rating} can be expressed in the Gaussian process framework.
 Second, we present the player kernel, a covariance function that relates matches through lineups.
@@ -13,7 +13,7 @@ Zermelo \cite{zermelo1928berechnung} postulates that each object $u$ can be repr
 Given these parameters, the probability of observing the outcome ``$u$ wins against $v$'' (denoted by $u \succ v$) is given by $w_u / (w_u + w_v)$.
 Using the reparametrization $w_u = e^{s_u}$, this can be rewritten as
 \begin{align}
-\label{eq:logistic}
+\label{pk:eq:logistic}
 P(u \succ v) = \frac{1}{1 + \exp[-(s_u - s_v)]} = \frac{1}{1 + \exp(- \bm{s}^\top \bm{x})},
 \end{align}
 where $\bm{s} = [s_i]$ and $\bm{x} \in \mathbf{R}^M$ is such that $x_u = 1$, $x_v = -1$ and $x_i = 0$ for $i \ne u, v$.
@@ -28,9 +28,9 @@ f(\bm{x}_1) & \dots & f(\bm{x}_k)
 \end{align*}
 where $m_i = m(x_i)$ and $K_{ij} = k(\bm{x}_i, \bm{x}_j)$.
 It is not hard to show that if $\bm{s} \sim \mathcal{N}(\bm{0}, \sigma^2 \bm{I})$, then $f(\bm{x}) = \bm{s}^\top \bm{x}$ is a Gaussian process with $m(\bm{x}) = 0$ and $k(\bm{x}, \bm{x}') = \sigma^2 \bm{x}^\top \bm{x}'$.
-This enables the interpretation of \eqref{eq:logistic} as the likelihood of a Gaussian process classification model with the logit link function.
+This enables the interpretation of \eqref{pk:eq:logistic} as the likelihood of a Gaussian process classification model with the logit link function.
 
-The Gaussian process viewpoint shifts the focus from the representation of the function $f(\bm{x})$ (in the case of \eqref{eq:logistic}, a linear function) to the correlation between two function evaluations, as defined by the kernel function $k(\bm{x}, \bm{x}')$.
+The Gaussian process viewpoint shifts the focus from the representation of the function $f(\bm{x})$ (in the case of \eqref{pk:eq:logistic}, a linear function) to the correlation between two function evaluations, as defined by the kernel function $k(\bm{x}, \bm{x}')$.
 Intuitively, the model can simply be specified by how similar any two match outcomes are expected to be.
 Furthermore, the Gaussian process viewpoint also makes it possible to take advantage of the vast amount of literature and software related to accurate, efficient and scalable inference.
 
@@ -66,7 +66,7 @@ Finally, the function is zero, e.g., when the lineups are completely disjoint.
 This kernel implicitly projects every match into the space of players, and defines a notion of similarity in this space.
 In the case of national teams qualified to Euro final tournaments, we find that this approach is very useful: a significant part of national teams' players take part in one of the main European leagues and play with or against each other.
 International club competitions (such as the UEFA Champions League) further contribute to the ``connectivity'' among players.
-Figure~\ref{fig:kernel} illustrates the similarity of matches across different competitions in 2011--2012.
+Figure~\ref{pk:fig:kernel} illustrates the similarity of matches across different competitions in 2011--2012.
 
 
 \begin{figure}[t]
@@ -76,7 +76,7 @@ Figure~\ref{fig:kernel} illustrates the similarity of matches across different c
 White indicates zero correlation, a saturated color indicates more correlation.
 Matches between national teams exhibit non-zero covariance with matches of all other competitions.
 }
-  \label{fig:kernel}
+  \label{pk:fig:kernel}
   \vspace{-0.1cm}
 \end{figure}
 

@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Network Choice Model}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:model}
+\label{cr:sec:model}
 
 Let $G = (V,E)$ be a directed graph on $n$ nodes (corresponding to items) and $m$ edges.
 We denote the out-neighborhood of node $i$ by $N^+_i$ and its in-neighborhood by $N^-_i$.
@@ -9,21 +9,21 @@ A user starts at a node $i$ and is faced with alternatives $N^+_i$.
 The user chooses item $j$ and moves to the corresponding node.
 At node $j$, the user is faced with alternatives $N^+_j$ and chooses $k$, and so on.
 At any time, the user can stop.
-Figure~\ref{fig:samplenet} gives an example of a graph and the alternatives available at a step of the process.
+Figure~\ref{cr:fig:samplenet} gives an example of a graph and the alternatives available at a step of the process.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=.5\linewidth]{cr-graph-example}
   \caption{An illustration of one step of the process.
   The user is at node 6 and can reach nodes $N^+_6 = \{1, 2, 5, 7\}$.}
-  \label{fig:samplenet}
+  \label{cr:fig:samplenet}
 \end{figure}
 
 To define the transition probabilities, we posit Luce's well-known choice axiom that states that the odds of choosing item $j$ over item $j'$ do not depend on the rest of the alternatives \citep{luce1959individual}.
 This axiom leads to a unique probabilistic model of choice.
 For every node $i$ and every $j \in N^+_i$, the probability that $j$ is selected among alternatives $N^+_i$ can be written as
 \begin{align}
-\label{eq:singlelik}
+\label{cr:eq:singlelik}
 p_{ij} = \frac{\lambda_j}{\sum_{k \in N^+_i} \lambda_k}
 \end{align}
 for some parameter vector $\bm{\lambda} = \begin{bmatrix}\lambda_1 & \cdots & \lambda_n \end{bmatrix}^\transp \in \mathbf{R}_{>0}^n$.

@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Related Work}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{sec:relwork}
+\label{cr:sec:relwork}
 
 A variant of the network choice model was recently introduced by \citet{kumar2015inverting}, in an article that lays much of the groundwork for the present paper.
 Their generative model of traffic and the parametrization of transition probabilities based on Luce's axiom form the basis of our work.
@@ -24,7 +24,7 @@ More recently, \citet{hunter2004mm} explained \citeauthor{zermelo1928berechnung}
 This method is easily generalized to other models that are based on Luce's axiom, and it yields simple, provably convergent algorithms for maximum-likelihood (ML) or maximum-a-posteriori point estimates.
 \citet{caron2012efficient} observe that these MM algorithms can be further recast as expectation-maximization (EM) algorithms by introducing suitable latent variables.
 They use this observation to derive Gibbs samplers for a wide family of models.
-We take advantage of this long line of work in Section~\ref{sec:algorithm} when developing an inference algorithm for the network choice model.
+We take advantage of this long line of work in Section~\ref{cr:sec:algorithm} when developing an inference algorithm for the network choice model.
 In recent years, several authors have also analyzed the sample complexity of the ML estimate in Luce's choice model \citep{hajek2014minimax, vojnovic2016parameter} and investigated alternative spectral inference methods \citep{negahban2012iterative, azari2013generalized, maystre2015fast}.
 Some of these results could be applied to our setting, but in general they require observing choices among well-identified sets of alternatives.
 Finally, we note that models based on Luce's axiom have been successfully applied to problems ranging from ranking players based on game outcomes \citep{zermelo1928berechnung, elo1978rating} to understanding consumer behavior based on discrete choices \citep{mcfadden1973conditional}, and to discriminating among multiple classes based on the output of pairwise classifiers \citep{hastie1998classification}.
@@ -37,7 +37,7 @@ PageRank computes a set of scores that are proportional to the amount of time a 
 These scores are based only on the structure of the graph.
 The network choice model presented in this paper appears similar at first, but tackles a different problem.
 In addition to the structure of the graph, it uses the traffic at each page, and computes a set of scores that reflect the (non-uniform) probability of clicking on each link.
-Nevertheless, there are striking similarities in the implementation of the respective inference algorithms (see Section~\ref{sec:experiments}).
+Nevertheless, there are striking similarities in the implementation of the respective inference algorithms (see Section~\ref{cr:sec:experiments}).
 The HOTness method proposed by \citet{tomlin2003new} is somewhat related, but tries to tackle a harder problem.
 It attempts to estimate jointly the traffic and the probability of clicking on each link, by using a maximum-entropy approach.
 At the other end of the spectrum, BrowseRank \citep{liu2008browserank} uses detailed data collected in users' browsers to improve on PageRank.

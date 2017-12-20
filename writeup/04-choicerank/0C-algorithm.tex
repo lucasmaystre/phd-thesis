@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{ChoiceRank Algorithm}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{app:algorithm}
+\label{cr:app:algorithm}
 
 In this section, we start by generalizing the ChoiceRank algorithm to the weighted network choice model.
 We then prove the convergence of this generalized algorithm.
@@ -9,9 +9,9 @@ Finally, we show how the same algorithm can be obtained from an EM viewpoint by 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Algorithm for the Generalized Model}
 
-Using the same linear upper-bound on the logarithm as in Section~\ref{sec:algorithm} of the main text, we can lower-bound the log-posterior~\eqref{eq:wlogpost} in the weighted model by
+Using the same linear upper-bound on the logarithm as in Section~\ref{cr:sec:algorithm} of the main text, we can lower-bound the log-posterior~\eqref{cr:eq:wlogpost} in the weighted model by
 \begin{align}
-\label{eq:wminorizing}
+\label{cr:eq:wminorizing}
 \begin{aligned}
 f^{(t)}(\bm{\lambda}) = \kappa_2 + \sum_{i = 1}^n \bigg[
     & (c^-_i + \alpha - 1) \log \lambda_i - \beta \lambda_i \\
@@ -23,17 +23,17 @@ with equality if and only if $\bm{\lambda} = \bm{\lambda}^{(t)}$.
 Starting with an arbitrary $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{>0}$, we repeatedly maximize the lower-bound $f^{(t)}$.
 This surrogate optimization problem has a closed form solution, obtained by setting $\nabla f^{(t)}$ to $0$:
 \begin{align}
-\label{eq:wmmiter}
+\label{cr:eq:wmmiter}
 \lambda_i^{(t + 1)} = \frac{c^-_i + \alpha - 1}{\sum_{j \in N^-_i} w_{ji} \gamma_j^{(t)} + \beta},
     \quad \text{where }
     \gamma_j^{(t)} = \frac{c^+_j}{\sum_{k \in N^+_j} w_{jk} \lambda_k^{(t)}}.
 \end{align}
-The iterates provably converge to the maximizer of~\eqref{eq:wlogpost}, as shown by the following theorem.
+The iterates provably converge to the maximizer of~\eqref{cr:eq:wlogpost}, as shown by the following theorem.
 
 \begin{theorem}
-\label{thm:wmmconv}
+\label{cr:thm:wmmconv}
 Let $\bm{\lambda}^\star$ be the unique maximum a-posteriori estimate.
-Then for any initial $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{> 0}$ the sequence of iterates defined by~\eqref{eq:wmmiter} converges to $\bm{\lambda}^\star$.
+Then for any initial $\bm{\lambda}^{(0)} \in \mathbf{R}^n_{> 0}$ the sequence of iterates defined by~\eqref{cr:eq:wmmiter} converges to $\bm{\lambda}^\star$.
 \end{theorem}
 
 The proof follows that of \citeauthor{hunter2004mm}'s Theorem~$1$ \citeyearpar{hunter2004mm}.
@@ -48,25 +48,25 @@ Second, $g \left[ M(\bm{\lambda}) \right] = g(\bm{\lambda})$ if and only if $\bm
 It follows that $\lim_{t \to \infty} \bm{\lambda}^{(t)} = \bm{\lambda}^{\star}$.
 \end{proof}
 
-Theorem~\ref{thm:mmconv} of the main text follows directly by setting $w_{ij} \equiv 1$.
-For completeness, the edge-streaming implementation adapted to the weighted model is given in Algorithm~\ref{alg:wchoicerank}.
-The only changes with respect to Algorithm~\ref{alg:choicerank} (presented in the main text) are in lines~\ref{line:msg1} and~\ref{line:msg2}:
+Theorem~\ref{cr:thm:mmconv} of the main text follows directly by setting $w_{ij} \equiv 1$.
+For completeness, the edge-streaming implementation adapted to the weighted model is given in Algorithm~\ref{cr:alg:wchoicerank}.
+The only changes with respect to Algorithm~\ref{cr:alg:choicerank} (presented in the main text) are in lines~\ref{cr:line:msg1} and~\ref{cr:line:msg2}:
 Every message $\gamma_i$ or $\lambda_j$ flowing through an edge $(i,j)$ is multiplied by the edge weight $w_{ij}$.
 
 \begin{algorithm}[ht]
   \caption{ChoiceRank for the weighted model}
-  \label{alg:wchoicerank}
+  \label{cr:alg:wchoicerank}
   \begin{algorithmic}[1]
     \Require graph $G = (V, E)$, counts $\{ (c^-_i, c^+_i) \}$
     \State $\bm{\lambda} \gets [1, \ldots, 1]$
     \Repeat
       \State $\bm{z} \gets \bm{0}_n$
       \Comment{Recompute $\bm{\gamma}$}
-      \OneLineFor{$(i, j) \in E$} $z_i \gets z_i + w_{ij} \lambda_j$ \label{line:msg1}
+      \OneLineFor{$(i, j) \in E$} $z_i \gets z_i + w_{ij} \lambda_j$ \label{cr:line:msg1}
       \OneLineFor{$i \in V$} $\gamma_i \gets c^+_i / z_i$
       \State $\bm{z} \gets \bm{0}_n$
       \Comment{Recompute $\bm{\lambda}$}
-      \OneLineFor{$(i, j) \in E$} $z_j \gets z_j + w_{ij} \gamma_i$ \label{line:msg2}
+      \OneLineFor{$(i, j) \in E$} $z_j \gets z_j + w_{ij} \gamma_i$ \label{cr:line:msg2}
       \OneLineFor{$i \in V$} $\lambda_i \gets (c^-_i + \alpha - 1) / (z_i + \beta)$
     \Until $\bm{\lambda}$ has converged
   \end{algorithmic}
@@ -98,7 +98,7 @@ Q(\bm{\lambda}, \bm{\lambda}^{(t)})
       + \sum_{i = 1}^n \bigg[ (\alpha -1) \log \lambda_i - \beta \lambda_i \bigg] + \kappa_7
 \end{align*}
 The EM algorithm starts with an initial $\bm{\lambda}^{(0)}$ and iteratively refines the estimate by solving the optimization problem $\bm{\lambda}^{(t+1)} = \Argmax_{\bm{\lambda}} Q(\bm{\lambda}, \bm{\lambda}^{(t)})$.
-It is not difficult to see that for a given $\bm{\lambda}^{(t)}$, maximizing $Q(\bm{\lambda}, \bm{\lambda}^{(t)})$ is equivalent to maximizing the minorizing function $f^{(t)}(\bm{\lambda})$ defined in~\eqref{eq:wminorizing}.
+It is not difficult to see that for a given $\bm{\lambda}^{(t)}$, maximizing $Q(\bm{\lambda}, \bm{\lambda}^{(t)})$ is equivalent to maximizing the minorizing function $f^{(t)}(\bm{\lambda})$ defined in~\eqref{cr:eq:wminorizing}.
 Hence, the MM and the EM viewpoint lead to the exact same sequence of iterates.
 
 The EM formulation leads to a Gibbs sampler in a relatively straightforward way \citep{caron2012efficient}.
