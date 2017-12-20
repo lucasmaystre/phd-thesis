@@ -4,7 +4,34 @@
 %\markboth{Abstract}{Abstract}  % TODO: Do we need this if the abstract takes several pages?
 \addcontentsline{toc}{chapter}{Abstract (English / Français)} % adds an entry to the table of contents
 
-English Abstract
+Humans are comparison machines: comparing and choosing an item among a set of alternatives (such as objects or concepts) is arguably one of the most natural ways for us to express our preferences and opinions.
+When collecting observation about human choices, shifting preferences or observational noise often lead to datasets containing inconsistent comparison outcomes.
+A principled approach to dealing with intransitive data is to posit a probabilistic model of comparisons.
+% TODO I don't like this transition really. Rewrite.
+In this thesis, we revisit Luce's choice model, the study of which started almost a century ago, in the context of large-scale online data collection.
+The goal is to learn a ranking over a set of items from comparisons in a \emph{computationally}, \emph{statistically} and \emph{data efficient} way.
+
+First, we consider the algorithmic problem of learning model parameters from choice data, and we seek to improve upon the computational and statistical efficiency of existing methods.
+Our contribution is to show that it is possible to express the maximizer of the model's likelihood function as the stationary distribution of a Markov chain.
+This enables using fast linear solvers or well-studied iterative methods for Markov chains for parameter inference in Luce's model.
+
+Second, we propose a data-efficient method to learn a ranking, by adaptively choosing pairs of items to compare based on previous comparison outcomes.
+We show that Quicksort, a well-known sorting algorithm, works well even if comparison outcomes are noisy. Under distributional assumptions on model parameters, we provide asymptotic bounds on the quality of the recovered ranking.
+We also use sorting algorithms as a basis for a simple, practical active learning strategy that performs well on real-world datasets, at a small fraction of the computational cost of competing methods.
+
+Third, we turn our attention to structured choices in a network.
+In particular, we study a model where users navigate in a network (e.g., following links on the Web) and set out to estimate transition probabilities along the edges of the network from limited observations.
+We show that if transitions follow Luce's axiom, their probability can be inferred using only data consisting of the (marginal) traffic at each node of the network.
+We propose a robust inference algorithm that admits a computationally-efficient implementation.
+Our method scales to networks with billions of nodes, and it achieves good predictive performance on clickstream data.
+
+Beyond human preferences, probabilistic models of pairwise comparisons can also be applied to sports.
+Consider football: two teams are compared against each other, and the better one wins.
+In the last part of this thesis, we consider a concrete application of pairwise comparison models and tackle the task of predicting outcomes of matches between national football teams.
+These teams play only a few matches every year, and hence it is difficult to accurately assess their strength.
+We propose a way to overcome this challenge by taking into account outcomes of matches between clubs, of which there is plenty.
+We do so by embedding all matches in \emph{player space}, and devise a computationally-efficient inference procedure.
+The resulting model predicts international tournament results more accurately than those using national team results only.
 
 
 \cleardoublepage
