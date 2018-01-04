@@ -1,0 +1,73 @@
+\documentclass[12pt,a4paper,oneside]{article}
+\usepackage{fullpage}
+\usepackage[english]{babel} % English language/hyphenation.
+\usepackage[T1]{fontenc} % Use 8-bit output encoding.
+\usepackage[utf8]{inputenc} % Can use UTF-8 in the source files.
+\usepackage[babel]{microtype} % Improves appearance of text.
+
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+
+\theoremstyle{plain}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\begin{document}
+\begin{proposition}
+Let $\mathcal{D} = \{ a_{ij} \mid i, j = 1, \ldots N \}$ be a dataset of outcomes of pairwise comparison on $N$ items.
+Suppose that the comparison graph is strongly connected, and define $S = \sum_{i, j} a_{ij}$.
+Let $\bm{\theta} = \begin{bmatrix}\theta_1 & \cdots & \theta_N \end{bmatrix}$ be the maximum-likelihood estimate of Bradley--Terry model parameters.
+Then,
+\begin{align*}
+\max_{i, j} \ \lvert \theta_i - \theta_j \rvert \le N \log S.
+\end{align*}
+\end{proposition}
+
+\begin{proof}
+Without loss of generality, suppose that $\theta_1 \le \theta_2 \le \ldots \le \theta_N$.
+We will show that $\theta_i \ge \theta_{i+1} - \log S$ for all $i$, and the proposition follows.
+By contradiction, suppose that $\theta_k = \theta_{k+1} - \log S - \varepsilon$ for some $k \in [N]$ and some $\varepsilon > 0$.
+Let
+\begin{align*}
+\tilde{\bm{\theta}} =
+\begin{bmatrix}
+\theta_1 + \varepsilon & \cdots & \theta_k + \varepsilon & \theta_{k+1} & \cdots & \theta_N
+\end{bmatrix}.
+\end{align*}
+Using basic algebraic manipulations, we find that the difference between the log-likelihoods can be written as
+\begin{align*}
+\ell(\tilde{\bm{\theta}}) - \ell(\bm{\theta}) =
+    \sum_{i=1}^k \sum_{j = k+1}^N a_{ji} \varepsilon
+  - \sum_{i=1}^k \sum_{j = k+1}^N (a_{ij} + a_{ji})
+        \log \left[ \frac{\exp(\theta_i + \varepsilon) + \exp \theta_j}{\exp \theta_i + \exp \theta_j} \right].
+\end{align*}
+Because the comparison graph is strongly connected, $\sum_{i=1}^k \sum_{j = k+1}^N a_{ji} \ge 1$.
+Furthermore, $\sum_{i=1}^k \sum_{j = k+1}^N (a_{ij} + a_{ji}) < S$.
+Finally, for all $j > k$,
+\begin{align}
+\log \left[ \frac{\exp(\theta_i + \varepsilon) + \exp \theta_j}{\exp \theta_i + \exp \theta_j} \right]
+    &\le \frac{\exp(\theta_i + \varepsilon) - \exp \theta_i}{\exp \theta_i + \exp \theta_j}
+       = \frac{1 - \exp(-\varepsilon)}{\exp(-\varepsilon) + \exp(\theta_j - \theta_i - \varepsilon)} \label{eq:line1}\\
+    &\le \frac{1 - \exp(-\varepsilon)}{\exp(-\varepsilon) + S}
+       < \frac{\varepsilon}{S}, \label{eq:line2}
+\end{align}
+where in~\eqref{eq:line1} we used the inequality $\log(x) < x - 1$, and in~\eqref{eq:line2} we used the fact that $\theta_j \ge \theta_i + \log S + \varepsilon$ and the inequality $1 - e^x \le x$.
+Putting everything together, we find that
+\begin{align*}
+\ell(\tilde{\bm{\theta}}) - \ell(\bm{\theta}) > \varepsilon - S \frac{\varepsilon}{S} = 0,
+\end{align*}
+and conclude that $\bm{\theta}$ cannot be the maximum-likelihood estimate of the parameters.
+\end{proof}
+
+\begin{corollary}
+Let $\bm{\pi} = \begin{bmatrix} \pi_1 & \cdots & \pi_N \end{bmatrix}$ be the reparametrized maximum-likelihood estimate such that $\pi_i \propto \exp(\theta_i)$.
+Furthermore, assume that $\bm{\pi}$ is normalized such that $\sum_i \pi_i = 1$.
+Then,
+\begin{align*}
+\max_{i, j} \pi_i / \pi_j \le S^N,
+\qquad \min_i \pi_i \ge S^{-N} / N.
+\end{align*}
+\end{corollary}
+\begin{proof}
+The first result comes from the fact that $\pi_i / \pi_j = \exp(\theta_i - \theta_j)$, and the second one from the fact that $\max_i \pi_i \ge 1/N$.
+\end{proof}
+\end{document}
