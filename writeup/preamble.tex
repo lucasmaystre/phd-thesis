@@ -219,7 +219,9 @@
 \newcommand{\Cov}[2]{\ensuremath{\mathbf{Cov}\left[ #1, #2 \right]}}
 \newcommand{\Var}[1]{\ensuremath{\mathbf{Var}\left[ #1 \right]}}
 \newcommand{\Abs}[1]{\ensuremath{\lvert #1 \rvert}}
+\newcommand{\Norm}[1]{\ensuremath{\lVert #1 \rVert}}
 \newcommand{\Indic}[1]{\ensuremath{\mathbf{1} \left \{ #1 \right \} }}
+\newcommand{\Diag}[1]{\ensuremath{\text{diag} \left( #1 \right) }}
 
 \newcommand{\DExp}[1]{\ensuremath{\mathrm{Exp}( #1 )}}
 \newcommand{\DGamma}[1]{\ensuremath{\mathrm{Gamma}( #1 )}}
@@ -242,7 +244,8 @@
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
 % For choicerank.
-\newcommand{\transp}{\top}
+\newcommand{\transp}{\top} % TODO Remove.
+\newcommand{\tr}{\top}
 \algnewcommand{\OneLineFor}[1]{\State \algorithmicfor\ #1\ \algorithmicdo}
 
 \hyphenation{wahrscheinlichkeits-rechnung PageRank ChoiceRank}

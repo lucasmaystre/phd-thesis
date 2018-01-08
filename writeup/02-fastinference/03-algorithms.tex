@@ -57,11 +57,29 @@ The ergodicity of the inhomogeneous Markov chain, where the transition rates are
 The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \vpi)$ converges to the maximum-likelihood estimate $\mlpi$, for any initial distribution in the open probability simplex.
 \end{theorem}
 
-\vspace{-0.3cm}
-\begin{proof}[Proof (sketch)]
-By \eqref{fi:eq:master}, $\mlpi$ is the unique invariant distribution of the Markov chain.
-In the supplementary file, we look at an equivalent uniformized discrete-time chain.
-Using the contraction mapping principle, one can show that this chain converges to the invariant distribution.
+\begin{proof}[Proof]
+Let $G(\bm{\pi})$ be the transition rate matrix of the Markov chain $\bm{\pi}(t)$, i.e., $G_{ij} = \lambda_{ij}$ for all $i \ne j$ and  $G_{ii} = - \sum_{j} \lambda_{ij}$ for all $i$.
+The dynamics of the Markov chain are described by the differential equation
+\begin{align}
+\label{fi:eq:dynsys}
+\frac{d \bm{\pi}}{dt} = \bm{\pi}^\tr G(\bm{\pi}).
+\end{align}
+By construction, the invariant distributions of the Markov chain coincide with the maximizers of the likelihood~\eqref{fi:eq:loglik}.
+Hence, we know that $\hat{\bm{\pi}}$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\pi}^\tr G(\bm{\pi}) = \bm{0}$.
+We will now show that this point is globally and asymptotically stable, i.e., $\bm{\pi}(t) \to \hat{\bm{\pi}}$ as $t \to \infty$ for any $\bm{\pi}(0)$ in the open probability simplex.
+To this end, it suffices to show that $V(\bm{\pi}) = - \ell(\bm{\pi} ; \mathcal{D}) + \ell(\hat{\bm{\pi}} ; \mathcal{D})$ is a Lyapunov function for~\eqref{fi:eq:dynsys}.
+First, we have that $V(\hat{\bm{\pi}}) = 0$ and $V(\bm{\pi}) > 0$ for all $\bm{\pi} \ne \hat{\bm{\pi}}$ (by definition of the ML estimate).
+Second, we note that $\bm{\pi}^\tr G(\bm{\pi}) = \Diag{\bm{\pi}} \nabla_{\bm{\pi}} \ell(\bm{\pi})$.
+Hence,
+\begin{align*}
+\frac{dV}{dt}
+    = \left( \nabla_{\bm{\pi}} V \right)^\tr \frac{d \bm{\pi}}{dt}
+    = - (\nabla_{\bm{\pi}} \ell(\bm{\pi}))^\tr \Diag{\bm{\pi}} \nabla_{\bm{\pi}} \ell(\bm{\pi})
+    < 0,
+\end{align*}
+for all $\bm{\pi} \ne \hat{\bm{\pi}}$.
+Third, $\ell(\bm{\pi})$ grows unboundedly as $\bm{\pi}$ approaches the boundary of the probability simplex \citep[Lemma~1]{hunter2004mm} and therefore $V(\bm{\pi})$ does so as well.
+The result follows by appying the Barbashin-Krasovskii theorem, a standard result found, e.g., in \citet[Chapter~3]{khalil1996nonlinear}.
 \end{proof}
 
 
