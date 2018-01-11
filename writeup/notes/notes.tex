@@ -1,17 +1,24 @@
 \documentclass[12pt,a4paper,oneside]{article}
-\usepackage{fullpage}
-\usepackage[english]{babel} % English language/hyphenation.
 \usepackage[T1]{fontenc} % Use 8-bit output encoding.
 \usepackage[utf8]{inputenc} % Can use UTF-8 in the source files.
+\usepackage{natbib}  % Has to be loaded before babel.
+\usepackage[english]{babel} % English language/hyphenation.
 \usepackage[babel]{microtype} % Improves appearance of text.
-
+\usepackage{fullpage}
 \usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
 
 \theoremstyle{plain}
 \newtheorem{proposition}{Proposition}
 \newtheorem{corollary}{Corollary}
 
 \begin{document}
+
+\section{A Convergent Power-Iteration Scheme}
+
+First we show that the dynamic range of the ML estimate of BT model parameters admits a simple upper bound.
+
 \begin{proposition}
 Let $\mathcal{D} = \{ a_{ij} \mid i, j = 1, \ldots N \}$ be a dataset of outcomes of pairwise comparison on $N$ items.
 Suppose that the comparison graph is strongly connected, and define $S = \sum_{i, j} a_{ij}$.
@@ -59,6 +66,7 @@ and conclude that $\bm{\theta}$ cannot be the maximum-likelihood estimate of the
 \end{proof}
 
 \begin{corollary}
+\label{thm:pidynrange}
 Let $\bm{\pi} = \begin{bmatrix} \pi_1 & \cdots & \pi_N \end{bmatrix}$ be the reparametrized maximum-likelihood estimate such that $\pi_i \propto \exp(\theta_i)$.
 Furthermore, assume that $\bm{\pi}$ is normalized such that $\sum_i \pi_i = 1$.
 Then,
@@ -70,4 +78,81 @@ Then,
 \begin{proof}
 The first result comes from the fact that $\pi_i / \pi_j = \exp(\theta_i - \theta_j)$, and the second one from the fact that $\max_i \pi_i \ge 1/N$.
 \end{proof}
+
+We are now ready to present a power-iteration based algorithm that is provably convergent.
+Let $\mathcal{S} = \{ \bm{\pi} \in \mathbf{R}^N : 0 < \pi_i < 1, \sum_i \pi_i = 1 \}$ be the open probability simplex and define $\widetilde{\mathcal{S}} = \{ \bm{\pi} \in \mathcal{S} : \pi_i \ge S^{-N}/N \}$.
+By Corollary~\ref{thm:pidynrange}, this compact (closed) subset is guaranteed to contain the maximum-likelihood estimate.
+Let
+\begin{align}
+\label{eq:transmat}
+P(\varepsilon, \bm{\pi})_{ij} =
+\begin{dcases}
+\varepsilon \frac{a_{ij}}{\pi_i + \pi_j}                    & \text{if } i \ne j, \\
+1 - \varepsilon \sum_{k \ne i} \frac{a_{ik}}{\pi_i + \pi_k} & \text{if } i = j,
+\end{dcases}
+\end{align}
+be the (parametric) transition matrix of a Markov chain, for sufficiently small values of $\varepsilon$.
+Lastly, define $\text{Proj}: \mathcal{S} \to \widetilde{\mathcal{S}}$ as
+\begin{align*}
+\text{Proj}[\bm{\pi}]_i = \max \{ S^{-N}/N, \pi_i \}.
+\end{align*}
+
+\begin{algorithm}[t]
+  \caption{A provably-convergent algorithm based on the power method.}
+  \label{alg:lsrpower}
+  \begin{algorithmic}[1]
+    \Require learning rate $\varepsilon$.
+    \State $\bm{\pi} = \begin{bmatrix}1/N & \cdots & 1/N\end{bmatrix}$
+    \Repeat
+      \For{$i = 1, \ldots, N$} \label{line:startpow}
+        \State $Q \gets P(\varepsilon, \bm{\pi})$ as per~\eqref{eq:transmat}
+        \State $\bm{\pi} \gets \bm{\pi}^\top Q$
+      \EndFor \label{line:stoppow}
+      \State $\bm{\pi} \gets \text{Proj}[\bm{\pi}]$
+    \Until convergence
+  \end{algorithmic}
+\end{algorithm}
+
+\begin{proposition}
+Algorithm~\ref{alg:lsrpower} converges to the maximum-likelihood estimate for any fixed $\varepsilon \le 1 / (2N^2S^{N+1})$.
+\end{proposition}
+
+\begin{proof}[Proof (sketch).]
+Let $T : \widetilde{\mathcal{S}} \to \mathcal{S}$ be the mapping corresponding to the inner loop (the $N$ power iterations, lines \ref{line:startpow}--\ref{line:stoppow}).
+By choosing $\varepsilon \le 1 / (2N^2S^{N+1})$ we ensure that the matrix $P(\bm{\pi}, \varepsilon)$ remains stochastic (i.e., with all entries nonnegative) throughout the $N$ iterations.
+Indeed, letting $\bm{\pi}^{(t)}$ represent the $t$-th power iterate, we have that for all $i$,
+\begin{align*}
+&\forall j \ \pi_j^{(t)} > S^{-N}/(2N) \\
+&\quad \implies
+\pi_i^{(t+1)} \ge \left( 1 - \varepsilon \sum_{k \ne i} \frac{a_{ik}}{\pi_i^{(t)} + \pi_k^{(t)}} \right) \pi_i^{(t)} > \left( 1 - \varepsilon \frac{S}{S^{-N}/N} \right) \pi_i^{(t)} \ge \left( 1 - \frac{1}{2N} \right) \pi_i^{(t)},
+\end{align*}
+Hence, starting with $\bm{\pi}^{(0)} \in \widetilde{\mathcal{S}}$, it is easy to verify that for $t = 1, \ldots, N$,
+\begin{align*}
+\pi_i^{(t)} > \left( 1 - \frac{1}{2N} \right)^t \pi_0^{(t)} \ge \left( 1 - \frac{t}{2N} \right) \pi_0^{(t)} \ge S^{-N}/(2N),
+\end{align*}
+and the diagonal entries of $P(\bm{\pi}, \varepsilon)$ remain always nonnegative.
+Furthermore, doing $N$ iterations ensures that for any $\bm{x}, \bm{y} \in \widetilde{\mathcal{S}}$,
+\begin{align}
+\lVert T(\bm{x}) - T(\bm{y}) \rVert_1 < \lVert \bm{x} - \bm{y} \rVert_1.
+\end{align}
+(Note that a single power-iteration is not sufficient to obtain a contractive property with respect to the $\ell_1$-norm.)
+In order to show this, it is necessary to compute the Jacobian of $T(\bm{x})$ using the chain rule;
+see \citet[Lemma~$2.17$]{olver2015nonlinear}, \citet[Theorem~$2$]{petersdorff2014fixed} and \citet{tresch2007convergence}.
+Now, consider the mapping $F : \widetilde{\mathcal{S}} \to \widetilde{\mathcal{S}}$ defined by the outer loop,
+\begin{align*}
+F(\bm{\pi}) = \text{Proj}[T(\bm{\pi})].
+\end{align*}
+The projection operator is non-expansive with respect to the $\ell_1$ norm, and therefore for any $\bm{x}, \bm{y} \in \widetilde{\mathcal{S}}$,
+\begin{align*}
+\lVert F(\bm{x}) - F(\bm{y}) \rVert_1 \le \lVert T(\bm{x}) - T(\bm{y}) \rVert_1 < \lVert \bm{x} - \bm{y} \rVert_1.
+\end{align*}
+Hence, $F$ is a contractive mapping on a compact space, and a variant of Banach's fixed point principle \citep[Theorem~2.6]{kirk2001contraction} implies that Algorithm~\ref{alg:lsrpower} converges to the unique fixed point $\hat{\bm{\pi}}$.
+\end{proof}
+
+Note that it might not be necessary to take multiple power-iterations before the projection step.
+See Corollary~$2.13$ in \citet{olver2015nonlinear} for inspiration.
+
+\bibliographystyle{abbrvnat}
+\bibliography{notes.bib}
+
 \end{document}
