@@ -1,1 +1,67 @@
-\input{ch1_introduction}
+\chapter{Introduction}
+
+Making a choice is a fundamental way for us, humans, to express our opinions and preferences.
+We choose the music we listen to and the movies we watch, and we also choose the place where we live and the political candidate we vote for.
+We constantly compare alternatives in order to discern the one that best suits us.
+Unsuprisingly, one can gain a great understanding of collective and personal opinions by observing the outcomes of comparisons that we make.
+
+The idea of analyzing human choices has been a longstanding topic of interest to researchers and practitioners across a wide range of disciplines, including psychology, sociology and economics.
+To give just one example among many, discrete choice analysis has become an essential item in the econometrician's toolbox.
+It has important applications: for example, it enabled to accurately predict the impact of a new metro line in the San Francisco Bay area on the usage of various modes of transport \citep{mcfaddenxxx}.
+It also resulted in a Nobel prize for its main inventor \citep{mcfadden2000economic}.
+
+This thesis is part of this quest.
+It is concerned with the problem of extracting concise information (e.g., about our preferences) from raw choice data.
+Concretely, a typical information of interest might be the ranking of all alternatives from most to least preferred, or numerical scores that describe the utility of each alternative and that are predictive of future choices.
+%In order to go beyond a simple description of choices made, it is useful to postulate a model that describes how we make choices based on our preferences, observations and opinions.
+
+\paragraph{Why study choice data?}
+If we are ultimately interested in, say, a numerical utility score for each alternative, a sensible question to ask is:
+Why not \emph{directly} ask for a such a score?
+Three reasons come to mind.
+\begin{enumerate}
+\item It is particularly natural and easy for humans to make comparisons.
+A popular theory in social psychology even states that comparing ourselves to others is one the primary ways in which we learn about and define ourselves, our beliefs and opinions \citep{festinger1954theory}.
+Arguably, it is more difficult for us to give meaningful and consistent numerical scores.
+What does a "3.5 star" rating on a restaurant really mean? The answer will likely depend on the person's cultural background, among others.
+
+\item In some cases, it is possible to observe choices \emph{implictly}, simply by recording the actions that we take and the context in which we take them.
+This makes the process of collecting choices much less obtrusive than \emph{explicitly} asking for feedback.
+In practice, it means that it is often possible to get access to much larger datasets, potentially leading to more accurate analyses.
+
+\item In cases where we \emph{do} need to explicitly ask users to make comparisons, it is possible to create user interfaces that are simpler and more engaging that those required for other types of feedback.
+For example, on a smartphone, a single ``swipe'' might be enough to indicate the outcome of a comparison between two items.
+\end{enumerate}
+
+\paragraph{A practical challenge: noisy observations}
+The premis of this thesis is that ...But these mode
+
+the goal is typically to understand people's preferences or opinions, or relations between objects.
+
+Explain noise in data.
+This is why we start with the following premise: observations are noisy.
+This challenge can be tackled by using a probabilistic model of choices. In a nutshell, this approach states that given a set of alternatives, *any* outcome is possible, but some are more likely.
+
+These models have a long-standing history:
+- Thurstone
+- McFadden \& co microeconomic choice
+refer to Section~\ref{in:sec:models}
+
+\paragraph{Modern applications}
+
+- recommender systems: netflix, spotify, amazon.
+- Gifgif, place pulse
+- Allourideas
+
+These modern applications raise a number of new challenges, which this thesis is concerned with.
+Abstracly, we try to solve:
+
+- data efficiency: how to query choices.
+- statistical efficiency
+- computational efficiency.
+
+\paragraph{Beyond preferences: applications to sport}
+Sports chess, sports.
+
+\input{01-models}
+\input{02-outline}
