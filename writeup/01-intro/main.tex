@@ -7,8 +7,8 @@ Unsuprisingly, one can gain a great understanding of collective and personal opi
 
 The idea of analyzing human choices has been a longstanding topic of interest to researchers and practitioners across a wide range of disciplines, including psychology, sociology and economics.
 To give just one example among many, discrete choice analysis has become an essential item in the econometrician's toolbox.
-It has important applications: for example, it enabled to accurately predict the impact of a new metro line in the San Francisco Bay area on the usage of various modes of transport \citep{mcfaddenxxx}.
-It also resulted in a Nobel prize for its main inventor \citep{mcfadden2000economic}.
+It has important applications: for example, it enabled to accurately predict the impact of a new metro line in the San Francisco Bay area on the usage of various modes of transport \citep{mcfadden1977demand}.
+It also resulted in a Nobel prize for its main inventor \citep{mcfadden2001economic}.
 
 This thesis is part of this quest.
 It is concerned with the problem of extracting concise information (e.g., about our preferences) from raw choice data.
@@ -18,7 +18,7 @@ Concretely, a typical information of interest might be the ranking of all altern
 \paragraph{Why study choice data?}
 If we are ultimately interested in, say, a numerical utility score for each alternative, a sensible question to ask is:
 Why not \emph{directly} ask for a such a score?
-Three reasons come to mind.
+Two important reasons come to mind.
 \begin{enumerate}
 \item It is particularly natural and easy for humans to make comparisons.
 A popular theory in social psychology even states that comparing ourselves to others is one the primary ways in which we learn about and define ourselves, our beliefs and opinions \citep{festinger1954theory}.
@@ -28,40 +28,59 @@ What does a "3.5 star" rating on a restaurant really mean? The answer will likel
 \item In some cases, it is possible to observe choices \emph{implictly}, simply by recording the actions that we take and the context in which we take them.
 This makes the process of collecting choices much less obtrusive than \emph{explicitly} asking for feedback.
 In practice, it means that it is often possible to get access to much larger datasets, potentially leading to more accurate analyses.
-
-\item In cases where we \emph{do} need to explicitly ask users to make comparisons, it is possible to create user interfaces that are simpler and more engaging that those required for other types of feedback.
-For example, on a smartphone, a single ``swipe'' might be enough to indicate the outcome of a comparison between two items.
 \end{enumerate}
 
-\paragraph{A practical challenge: noisy observations}
-The premis of this thesis is that ...But these mode
+% TODO Conclude this paragraph (say that we will encounter both reasons in this thesis?).
 
-the goal is typically to understand people's preferences or opinions, or relations between objects.
-
-Explain noise in data.
-This is why we start with the following premise: observations are noisy.
-This challenge can be tackled by using a probabilistic model of choices. In a nutshell, this approach states that given a set of alternatives, *any* outcome is possible, but some are more likely.
-
-These models have a long-standing history:
-- Thurstone
-- McFadden \& co microeconomic choice
-refer to Section~\ref{in:sec:models}
+\paragraph{Dealing with inconsistent data}
+At first sight, the task of understanding opinions from comparison data might appear to be easy.
+And indeed it would be, if observed choices were a perfect reflection of a single set of opinions.
+But when one starts looking at data collected ``in the wild'', it becomes quickly apparent that comparison outcomes are not always consistent whith each other:
+faced with the same alternatives, we sometimes appear to be making different choices.
+This is due to a multitude of factors:
+\begin{enuminline}
+\item parts of the context in which the choice is made might not be observed, yet they might significantly influence the outcome;
+\item if we try to summarize collective preferences based on individual choices, we can obviously expect some level of disagreement among individuals, even if some trends are shared;
+\item finally, errors sometimes creep into the data, due to erroneous measurements or flawed interpretations.
+\end{enuminline}
+A premise of this thesis is that these inconsistencies are unavoidable, but can be dealt with in a principled way using a probabilistic model.
+In a nutshell, this approach states that given a set of alternatives, \emph{any} comparison outcome is possible, but some outcomes are more likely than others, depending on the underlying preferences.
+Informally, the task then reduces to finding preferences that explain the observations well.
+This approach has been dominant in the field, and will be introduced further in Section~\ref{in:sec:models}.
 
 \paragraph{Modern applications}
+Even though research on choice models has a long and rich history that has produced a number of well-established methods, there has been recently a resurgence of interest in the context of large-scale online data collection.
+Indeed, the Web makes it easy for organizations to reach users throughout the world and to record their interactions with the organization's services.
+Let us consider three examples.
+\begin{itemize}
+\item Commercial online service providers have increasingly relied on recommender systems (i.e., systems that learn user preferences) in order to increase user engagement and drive up sales.
+Spotify and Netflix, two popular services that stream music and videos, respectively, learn preferences based on implicit observations about the users' choices (which songs or movies they listen to).
+Amazon, a large e-commerce site, suggests personalized recommendations based on users' previous purchases.
 
-- recommender systems: netflix, spotify, amazon.
-- Gifgif, place pulse
-- Allourideas
+\item Scientists have built online platforms that enable them to collect large amounts of comparison data in order to answer challenging psychological and sociological research questions.
+For example, GIFGIF aims at understanding the emotional content of animated GIF images, by showing users a pair of images and asking them the question: ``Which image better expresses [happiness, shame, ...]?''
+Place Pulse aims at understanding how different city neighborhoods are perceived using similar pairwise comparison questions.
+In both cases, comparisons are a natural way to elicit feedback from users.
+These two projects have each collected millions of data points over thousands of objects, and they resulted in fascinating findings that were previously out of reach using traditional methods. 
 
-These modern applications raise a number of new challenges, which this thesis is concerned with.
-Abstracly, we try to solve:
+\item Pairwise comparisons are at the heart of \emph{wiki surveys}, a novel surveying method developed by \citet{salganik2015wiki}.
+Wiki surveys aim at bridging the gap between questionnaires, which scale well but do not enable new information to emerge, and interviews, which are expensive to conduct but can lead to serendipitous discoveries.
+For example, the administration of New York City has used this service to gather feedback on a sustainability plan.
+Users could either propose new ideas or answer comparison questions of the type ``Which [of the following two ideas] do you think is a better idea for creating a greener, greater New York City?''
+The service makes it possible to simultaneously elicit new ideas and prioritize existing ones.
+At the time of writing, \num{11739} surveys were created on \url{http://www.allourideas.org/}, totalling \num{17.8} million votes over \num{631682} ideas.
+\end{itemize}
 
-- data efficiency: how to query choices.
-- statistical efficiency
-- computational efficiency.
+The scale of these modern applications---both in terms of number of \emph{observations} and number of \emph{alternatives}---raises new challenges.
+It becomes important to develop methods that are efficient, in order to process the large number of observations, but also in order to end up with sufficient information about every alternative.
+This notion of \emph{efficiency} is the guiding thread of this thesis and will be expanded upon in Section~\ref{in:sec:outline}.
 
 \paragraph{Beyond preferences: applications to sport}
-Sports chess, sports.
+Finally, we note that the very same methods used to model human choices can also be used to tackle other problems that might first appear to be conceptually very different.
+In this thesis, we will consider that of predicting the outcome of football matches given historical data.
+In football, two teams are compared against each other during a match, at the end of which one them wins.
+Using our previous terminology, we can frame the teams as alternatives being compared, and the winner as the outcome of the comparison.
+It is interesting to note that, historically, the development of the main models and ideas used in this thesis has been happening simultaneously in the context of analyzing human choices as well as sports outcomes, as we will see in the next section.
 
 \input{01-models}
 \input{02-outline}
