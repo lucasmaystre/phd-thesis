@@ -1,4 +1,5 @@
 \chapter{Introduction}
+\label{ch:intro}
 
 Making a choice is a fundamental way for us, humans, to express our opinions and preferences.
 We choose the music we listen to and the movies we watch, and we also choose the place where we live and the political candidate we vote for.
@@ -8,11 +9,11 @@ Unsuprisingly, one can gain a great understanding of collective and personal opi
 The idea of analyzing human choices has been a longstanding topic of interest to researchers and practitioners across a wide range of disciplines, including psychology, sociology and economics.
 To give just one example among many, discrete choice analysis has become an essential item in the econometrician's toolbox.
 It has important applications: for example, it enabled to accurately predict the impact of a new metro line in the San Francisco Bay area on the usage of various modes of transport \citep{mcfadden1977demand}.
-It also resulted in a Nobel prize for its main inventor \citep{mcfadden2001economic}.
+The theory and methods developed in this context resulted in a Nobel prize for its main inventor \citep{mcfadden2001economic}.
 
 This thesis is part of this quest.
 It is concerned with the problem of extracting concise information (e.g., about our preferences) from raw choice data.
-Concretely, a typical information of interest might be the ranking of all alternatives from most to least preferred, or numerical scores that describe the utility of each alternative and that are predictive of future choices.
+Concretely, a typical information of interest might be the ranking of all alternatives from most to least preferred, often by means of numerical scores that describe the utility of each alternative and that are predictive of future choices.
 %In order to go beyond a simple description of choices made, it is useful to postulate a model that describes how we make choices based on our preferences, observations and opinions.
 
 \paragraph{Why study choice data?}
@@ -23,7 +24,7 @@ Two important reasons come to mind.
 \item It is particularly natural and easy for humans to make comparisons.
 A popular theory in social psychology even states that comparing ourselves to others is one the primary ways in which we learn about and define ourselves, our beliefs and opinions \citep{festinger1954theory}.
 Arguably, it is more difficult for us to give meaningful and consistent numerical scores.
-What does a "3.5 star" rating on a restaurant really mean? The answer will likely depend on the person's cultural background, among others.
+What does a ``3.5 star'' rating on a restaurant really mean? The answer will likely depend on the rater's cultural background, among others.
 
 \item In some cases, it is possible to observe choices \emph{implictly}, simply by recording the actions that we take and the context in which we take them.
 This makes the process of collecting choices much less obtrusive than \emph{explicitly} asking for feedback.
@@ -43,7 +44,7 @@ This is due to a multitude of factors:
 \item if we try to summarize collective preferences based on individual choices, we can obviously expect some level of disagreement among individuals, even if some trends are shared;
 \item finally, errors sometimes creep into the data, due to erroneous measurements or flawed interpretations.
 \end{enuminline}
-A premise of this thesis is that these inconsistencies are unavoidable, but can be dealt with in a principled way using a probabilistic model.
+A premise of this thesis is that these inconsistencies are unavoidable but can be dealt with in a principled way using a probabilistic model.
 In a nutshell, this approach states that given a set of alternatives, \emph{any} comparison outcome is possible, but some outcomes are more likely than others, depending on the underlying preferences.
 Informally, the task then reduces to finding preferences that explain the observations well.
 This approach has been dominant in the field, and will be introduced further in Section~\ref{in:sec:models}.
@@ -66,7 +67,7 @@ These two projects have each collected millions of data points over thousands of
 \item Pairwise comparisons are at the heart of \emph{wiki surveys}, a novel surveying method developed by \citet{salganik2015wiki}.
 Wiki surveys aim at bridging the gap between questionnaires, which scale well but do not enable new information to emerge, and interviews, which are expensive to conduct but can lead to serendipitous discoveries.
 For example, the administration of New York City has used this service to gather feedback on a sustainability plan.
-Users could either propose new ideas or answer comparison questions of the type ``Which [of the following two ideas] do you think is a better idea for creating a greener, greater New York City?''
+Users could either propose new ideas or answer comparison questions of the type ``Which [of the following two ideas] do you think is better for creating a greener, greater New York City?''
 The service makes it possible to simultaneously elicit new ideas and prioritize existing ones.
 At the time of writing, \num{11739} surveys were created on \url{http://www.allourideas.org/}, totalling \num{17.8} million votes over \num{631682} ideas.
 \end{itemize}
@@ -76,7 +77,7 @@ It becomes important to develop methods that are efficient, in order to process 
 This notion of \emph{efficiency} is the guiding thread of this thesis and will be expanded upon in Section~\ref{in:sec:outline}.
 
 \paragraph{Beyond preferences: applications to sport}
-Finally, we note that the very same methods used to model human choices can also be used to tackle other problems that might first appear to be conceptually very different.
+Finally, we note that the very same methods used to model human choices can also be used to tackle problems that might first appear to be conceptually very different.
 In this thesis, we will consider that of predicting the outcome of football matches given historical data.
 In football, two teams are compared against each other during a match, at the end of which one them wins.
 Using our previous terminology, we can frame the teams as alternatives being compared, and the winner as the outcome of the comparison.
