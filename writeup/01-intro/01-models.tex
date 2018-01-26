@@ -41,19 +41,19 @@ arguably, it would have been very difficult for the subjects to give a numerical
 
 Based on the outcomes of comparisons and using~\eqref{in:eq:thu5}, Thurstone used a least-squares procedure to estimate the parameters $\bm{\theta}$.
 This enabled the representation of crimes on a global scale from least to most serious, in a way that reflected by the subjects' opinions.
-Figure~\ref{in:fig:crimedata} presents a reproduction\footnote{%
+Figure~\ref{in:fig:crimescale} presents a reproduction\footnote{%
 The method used to fit the parameters of the model slightly differs from that of \citet{thurstone1927method}.
 However, the differences with the original plot are almost not perceptible.}
 of the scale he presented in his 1927 paper.
 
 \begin{figure}[ht]
 \centering
-\includegraphics[width=\linewidth]{in-crimedata}
+\includegraphics[width=\linewidth]{in-crimescale}
 \caption{
 Scale of seriousness of offenses, using the the data in \citet{thurstone1927method}.
 Nineteen crimes are embedded on a scale using Thurstone's model, based on 266 students' answers to 171 pairwise comparisons.
 }
-\label{in:fig:crimedata}
+\label{in:fig:crimescale}
 \end{figure}
 
 
@@ -109,16 +109,16 @@ Hence, the Bradley--Terry model (as it is nowadays usually referred to) is anoth
 Outcomes can therefore also be thought of as the comparison of the realizations of two random variables centered around the alternatives' scores, similarly to Thurstone's model.
 Finally, \citet{stern1992all} showed that both Thurstone's and the Bradley--Terry model can be unified under a more general model using the gamma distribution.
 In practice, both models give quantitatively similar results in most cases~\citep{tsukida2011how}.
-Figure~\ref{in:fig:pwmodels} illustrates the probabilities~\eqref{in:eq:thu5} and~\eqref{in:eq:bt} as a function of $\theta_i - \theta_j$.
+Figure~\ref{in:fig:sigmoids} illustrates the probabilities~\eqref{in:eq:thu5} and~\eqref{in:eq:bt} as a function of $\theta_i - \theta_j$.
 
 \begin{figure}[ht]
 \centering
-\includegraphics{in-pwmodels}
+\includegraphics{in-sigmoids}
 \caption{
 Comparison of the Bradley--Terry model and a rescaled version of Thurstone's model.
 The scaling constant is chosen such that the slope at the origin matches.
 }
-\label{in:fig:pwmodels}
+\label{in:fig:sigmoids}
 \end{figure}
 
 
