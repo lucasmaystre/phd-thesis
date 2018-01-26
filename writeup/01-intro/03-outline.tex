@@ -1,0 +1,45 @@
+\section{Outline and Contributions}
+\label{in:sec:outline}
+
+This thesis revisits Luce's choice model with an eye towards online services.
+It tackles the problem of \emph{efficiently} finding a ranking over a set of items (usually, by means of estimating model parameters).
+Efficiency is the guiding thread:
+\begin{itemize}
+\item as the size of datasets grows large, it becomes important to develop inference methods that are \emph{computationally} efficient, without sacrificing their \emph{statistical} efficiency, i.e., their accuracy, and
+\item as the number of distinct items grows large, it becomes important to sample observations intelligently, such that the observations bring as much information as possible; we will refer to this by \emph{data} efficiency.
+\end{itemize}
+
+In Chapter~\ref{ch:fastinference}, we focus on the problem of parameter inference from an algorithmic perspective and develop two procedures for models based on Luce's choice axiom.
+We do so by casting the inference problem as that of finding the stationary distribution of a Markov chain, an approach already suggested by~\citet{negahban2012iterative} in the context of pairwise comparisons.
+Finding the stationary distribution of a Markov chain is a well-studied problem, and fast solvers are commonly available.
+We first show how the Markov chain can be derived from the likelihood function, a key insight that enables the generalization of \citeauthor{negahban2012iterative}'s ideas to other models based on Luce's choice axiom.
+The first algorithm, LSR, finds a \emph{spectral} estimate of model parameters by solving a homogeneous Markov chain: it is computationally very efficient and the estimate turns out to be more accurate than those obtained using competing methods with a similar running time.
+The second algorithm, I-LSR, finds the maximum-likielihood estimate (MLE) by solving a non-homogeneous Markov chain.
+The MLE is statisticially more efficient than the spectral estimate but is also computationally more expensive.
+Even then, I-LSR turns out to be significantly faster than other commonly-used algorithms for finding the MLE.
+
+In Chapter~\ref{ch:robustsort}, we shift our attention to the task of ``intelligently'' sampling pairwise comparison outcomes, based on the observed outcomes of previous comparisons.
+Supposing that we can adaptively choose which pair of items to query at every point in time, we seek to maximize the information obtained about the model (in particular, about the ranking of the $N$ items) while minimizing the number of queries.
+In the machine-learning literature, this is known as the \emph{active learning} setting \citep{settles2012active}.
+We start by analyzing the behavior of QuickSort \citep{hoare1962quicksort}, a popular sorting algorithm designed for learning a ranking when comparisons are always consistent with the true order.
+Under natural assumptions on the distribution of Bradley--Terry model parameters (that characterize the difficulty of rankings), we show that QuickSort is remarkably resilient to inconsistent comparison outcomes.
+This leads to a practical and data-efficient sampling strategy that repeatedly runs a sorting algorithm until a given comparison budget is exhausted.
+With respect to competing active-learning strategies, our method is significantly less computationally expensive.
+
+In Chapter~\ref{ch:choicerank} we consider a setting in which choices happen in a network, inspired by \citet{kumar2015inverting}.
+We aim to understand how users navigate in a network (e.g., which links they click on the Web), assuming that we have access to the aggregate traffic at each node in the network but not to the individual choices (i.e., to the actual transitions).
+If transitions satisfy Luce's choice axiom, we show that the aggregate traffic is a sufficient statistic for the transition probabilities.
+Next, we develop an inference algorithm that
+\begin{enuminline}
+\item is robust to various ill-posed scenarios and
+\item can be implemented efficiently.
+\end{enuminline}
+For example, the algorithm sucessfully scales to a snapshot of the WWW hyperlink graph containing billions of nodes.
+Finally, we demonstrate, using two real-world clickstream datasets, that our method is able to estimate transition probabilities well, despite the strong assumptions implied by Luce's axiom.
+
+Lastly, in Chapter~\ref{ch:playerkern}, we switch over to an application in sports.
+We examine the problem of predicting the outcome of football matches between national teams.
+This problem is challenging, because national teams play few games every year, and hence their strength is difficult to estimate based only on match outcomes.
+Observing that most players in national teams play against each other in club competitions, we seek to take advantage of the (comparatively) large number of matches between clubs in order to improve the predictions.
+To this end, we embed all matches in a \emph{player space} and use a kernel method to ensure that model inference is computationally tractable.
+We evaluate the resulting prediction using data from the last three European championships, and we find that those based on the joint model are more accurate than those based solely on the results between national teams.
