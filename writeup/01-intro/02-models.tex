@@ -7,7 +7,7 @@ While this section only gives a brief overview of the developments, it contains 
 
 \subsection{Thurstone's Model}
 In 1927, Thurstone published an article that is widely regarded as foundational in the field of probabilistic models of comparison outcomes \citep{thurstone1927law}.
-He was interested in the problem of measurement in psychology, and developed a method that is able to explain the responses of human subjects to comparisons between two stimuli.
+He was interested in the problem of measurement in psychology, and developed a method that is able to explain the responses of human subjects to comparisons between two stimuli among $N$.
 Thurstone suggested modeling the perceived value of a stimulus $i$ during some experiment by means of a \emph{random} variable $x_i \in \mathbf{R}$, in order to capture the fact that the response can vary.
 The outcome of the comparison between stimuli $i$ and $j$ is given by comparing a realization of the corresponding two random variables, i.e., by the event $x_i > x_j$.
 He further postulated that these random variables follow a jointly Gaussian distribution $\bm{x} \sim \DNorm{\bm{\theta}, \bm{\Sigma}}$.
@@ -24,21 +24,21 @@ In that case,
 \Prob{i \succ j} = \Phi(\theta_i - \theta_j).
 \end{align}
 The vector of $N$ parameters $\bm{\theta} = \begin{bmatrix}\theta_1 & \cdots & \theta_N\end{bmatrix} \in \mathbf{R}^N$ drives the probabilities of all $\binom{N}{2}$ possible pairwise comparisons.
-Intuitively, $\theta_i$ can be interpreted as the \emph{score} of stimulus $i$, and observing a comparison outcome for $i$ and $j$ that is consistent with the true order increases with the distance $\lvert \theta_i - \theta_j \rvert$.
+Intuitively, $\theta_i$ can be interpreted as the \emph{score} of stimulus $i$, and the probability of observing a comparison outcome for $i$ and $j$ that is consistent with the true order increases with the distance $\lvert \theta_i - \theta_j \rvert$.
 Note that as~\eqref{in:eq:thu5} only involves pairwise distances, the parameters $\bm{\theta}$ are identifiable only up to a constant.
 In order to resolve this ambiguity, the parameters are often chosen such that $\sum_i \theta_i = 0$.
 
 Perhaps the first application that Thurstone had in mind relates to psychophysics.
 Imagine being given two balls and asked the question: ``Which of these two balls is heavier''?
-Given a collection of observations of this sort (some of which are possibly inconsistent), model~\eqref{in:eq:thu5} could be used to embed all stimuli on a single scale by means of estimating the parameters $\bm{\theta}$.
+Given a collection of observations of this sort (some of which are possibly inconsistent), model~\eqref{in:eq:thu5} could be used to embed the stimuli on a real-valued scale (compactly summarizing all the data) by means of estimating the parameters $\bm{\theta}$.
 
 \paragraph{Application to Social Values}
 Thurstone quickly realized that there was potential beyond psychophysics.
 The same year, he published a study in which the method is applied to social values \citep{thurstone1927method}.
 This study seeks to understand the seriousness of \num{19} different criminal offenses in the United States, including crimes such as \emph{bootlegging}, \emph{arson}, \emph{seduction} and \emph{homicide}.
 Subjects (266 undergraduate students) were instructed to answer a questionnaire containing pairwise comparison questions of the type: ``Which crime is more serious, $i$ or $j$?''
-The study perfectly illustrates the advantage of eliciting feedback in the form of comparisons rather than absolute ratings:
-arguably, it would have been very difficult for the subjects to give a numerical score to each crime in a consistent way, as crimes might elicit strong emotional feelings.
+The study perfectly illustrates the advantage of eliciting feedback in the form of comparisons rather than absolute ratings.
+Arguably, it would have been very difficult for the subjects to give a numerical score to each crime in a consistent way: in absolute terms, many crimes are extremely serious, and only relative judgments can make nuances appear.
 
 Based on the outcomes of comparisons and using~\eqref{in:eq:thu5}, Thurstone used a least-squares procedure to estimate the parameters $\bm{\theta}$.
 This enabled the representation of crimes on a global scale from least to most serious, in a way that reflected the subjects' opinions.
@@ -52,14 +52,14 @@ Figure~\ref{in:fig:crimescale} displays the resulting scale.
 \includegraphics[width=\linewidth]{in-crimescale}
 \caption{
 Scale of seriousness of offenses (from left to right: least to most serious), using the the data in \citet{thurstone1927method}.
-Nineteen crimes are embedded on a scale using Thurstone's model, based on 266 students' answers to 171 pairwise comparisons.
+Nineteen crimes are embedded on a scale using Thurstone's model, based on 266 students' answers to 171 pairwise comparisons each.
 }
 \label{in:fig:crimescale}
 \end{figure}
 
 
 \paragraph{A Note on Inference}
-The first approaches to learning the parameter vector $\bm{\theta}$ from data relied on least-squares fitting \citep{thurstone1927method, mosteller1951remarks}
+The first approaches to learning the parameter vector $\bm{\theta}$ from data relied on least-squares fitting \citep{thurstone1927method, mosteller1951remarks}.
 Nowadays, maximum-likelihood estimation is more common.
 Indeed, the likelihood~\eqref{in:eq:thu5} is log-concave in $\bm{\theta}$, and standard off-the-shelf convex solvers can be used to find the maximizer.
 It is also interesting to note that Thurstone's model also lends itself particularly well to approximate Bayesian inference methods \citep{chu2005extensions, chu2005preference}.
@@ -94,7 +94,7 @@ The MLE exists if and only if there is no way to partition all players into two 
 for the existence of a unique maximum-likelihood estimate, developed an iterative algorithm\footnote{%
 Interestingly, the same algorithm was later rediscovered multiple times in different contexts \citep{bradley1952rank, ford1957solution, dykstra1960rank, hunter2004mm, caron2012efficient}.}
 to find it and proved the algorithm's convergence.
-Overall, his treatment of the model is very thorough and complete; unfortunately it appears to have been largely ignored for about 50 years.
+Overall, his treatment of the model is very thorough and complete; unfortunately it appears to have been largely ignored for about 50 years \citep{david1988method}.
 See \citet{glickman2013introductory} for an compelling introduction to Zermelo's paper.
 Finally, note that the chess rating system presently in use by the international chess federation is directly based on Zermelo's model \citep{elo1978rating}.
 
@@ -106,8 +106,8 @@ The connection to Thurstone's model starts becoming clear in \citet{bradley1953s
 \Prob{i \succ j} = \frac{1}{1 + \exp[-(\theta_i - \theta_j)]}.
 \end{align}
 Hence, the Bradley--Terry model (as it is nowadays usually referred to) is another instance of a ``generalized linear model'' for pairwise comparisons: the outcome probability depends on the distance $\lvert \theta_i - \theta_j \rvert$ between the two parameters corresponding to the score of the alternatives.
-\citet{yellot1977relationship} further expands the connection, by showing that $\Prob{i \succ j}$ in~\eqref{in:eq:bt} can be rewritten as $\Prob{x_i > x_j}$ for independent random variables $\{x_k : k \in [N]\}$ such that $x_k \sim \DGumbel{\theta_k, 1}$, that is, $\Prob{x_k \le y} = \exp[-\exp(y)]$.
-Outcomes can therefore also be thought of as the comparison of the realizations of two random variables centered around the alternatives' scores, similarly to Thurstone's model.
+\citet{yellot1977relationship} further expands the connection, by showing that $\Prob{i \succ j}$ in~\eqref{in:eq:bt} can be rewritten as $\Prob{x_i > x_j}$ for independent random variables $\{x_k : k \in [N]\}$ such that $x_k \sim \DGumbel{\theta_k, 1}$, that is, $\Prob{x_k \le y} = \exp\{-\exp[-(y - \theta_k)]\}$.
+Outcomes can therefore also be thought of as the comparison of the realizations of two random variables centered around the alternatives' scores, similarly to Thurstone's model, giving rise to a \emph{random utility} interpretation.
 Finally, \citet{stern1992all} showed that both Thurstone's and the Bradley--Terry model can be unified under a more general model using the gamma distribution.
 In practice, both models give quantitatively similar results in most cases~\citep{tsukida2011how}.
 Figure~\ref{in:fig:sigmoids} illustrates the probabilities~\eqref{in:eq:thu5} and~\eqref{in:eq:bt} as a function of $\theta_i - \theta_j$.
@@ -144,9 +144,9 @@ A probabilistic choice model is said to satisfy the \emph{independence from irre
 \end{align*}
 \end{definition}
 
-The IIA property is essentially equivalent to \emph{Luce's choice axiom}\footnote{%
-\citet{luce1959individual} introduces the IIA property as a consequence of the choice axiom, which is slightly more general: its formulation allows $\Prob{i \succeq \mathcal{A}} = 0$, a technicality that we will not consider in this thesis.},
-and in this thesis we will refer to these two concepts interchangeably.
+The IIA property is essentially equivalent\footnote{%
+\citet{luce1959individual} introduces the IIA property as a consequence of the choice axiom, which is slightly more general: its formulation allows $\Prob{i \succeq \mathcal{A}} = 0$, a technicality that we will not consider in this thesis.}
+to Luce's \emph{choice axiom} \citeyearpar[p. 6]{luce1959individual}, and in this thesis we will refer to these two concepts interchangeably.
 Luce's fundamental contribution was to show that the IIA property enables an axiomatic characterization of the choice probabilities.
 
 \begin{proposition}
@@ -186,12 +186,10 @@ Furthermore, as $\sum_{j \in \mathcal{A}} \Prob{j \succeq \mathcal{A}} = 1$, we 
 which concludes the proof.
 \end{proof}
 
-Whether independence from irrelevant alternatives is a desirable property for a choice model is unclear.
-In cases where some alternatives are very similar, IIA can easily turn out to be unrealistic, as shown in a simple example by \citet{debreu1960review}.
-Note however, that Luce's choice model represents \emph{combinatorially} many choice probabilities using only $N$ parameters.
-On the one hand, this inevitably restricts the expressivity of the model.
-On the other hand, this makes the problem of learning the choice probabilities from a possibly small number of observations tractable.
-In the context of online applications with a large number of items, which is the focus of this thesis, this tradeoff is acceptable (and perhaps even necessary).
+Indepdendence of irrelevant alternatives is a powerful property, as it leads to a choice model that represents \emph{combinatorially} many choice probabilities using only $N$ parameters.
+This makes the problem of learning the choice probabilities from a possibly small number of observations tractable.
+On the other hand, it inevitably restricts the expressivity of the model, and in cases where some alternatives are very similar, IIA can turn out to be unrealistic, as shown by \citet{debreu1960review} in a simple example.
+In the context of modern applications with a large number of items, which is the focus of this thesis, I believe that this tradeoff is acceptable (and perhaps even necessary).
 
 \paragraph{Extension to Rankings}
 Numerous extensions of Luce's choice model have been proposed in the literature, enabling the analysis of observations beyond those of the type ``one out of $K$''.
