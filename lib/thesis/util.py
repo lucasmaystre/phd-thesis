@@ -4,14 +4,18 @@ from matplotlib.backends.backend_pgf import FigureCanvasPgf
 
 
 MPL_RCPARAMS = {
-    "figure.autolayout": True,     # Makes sure nothing the feature is neat & tight.
+    "figure.autolayout": True,     # Makes sure the figure is neat & tight.
     "figure.figsize": (5.78, 3.0), # textwidth = 146.8mm, c.f. preamble.tex.
+    "figure.dpi": 150,             # Displays figures nicely in notebooks.
     "axes.linewidth": 0.5,         # Matplotlib's current default is 0.8.
     "lines.linewidth": 1.0,
+    "lines.markersize" : 4,
     "xtick.major.width": 0.5,
     "xtick.minor.width": 0.5,
+    "xtick.labelsize": 9,
     "ytick.major.width": 0.5,
     "ytick.minor.width": 0.5,
+    "ytick.labelsize": 9,
     "text.usetex": True,           # use LaTeX to write all text
     "text.latex.unicode": True,
     "font.family": "serif",        # use serif rather than sans-serif
@@ -21,8 +25,6 @@ MPL_RCPARAMS = {
     "axes.labelsize": 9,           # LaTeX default is 10pt font.
     "legend.fontsize": 9,          # Make the legend/label fonts a little smaller
     "legend.frameon": False,       # Remove the black frame around the legend
-    "xtick.labelsize": 9,
-    "ytick.labelsize": 9,
 }
 
 
