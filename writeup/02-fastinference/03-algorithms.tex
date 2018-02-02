@@ -5,228 +5,254 @@
 We begin by expressing the ML estimate under the choice model as the stationary distribution of a Markov chain.
 We then take advantage of this formulation to propose novel algorithms for model inference.
 Although our derivation is made in the general choice model, we will also discuss implications for the special cases of pairwise data in Section~\ref{fi:sec:pairwise} and $k$-way ranking data in Section~\ref{fi:sec:partial}.
-Suppose that we collect $d$ independent observations in the multiset $\mathcal{D} = \{(c_\ell, A_\ell) \mid \ell = 1, \ldots, d\}$.
-Each observation consists of a choice $c_\ell$ among a set of alternatives $A_\ell$;
-we say that \emph{$i$ wins over $j$} and denote by $i \succ j$ whenever $i, j \in A$ and $c_\ell = i$.
-We define the directed \emph{comparison graph} as $G_{\mathcal{D}} = (V, E)$, with $V = \{1, \ldots, n \}$ and $(j, i) \in E$ if $i$ wins at least once over $j$ in $\mathcal{D}$.
-In order to ensure that the ML estimate is well-defined, we make the standard assumption that $G_{\mathcal{D}}$ is strongly connected \citep{ford1957solution, hunter2004mm}.
+Suppose that we collect $M$ independent observations in the multiset $\mathcal{D} = \{(c_m, \mathcal{A}_m) : m = 1, \ldots, M\}$.
+Each observation consists of a choice $c$ among a set of alternatives $\mathcal{A}$;
+we say that \emph{$i$ wins over $j$} and denote by $i \succ j$ whenever $i, j \in \mathcal{A}$ and $c = i$.
+We define the directed \emph{comparison graph} as $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, with $\mathcal{V} = [N]$ and $(j, i) \in \mathcal{E}$ if $i$ wins at least once over $j$ in $\mathcal{D}$.
+In order to ensure that the ML estimate is well-defined, we make the standard assumption that $\mathcal{G}$ is strongly connected \citep{ford1957solution, hunter2004mm}.
 In practice, if this assumption does not hold, we can consider each strongly connected component separately.
 
-\subsection{ML estimate as a stationary distribution}
+\subsection{ML Estimate as a Stationary Distribution}
 
-For simplicity, we denote the model parameter associated with item $c_\ell$ by $\pi_\ell$.
-The log-likelihood of parameters $\bm{\pi}$ given observations $\mathcal{D}$ is
+For simplicity, we denote the model parameter associated with item $c_m$ by $\gamma_m$.
+The log-likelihood of parameters $\bm{\gamma}$ given observations $\mathcal{D}$ is
 \begin{equation}
 \label{fi:eq:loglik}
-\log \mathcal{L}(\bm{\pi} \mid \mathcal{D}) = \sum_{\ell = 1}^d \left( \log \pi_\ell - \log{\sum_{j \in A_\ell} \pi_j} \right).
+\ell(\bm{\gamma}) = \sum_{m = 1}^M \left( \log \gamma_m - \log{\sum_{j \in \mathcal{A}_m} \gamma_j} \right).
 \end{equation}
 For each item, we define two sets of indices.
-Let $W_i \doteq \{ \ell \mid i \in A_\ell, c_\ell = i \}$ and $L_i \doteq \{ \ell \mid i \in A_\ell, c_\ell \ne i \}$ be the indices of the observations where item $i$ wins over and loses against the alternatives, respectively.
-The log-likelihood \eqref{fi:eq:loglik} is not concave in $\bm{\pi}$ (it can be made strictly concave using a simple reparametrization), but we briefly show in the supplementary material that it admits a unique stationary point, at the ML estimate $\mlpi$.
-The optimality condition $\nabla_{\mlpi} \log \mathcal{L} = 0$ implies
+Let $\mathcal{W}_i \doteq \{ m : i \in \mathcal{A}_m, c_m = i \}$ and $\mathcal{L}_i \doteq \{ m : i \in \mathcal{A}_m, c_m \ne i \}$ be the indices of the observations where item $i$ wins over and loses against the alternatives, respectively.
+% TODO
+The log-likelihood \eqref{fi:eq:loglik} is not concave in $\bm{\gamma}$ (it can be made strictly concave using a simple reparametrization), but we briefly show in the supplementary material that it admits a unique stationary point, at the ML estimate $\bm{\gamma}^\star$.
+The optimality condition $\nabla \ell = 0$ implies
 \begin{align}
- \frac{\partial \log \mathcal{L}}{\partial \hat{\pi}_i}
-     = \sum_{\ell \in W_i} \left( \frac{1}{\hat{\pi}_i} - \frac{1}{\sum_{j \in A_\ell} \hat{\pi}_j} \right)
-       - \sum_{\ell \in L_i} \frac{1}{\sum_{j \in A_\ell} \hat{\pi}_j} = 0 \quad \forall i \label{fi:eq:step1} \\
- \iff  \sum_{j \ne i} \left(
-      \sum_{\ell \in W_i \cap L_j} \frac{\hat{\pi}_j}{\sum_{t \in A_\ell} \hat{\pi}_t}
-      \;-\; \sum_{\ell \in W_j \cap L_i} \frac{\hat{\pi}_i}{\sum_{t \in A_\ell} \hat{\pi}_t}
-      \right) = 0 \quad \forall i. \label{fi:eq:mlbalance}
+\left. \frac{\partial \ell}{\partial \gamma_i} \right\rvert_{\gamma_i = \gamma^\star_i}
+    = \sum_{m \in W_i} \left( \frac{1}{\gamma^\star_i} - \frac{1}{\sum_{j \in \mathcal{A}_m} \gamma^\star_j} \right)
+      - \sum_{m \in \mathcal{L}_i} \frac{1}{\sum_{j \in \mathcal{A}_m} \gamma^\star_j} = 0 \quad \forall i \label{fi:eq:step1} \\
+\iff  \sum_{j \ne i} \left(
+    \sum_{m \in \mathcal{W}_i \cap \mathcal{L}_j} \frac{\gamma^\star_j}{\sum_{k \in \mathcal{A}_m} \gamma^\star_k}
+    \;-\; \sum_{m \in \mathcal{W}_j \cap \mathcal{L}_i} \frac{\gamma^\star_i}{\sum_{k \in \mathcal{A}_m} \gamma^\star_k}
+    \right) = 0 \quad \forall i. \label{fi:eq:mlbalance}
 \end{align}
-In order to go from \eqref{fi:eq:step1} to \eqref{fi:eq:mlbalance}, we multiply by $\hat{\pi}_i$ and rearrange the terms.
+In order to go from \eqref{fi:eq:step1} to \eqref{fi:eq:mlbalance}, we multiply by $\gamma^\star_i$ and rearrange the terms.
 To simplify the notation, let us further introduce the function
 \begin{align*}
-f(\mathcal{S}, \bm{\pi}) \doteq \sum_{A \in \mathcal{S}} \frac{1}{\sum_{i \in A} \pi_i},
+f(\mathcal{S}, \bm{\gamma}) \doteq \sum_{\mathcal{A} \in \mathcal{S}} \frac{1}{\sum_{i \in \mathcal{A}} \gamma_i},
 \end{align*}
-which takes observations $\mathcal{S} \subseteq \mathcal{D}$ and an instance of model parameters $\bm{\pi}$, and returns a non-negative real number.
-Let $\mathcal{D}_{i \succ j} \doteq \{ (c_\ell, A_\ell) \in \mathcal{D} \mid \ell \in W_i \cap L_j \}$, i.e., the set of observations where $i$ wins over $j$.
+which takes observations $\mathcal{S} \subseteq \mathcal{D}$ and an instance of model parameters $\bm{\gamma}$, and returns a non-negative real number.
+Let $\mathcal{D}_{i \succ j} \doteq \{ (c_m, \mathcal{A}_m) \in \mathcal{D} : m \in \mathcal{W}_i \cap \mathcal{L}_j \}$, i.e., the set of observations where $i$ wins over $j$.
 Then \eqref{fi:eq:mlbalance} can be rewritten as
 \begin{align}
 \label{fi:eq:master}
-\sum_{j \ne i} \hat{\pi}_i \cdot f(\mathcal{D}_{j \succ i}, \mlpi)
-= \sum_{j \ne i} \hat{\pi}_j \cdot f(\mathcal{D}_{i \succ j}, \mlpi) \quad \forall i.
+\sum_{j \ne i} \gamma^\star_i \cdot f(\mathcal{D}_{j \succ i}, \bm{\gamma}^\star)
+= \sum_{j \ne i} \gamma^\star_j \cdot f(\mathcal{D}_{i \succ j}, \bm{\gamma}^\star) \quad \forall i.
 \end{align}
 This formulation conveys a new viewpoint on the ML estimate.
-It is easy to recognize the global balance equations \eqref{fi:eq:balance} of a Markov chain on $n$ states (representing the items), with transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \mlpi)$ and stationary distribution $\mlpi$.
-These transition rates have an interesting interpretation: $f(\mathcal{D}_{i \succ j}, \bm{\pi})$ is the count of how many times $i$ wins over $j$, weighted by the strength of the alternatives.
-At this point, it is useful to observe that for any parameters $\bm{\pi}$, $f(\mathcal{D}_{i \succ j}, \bm{\pi}) \ge 1$ if $(j,i) \in E$, and $0$ otherwise.
-Combined with the assumption that $G_\mathcal{D}$ is strongly connected, it follows that any $\bm{\pi}$ parametrizes the transition rates of an ergodic (homogeneous) Markov chain.
+It is easy to recognize the global balance equations \eqref{fi:eq:balance} of a Markov chain on $N$ states (representing the items), with transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \bm{\gamma}^\star)$ and stationary distribution $\bm{\gamma}^\star$.
+These transition rates have an interesting interpretation: $f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ is the count of how many times $i$ wins over $j$, weighted by the strength of the alternatives.
+At this point, it is useful to observe that for any parameters $\bm{\pi}$, $f(\mathcal{D}_{i \succ j}, \bm{\gamma}) > 0$ if and only if $(j,i) \in \mathcal{E}$.
+Combined with the assumption that $\mathcal{G}$ is strongly connected, it follows that any $\bm{\gamma}$ parametrizes the transition rates of an ergodic (homogeneous) Markov chain.
 The ergodicity of the inhomogeneous Markov chain, where the transition rates are constantly updated to reflect the current distribution over states, is shown by the following theorem.
 \begin{theorem}
 \label{fi:thm:convergence}
-The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \vpi)$ converges to the maximum-likelihood estimate $\mlpi$, for any initial distribution in the open probability simplex.
+The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ converges to the maximum-likelihood estimate $\bm{\gamma}^\star$, for any initial distribution in the open probability simplex.
 \end{theorem}
 
 \begin{proof}[Proof]
-Let $G(\bm{\pi})$ be the transition rate matrix of the Markov chain $\bm{\pi}(t)$, i.e., $G_{ij} = \lambda_{ij}$ for all $i \ne j$ and  $G_{ii} = - \sum_{j} \lambda_{ij}$ for all $i$.
+Let $\bm{G}(\bm{\gamma})$ be the transition rate matrix of the Markov chain $\bm{\gamma}(t)$, i.e., $g_{ij} = \lambda_{ij}$ for all $i \ne j$ and  $g_{ii} = - \sum_{j} \lambda_{ij}$ for all $i$.
 The dynamics of the Markov chain are described by the differential equation
 \begin{align}
 \label{fi:eq:dynsys}
-\frac{d \bm{\pi}}{dt} = \bm{\pi}^\tr G(\bm{\pi}).
+\frac{d \bm{\gamma}}{dt} = \bm{\gamma}^\tr \bm{G}(\bm{\gamma}).
 \end{align}
 By construction, the invariant distributions of the Markov chain coincide with the maximizers of the likelihood~\eqref{fi:eq:loglik}.
-Hence, we know that $\hat{\bm{\pi}}$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\pi}^\tr G(\bm{\pi}) = \bm{0}$.
-We will now show that this point is globally and asymptotically stable, i.e., $\bm{\pi}(t) \to \hat{\bm{\pi}}$ as $t \to \infty$ for any $\bm{\pi}(0)$ in the open probability simplex.
-To this end, it suffices to show that $V(\bm{\pi}) = - \ell(\bm{\pi} ; \mathcal{D}) + \ell(\hat{\bm{\pi}} ; \mathcal{D})$ is a Lyapunov function for~\eqref{fi:eq:dynsys}.
-First, we have that $V(\hat{\bm{\pi}}) = 0$ and $V(\bm{\pi}) > 0$ for all $\bm{\pi} \ne \hat{\bm{\pi}}$ (by definition of the ML estimate).
-Second, we note that $\bm{\pi}^\tr G(\bm{\pi}) = \Diag{\bm{\pi}} \nabla_{\bm{\pi}} \ell(\bm{\pi})$.
+Hence, we know that $\bm{\gamma}^\star$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\gamma}^\tr \bm{G}(\bm{\gamma}) = \bm{0}$.
+We will now show that this point is globally and asymptotically stable, i.e., $\bm{\gamma}(t) \to \bm{\gamma}^\star$ as $t \to \infty$ for any $\bm{\gamma}(0)$ in the open probability simplex.
+To this end, it suffices to show that $V(\bm{\gamma}) = - \ell(\bm{\gamma}) + \ell(\bm{\gamma}^\star)$ is a Lyapunov function for~\eqref{fi:eq:dynsys}.
+First, we have that $V(\bm{\gamma}^\star) = 0$ and $V(\bm{\gamma}) > 0$ for all $\bm{\gamma} \ne \bm{\gamma}^\star$ (by definition of the ML estimate).
+Second, we note that $\bm{\gamma}^\tr \bm{G}(\bm{\gamma}) = \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})$.
 Hence,
 \begin{align*}
 \frac{dV}{dt}
-    = \left( \nabla_{\bm{\pi}} V \right)^\tr \frac{d \bm{\pi}}{dt}
-    = - (\nabla_{\bm{\pi}} \ell(\bm{\pi}))^\tr \Diag{\bm{\pi}} \nabla_{\bm{\pi}} \ell(\bm{\pi})
+    = \left( \nabla V \right)^\tr \frac{d \bm{\gamma}}{dt}
+    = - [\nabla \ell(\bm{\gamma})]^\tr \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})
     < 0,
 \end{align*}
-for all $\bm{\pi} \ne \hat{\bm{\pi}}$.
-Third, $\ell(\bm{\pi})$ grows unboundedly as $\bm{\pi}$ approaches the boundary of the probability simplex \citep[Lemma~1]{hunter2004mm} and therefore $V(\bm{\pi})$ does so as well.
-The result follows by appying the Barbashin-Krasovskii theorem, a standard result found, e.g., in \citet[Chapter~3]{khalil1996nonlinear}.
+for all $\bm{\gamma} \ne \bm{\gamma}^\star$.
+Third, $\ell(\bm{\gamma})$ grows unboundedly as $\bm{\gamma}$ approaches the boundary of the probability simplex \citep[Lemma~1]{hunter2004mm} and therefore $V(\bm{\gamma})$ does so as well.
+The result then follows by appying the Barbashin-Krasovskii theorem, a standard result found, e.g., in \citet[Chapter~3]{khalil1996nonlinear}.
 \end{proof}
 
 
-\subsection{Approximate and exact ML inference}
+\subsection{Approximate and Exact ML Inference}
 
 We approximate the Markov chain described in \eqref{fi:eq:master} by considering a priori that all alternatives have equal strength.
-That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\pi})$ by fixing $\bm{\pi}$ to $[1/n, \ldots, 1/n]^\intercal$.
-For $i \ne j$, the contribution of $i$ winning over $j$ to the rate of transition $\lambda_{ji}$ is $n / |A|$.
+That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ by fixing $\bm{\gamma}$ to $[1/N \; \cdots \; 1/N]^\tr$.
+For $i \ne j$, the contribution of $i$ winning over $j$ to the rate of transition $\lambda_{ji}$ is $N / \Abs{\mathcal{A}}$.
 In other words, for each observation, the winning item is rewarded by a fixed amount of incoming rate that is evenly split across the alternatives (the chunk allocated to itself is discarded.)
-We interpret the stationary distribution $\rcpi$ as an estimate of model parameters.
-Algorithm~\ref{fi:alg:lsr} summarizes this procedure, called \emph{Luce Spectral Ranking} (\LSR{}.)
-%Note that as this Markov chain has different transition rates than that of \eqref{fi:eq:master}, $\rcpi \ne \mlpi$ in general.
-If we consider a growing number of observations, \LSR{} converges to the true model parameters $\bm{\pi}^*$, even in the restrictive case where the sets of alternatives are fixed.
+We interpret the stationary distribution $\bar{\bm{\gamma}}$ as an estimate of model parameters.
+Algorithm~\ref{fi:alg:lsr} summarizes this procedure, called \emph{Luce Spectral Ranking} (LSR).
+%Note that as this Markov chain has different transition rates than that of \eqref{fi:eq:master}, $\bar{\bm{\gamma}} \ne \bm{\gamma}^\star$ in general.
+If we consider a growing number of observations, LSR converges to the true model parameters $\bm{\gamma}'$, even in the restrictive case where the sets of alternatives are fixed.
+
+\begin{algorithm}[ht]
+  \caption{Luce Spectral Ranking}
+  \label{fi:alg:lsr}
+  \begin{algorithmic}[1]
+    \Require observations $\mathcal{D}$
+    \State $\bm{\Lambda} \gets \bm{0}_{N \times N}$
+    \For{$(i, \mathcal{A}) \in \mathcal{D}$}
+      \For{$j \in \mathcal{A} \setminus \{ i \}$}
+        \State $\lambda_{ji} \gets \lambda_{ji} + N / \Abs{\mathcal{A}}$
+      \EndFor
+    \EndFor
+    \State \Return stationary distribution of Markov chain $\bm{\Lambda}$
+  \end{algorithmic}
+\end{algorithm}
 
 \begin{theorem}
 \label{fi:thm:consistency}
-Let $\mathcal{A} = \{ A_\ell \}$ be a collection of sets of alternatives such that for any partition of $\mathcal{A}$ into two non-empty sets $S$ and $T$, $\left( \cup_{A \in S} A \right) \cap \left( \cup_{A \in T} A \right) \ne \varnothing$\footnote{
-This is equivalent to stating that the hypergraph $H = (V, \mathcal{A})$ is connected.
-}.
-Let $d_\ell$ be the number of choices observed over alternatives $A_\ell$.
-Then $\rcpi \to \bm{\pi}^*$ as $d_\ell \to \infty \ \forall \ell$.
+Let $\mathcal{U} = \{ \mathcal{A}_n \}$ be a collection of sets of alternatives such that for any partition of $\mathcal{U}$ into two non-empty sets $\mathcal{S}$ and $\mathcal{T}$, $\left( \cup_{\mathcal{A} \in \mathcal{S}} \mathcal{A} \right) \cap \left( \cup_{\mathcal{A} \in \mathcal{T}} \mathcal{A} \right) \ne \varnothing$.
+Let $M_n$ be the number of choices observed over alternatives $\mathcal{A}_n$.
+Then $\bar{\bm{\gamma}} \to \bm{\gamma}'$ as $M_n \to \infty \ \forall n$.
 \end{theorem}
 
-\vspace{-0.3cm}
-\begin{proof}[Proof (sketch)]
-The condition on $\mathcal{A}$ ensures that asymptotically $G_{\mathcal{D}}$ is strongly connected.
-Let $d \to \infty$ be a shorthand for $d_\ell \to \infty \ \forall \ell$.
-We can show that if items $i$ and $j$ are compared in at least one set of alternatives, the ratio of transition rates satisfies $\lim_{d \to \infty} \lambda_{ij} / \lambda_{ji} = \pi^*_j / \pi^*_i$.
-It follows that in the limit of $d \to \infty$, the stationary distribution is $\bm{\pi}^*$.
-A rigorous proof is given in the supplementary file.
+\begin{proof}
+Let $M \to \infty$ be a shorthand for $M_n \to \infty \ \forall n$.
+The condition on $\mathcal{U}$ is equivalent to stating that the hypergraph $H = (\mathcal{V}, \mathcal{U})$, with $\mathcal{V} = [N]$, is connected.
+First, we show that asymptotically, the graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is connected.
+For a given set of alternatives $\mathcal{A}_n$, let $i, j \in \mathcal{A}_n$.
+The probability that $(j, i) \in \mathcal{E}$ is
+\begin{align*}
+1 - \left(1 - \frac{\gamma'_i}{\sum_{k \in \mathcal{A}_n} \gamma'_k} \right)^{M_n}
+> 1 - (1 - \gamma'_i)^{M_n}
+\xrightarrow{M_n \to \infty} 1,
+\end{align*}
+where we use the fact that $\gamma_i > 0$ for all $i$.
+Therefore, asymptotically, every alternative set $\mathcal{A}_n$ forms a clique in $\mathcal{G}$.
+By assumption of connectivity on the hypergraph $\mathcal{H}$, the comparison graph $\mathcal{G}$ is strongly connected.
+
+Now that we know that the Markov chain is asymptotically ergodic, we will show that the stationary distribution matches the true model parameters.
+Let $c^n_m$ be a random variable denoting the item chosen in the $m$-th observation over alternatives $\mathcal{A}_n$, and let
+$1\{\mathcal{X}\}$ be the indicator variable for the event $\mathcal{X}$.
+By the law of large numbers, for any item $i \in \mathcal{A}_n$,
+\begin{align}
+\label{fi:eq:lln}
+\lim_{M_n \to \infty} \frac{1}{M_n} \sum_{m = 1}^{M_n} 1\{c^n_m = i\} = \frac{\gamma'_i}{\sum_{k \in A_n} \gamma'_k}.
+\end{align}
+Now consider two items $i$ and $j$.
+If they have never been compared, $\lambda_{ij} = \lambda_{ji} = 0$.
+Otherwise, suppose that they have been compared in alternative sets whose indices are in $\mathcal{B} = \{ n \mid i, j \in \mathcal{A}_n \}$
+By construction of the transition rates in LSR, we have that
+\begin{align*}
+\frac{\lambda_{ij}}{\lambda_{ji}}
+= \frac{\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} 1\{c^n_m = j\} \ N / \Abs{\mathcal{A}_n}}
+       {\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} 1\{c^n_m = i\} \ N / \Abs{\mathcal{A}_n}}.
+\end{align*}
+From \eqref{fi:eq:lln} it follows that
+\begin{align*}
+\lim_{M \to \infty}\frac{\lambda_{ij}}{\lambda_{ji}}
+& = \frac{\sum_{n \in \mathcal{B}} (\gamma'_j / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
+         {\sum_{n \in \mathcal{B}} (\gamma'_i / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}} \\
+& = \frac{\gamma'_j }{\gamma'_i}
+    \cdot \frac{\sum_{n \in \mathcal{B}}(1 / \sum_{k \in \mathcal{A}_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
+               {\sum_{n \in \mathcal{B}}(1 / \sum_{k \in \mathcal{A}_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
+  = \frac{\gamma'_j }{\gamma'_i}.
+\end{align*}
+Therefore, when $M \to \infty$,
+\begin{align*}
+\sum_{j \ne i} \gamma'_i \lambda_{ij} = \sum_{j \ne i} \gamma'_i \left( \frac{\gamma'_j}{\gamma'_i} \lambda_{ji} \right)
+                                    = \sum_{j \ne i} \gamma'_j \lambda_{ji}  \quad \forall i.
+\end{align*}
+It is easy to recognize the global balance equations, and it follows that $\bm{\gamma}'$ is the stationary distribution of the asymptotical Markov chain.
 \end{proof}
 
-Starting from the \LSR{} estimate, we can iteratively refine the transition rates of the Markov chain and obtain a sequence of estimates.
+Starting from the LSR estimate, we can iteratively refine the transition rates of the Markov chain and obtain a sequence of estimates.
 By \eqref{fi:eq:master}, the only fixed point of this iteration is the ML estimate $\mlpi$.
-We call this procedure \ILSR{} and describe it in Algorithm~\ref{fi:alg:ilsr}.
+We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
 
 %In Section~\ref{fi:sec:experimental}, we will investigate in detail the performance and practical advantages of this algorithm over the others for computing the ML estimate.
-%For now, we will only note that because \LSR{} is consistent implies that asymptotically, a single iteration is enough.
+%For now, we will only note that because LSR is consistent implies that asymptotically, a single iteration is enough.
 %This is in contrast to the MM algorithm \citep{hunter2004mm}, which is not consistent.
 
-\begin{figure}[t]
-\centering
-\begin{minipage}[t]{2.65in}
-  \vspace{0pt}
-  \begin{algorithm}[H]
-    \caption{Luce Spectral Ranking}
-    \label{fi:alg:lsr}
-    \begin{algorithmic}[1]
-      \Require observations $\mathcal{D}$
-      \State $\lambda \gets 0_{n \times n}$
-      \For{$(i, A) \in \mathcal{D}$}
-        \For{$j \in A \setminus \{ i \}$}
-          \State $\lambda_{ji} \gets \lambda_{ji} + n / |A|$
+\begin{algorithm}[ht]
+  \caption{Iterative Luce Spectral Ranking}
+  \label{fi:alg:ilsr}
+  \begin{algorithmic}[1]
+    \Require observations $\mathcal{D}$
+    \State $\bm{\gamma} \gets [1/N \; \cdots \; 1/N]^\tr$
+    \Repeat
+      \State $\bm{\Lambda} \gets \bm{0}_{N \times N}$
+      \For{$(i, \mathcal{A}) \in \mathcal{D}$}
+        \For{$j \in \mathcal{A} \setminus \{ i \}$}
+          \State $\lambda_{ji} \gets \lambda_{ji} + 1 / \sum_{k \in \mathcal{A}} \gamma_k$
         \EndFor
       \EndFor
-      \State $\rcpi \gets$ stat. dist. of Markov chain $\lambda$
-      \Return $\rcpi$
-      \newline
-      \newline
-      \vspace{0.76mm}
-    \end{algorithmic}
-  \end{algorithm}
-\end{minipage}
-\hspace{0.05in}
-\begin{minipage}[t]{2.65in}
-  \vspace{0pt}
-  \begin{algorithm}[H]
-    \caption{Iterative Luce Spectral Ranking}
-    \label{fi:alg:ilsr}
-    \begin{algorithmic}[1]
-      \Require observations $\mathcal{D}$
-      \State $\bm{\pi} \gets [1/n, \ldots, 1/n]^\intercal$
-      \Repeat
-        \State $\lambda \gets 0_{n \times n}$
-        \For{$(i, A) \in \mathcal{D}$}
-          \For{$j \in A \setminus \{ i \}$}
-            \State $\lambda_{ji} \gets \lambda_{ji} + 1 / \sum_{t \in A} \pi_t$
-          \EndFor
-        \EndFor
-        \State $\bm{\pi} \gets$ stat. dist. of Markov chain $\lambda$
-      \Until{convergence}
-    \end{algorithmic}
-  \end{algorithm}
-\end{minipage}
-\vspace{-0.4cm}
-\end{figure}
+      \State $\bm{\gamma} \gets$ stationary distribution of Markov chain $\bm{\Lambda}$
+    \Until{convergence}
+  \end{algorithmic}
+\end{algorithm}
 
-\LSR{} (or one iteration of \ILSR{}) entails 
+LSR (or one iteration of I-LSR) entails 
 \begin{enuminline}
 \item filling a matrix of (weighted) pairwise counts and
 \item finding a stationary distribution.
 \end{enuminline}
-Let $D \doteq \sum_{\ell} |A_\ell|$, and let $S$ be the running time of finding the stationary distribution.
-Then \LSR{} has running time $O(D + S)$.
+Let $D \doteq \sum_{m} \Abs{\mathcal{A}_m}$, and let $S$ be the running time of finding the stationary distribution.
+Then LSR has running time $O(D + S)$.
 As a comparison, one iteration of the MM algorithm \citep{hunter2004mm} is $O(D)$.
 Finding the stationary distribution can be implemented in different ways.
-% with $S$ ranging from $O(\min(D, n^2))$ for power methods to $O(n^3)$ for a dense LU decomposition.
-For example, in a sparse regime where $D \ll n^2$, the stationary distribution can be found with the power method in a few $O(D)$ sparse matrix multiplications.
-In the supplementary file, we give more details about possible implementations.
+% with $S$ ranging from $O(\min(D, N^2))$ for power methods to $O(N^3)$ for a dense LU decomposition.
+For example, in a sparse regime where $D \ll N^2$, the stationary distribution can be found with the power method in a few $O(D)$ sparse matrix multiplications.
+In the supplementary file, we give more details about possible implementations.  % TODO
 In practice, whether $D$ or $S$ turns out to be dominant in the running time is not a foregone conclusion.
 
-\subsection{Aggregating pairwise comparisons}
+\subsection{Aggregating Pairwise Comparisons}
 \label{fi:sec:pairwise}
 
 A widely-used special case of Luce's choice model occurs when all sets of alternatives contain exactly two items, i.e., when the data consists of pairwise comparisons.
 This model was proposed by \citet{zermelo1928berechnung}, and later by \citet{bradley1952rank}.
-As the stationary distribution is invariant to changes in the time-scale, we can rescale the transition rates and set $\lambda_{ji} \doteq |\mathcal{D}_{i \succ j}|$ when using \LSR{} on pairwise data.
-Let $S$ be the set containing the pairs of items that have been compared at least once.
-In the case where each pair $(i, j) \in S$ has been compared exactly $p$ times, \LSR{} is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
+As the stationary distribution is invariant to changes in the time-scale, we can rescale the transition rates and set $\lambda_{ji} \doteq |\mathcal{D}_{i \succ j}|$ when using LSR on pairwise data.
+Let $\mathcal{S}$ be the set containing the pairs of items that have been compared at least once.
+In the case where each pair $(i, j) \in \mathcal{S}$ has been compared exactly $C$ times, LSR is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
 In fact, our derivation justifies Rank Centrality as an approximate ML inference algorithm for the Bradley--Terry model.
 Furthermore, we provide a principled extension of Rank Centrality to the case where the number of comparisons observed is unbalanced.
 Rank Centrality considers transition rates proportional to the \emph{ratio} of wins, whereas \eqref{fi:eq:master} justifies making transition rates proportional to the \emph{count} of wins.
 
 \citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that it is minimax-optimal.
-Because the two estimators are equivalent in the setting of balanced pairwise comparisons, the bound also applies to \LSR{}.
+Because the two estimators are equivalent in the setting of balanced pairwise comparisons, the bound also applies to LSR.
 More interestingly, the expression of the ML estimate as a stationary distribution enables us to reuse the same analytical techniques to bound the error of the ML estimate.
-In the supplementary file, we therefore provide an alternative proof of the recent result of \citet{hajek2014minimax} on the minimax-optimality of the ML estimate.
+In the supplementary file, we therefore provide an alternative proof of the recent result of \citet{hajek2014minimax} on the minimax-optimality of the ML estimate. % TODO
 
-\subsection{Aggregating partial rankings}
+\subsection{Aggregating Partial Rankings}
 \label{fi:sec:partial}
 
 Another case of interest is when observations do not consist of only a single choice, but of a ranking over the alternatives.
-We now suppose $m$ observations consisting of $k$-way rankings, $2 \le k \le n$.
-For conciseness, we suppose that $k$ is the same for all observations.
-Let one such observation be $\sigma(1) \succ \ldots \succ \sigma(k)$, where $\sigma(p)$ is the item with $p$-th rank.
+We now suppose $M$ observations consisting of $K$-way rankings, $2 \le K \le N$.
+For conciseness, we suppose that $K$ is the same for all observations.
+Let one such observation be $\sigma(1) \succ \cdots \succ \sigma(K)$, where $\sigma(r)$ is the item with $r$-th rank.
 \citet{luce1959individual} and later \citet{plackett1975analysis} independently proposed a model of rankings where
 \begin{align*}
-\mathbf{P}\left( \sigma(1) \succ \ldots \succ \sigma(k) \right)
-  = \prod_{r = 1}^{k} \frac{\pi_{\sigma(r)}}{\sum_{p = r}^{k} \pi_{\sigma(p)}}.
+\Prob{ \sigma(1) \succ \cdots \succ \sigma(K) }
+  = \prod_{r = 1}^{K} \frac{\gamma_{\sigma(r)}}{\sum_{p = r}^{K} \gamma_{\sigma(p)}}.
 \end{align*}
-In this model, a ranking can be interpreted as a sequence of $k-1$ independent choices:
+In this model, a ranking can be interpreted as a sequence of $K-1$ independent choices:
 Choose the first item, then choose the second among the remaining alternatives, etc.
-With this point of view in mind, \LSR{} and \ILSR{} can easily accommodate data consisting of $k$-way rankings, by decomposing the $m$ observations into $d = m (k - 1)$ choices.
+With this point of view in mind, LSR and I-LSR can easily accommodate data consisting of $K$-way rankings, by decomposing the $M$ observations into $M' = M (K - 1)$ choices.
 
 \citet{azari2013generalized} provide a class of consistent estimators for the Plackett--Luce model, using the idea of breaking rankings into pairwise comparisons.
 Although they explain their algorithms from a generalized-method-of-moments perspective, it is straightforward to reinterpret their estimators as stationary distributions of particular Markov chains.
-In fact, for $k = 2$, their algorithm GMM-F is identical to \LSR{}.
+In fact, for $k = 2$, their algorithm GMM-F is identical to LSR.
 When $k > 2$ however, breaking a ranking into $\binom{k}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
-The Markov chain that \LSR{} builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
+The Markov chain that LSR builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
 In Section~\ref{fi:sec:experimental}, we show that this weighting turns out to be crucial.
 Our approach yields a significant improvement in statistical efficiency, yet keeps the same attractive computational cost and ease of use.
 
 
-\subsection{Applicability to other models}
+\subsection{Applicability to Other Models}
 
 Several other variants and extensions of Luce's choice model have been proposed.
 For example, \citet{rao1967ties} extend the Bradley--Terry model to the case where a comparison between two items can result in a tie.
-In the supplementary file, we show that the ML estimate in the Rao--Kupper model can also be formulated as a stationary distribution, and we provide corresponding adaptations of \LSR{} and \ILSR{}.
+In the supplementary file, we show that the ML estimate in the Rao--Kupper model can also be formulated as a stationary distribution, and we provide corresponding adaptations of LSR and I-LSR.
 We believe that our algorithms can be generalized to further models that are based on the choice axiom.
-However, this axiom is key, and other choice models (such as Thurstone's \citep{thurstone1927method}) do not admit the stationary-distribution interpretation we derive here.
+However, this axiom is key, and other choice models (such as Thurstone's \citeyearpar{thurstone1927law}) do not admit the stationary-distribution interpretation we derive here.

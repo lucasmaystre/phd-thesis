@@ -1,6 +1,6 @@
 \newcommand{\D}[2]{\ensuremath{\mathcal{D}_{#1 \succ #2}}}
 
-\section{Stationary points of the log-likelihood}
+\section{Stationary Points of the Log-Likelihood}
 
 In this section, we briefly explain why the log-likelihood in Luce's model has a unique stationary point, that at the ML estimate.
 Recall that we assume that the comparison graph $G_{\mathcal{D}}$ is strongly connected.
@@ -26,196 +26,7 @@ As $1/\pi_i$ is strictly positive, the partial derivative vanishes only at $\hat
 In conclusion, $\hat{\bm{\pi}}$ is the unique ML estimate, as well as the only stationary point.
 
 
-\section{Proofs of Theorems 1 and 2}
-
-
-For any two items $i$ and $j$, recall that $\mathcal{D}_{i \succ j} \subseteq \mathcal{D}$ is the set of observations where $i$ wins over $j$.
-Let $\Delta_n = \{ \bm{u} \in \mathbf{R}^n \mid u_i > 0, \sum_i u_i = 1 \}$ be the open $(n\!-\!1)$-dimensional simplex.
-Recall that for $\mathcal{S} \subseteq \mathcal{D}$ and $\vpi \in \Delta_n$, we define
-\begin{align}
-\label{fix:eq:rate}
-f(\mathcal{S}, \bm{\pi}) \doteq \sum_{A \in \mathcal{S}} \frac{1}{\sum_{i \in A} \pi_i}.
-\end{align}
-We will now prove the following theorem.
-
-\begin{theorem}
-\label{fix:thm:convergence}
-The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{D}_{i \succ j}, \vpi)$ converges to the maximum-likelihood estimate $\mlpi$, for any initial distribution $\vpi^0 \in \Delta_n$.
-\end{theorem}
-
-We take a discrete-time perspective, and consider the uniformized Markov chain with (parametric) transition probabilities
-\begin{align}
-  P(\bm{\pi})_{ij} =
-  \begin{dcases}
-    \epsilon \sum_{A \in \D{j}{i}} \frac{1}{\sum_{t \in A} \pi_t}              & \text{if } j \ne i, \\
-    1 - \epsilon \sum_{k \ne i}\sum_{A \in \D{k}{i}} \frac{1}{\sum_{t \in A} \pi_t}  & \text{if } j = i,
-  \end{dcases}
-\end{align}
-where $\epsilon$ (the uniform rate parameter) is a small factor that ensures that the matrix is row-stochastic.
-We say that the Markov chain is \emph{inhomogeneous} because the transition probabilities depend on the current distribution over states;
-as a consequence, standard ergodic results do not apply directly.
-From the development at the beginning of Section 3 of the main text, it follows that $\mlpi$ is the unique invariant distribution of the Markov chain, i.e., satisfying $\mlpi = \mlpi P(\mlpi)$.
-Consider the mapping $T: \Delta_n \to \Delta_n$ defined by
-\begin{align}
-\label{fix:eq:mapping}
-T(\vpi) = \vpi P(\vpi),
-\end{align}
-representing the distribution after one step of the Markov chain.
-Using a contraction argument, we will show that the iteration $\vpi^{k+1} = T(\vpi^k)$ converges to a fixed point for any $\vpi^0 \in \Delta_n$.
-It directly follows that the Markov chain converges to $\mlpi$ from any initial distribution.
-
-We start with a technical lemma that characterizes the Jacobian matrix of the mapping.
-We will use the notation
-\begin{align}
-T^k(\vpi) = \underbrace{T \circ T \circ \ldots \circ T}_{\text{$k$ times}}(\vpi)
-\end{align}
-for $k$ successive applications of the mapping.
-We will also extend our notation for subsets of observations, and let $\D{i}{j,k} \subseteq \mathcal{D}$ be the observations where $i$ wins among a set of alternatives containing $j$ and $k$.
-\begin{lemma}
-\label{fix:lem:jacobian}
-The Jacobian matrix of the mapping $T(\vpi)$ defined in \eqref{fix:eq:mapping} is given by
-\begin{align}
-T'(\vpi)_{ij} = \left[ \frac{\partial T(\vpi)}{\partial \pi_i} \right]_j =
-\begin{dcases}
-\epsilon \sum_{k} \sum_{A \in \D{k}{j,i}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}                          & \text{if } j \ne i, \\
-1 - \epsilon \sum_{j \ne \ell} \sum_{k} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2} & \text{if } j = i.
-\end{dcases}
-\end{align}
-Furthermore, there is a finite $m \in \mathbf{N}$ such that for $S' = (T^m)'$ it holds that $\delta = \min_{i,j} S'_{ij} > 0$ and $\Vert S' \Vert_1 = 1$.
-\end{lemma}
-
-\begin{proof}
-The partial derivative of $T$ with respect to $\pi_\ell$ at $j \ne \ell$ is
-\begin{align}
-\left[ \frac{\partial T(\vpi)}{\partial \pi_\ell} \right]_j
-&= \left[ \frac{\partial \vpi}{\partial \pi_\ell} P(\vpi) \right]_j + \left[ \vpi \frac{\partial P(\vpi)}{\partial \pi_\ell} \right]_j \\
-\begin{split}
-&= \epsilon \sum_{A \in \D{j}{\ell}} \frac{1}{\sum_{t \in A} \pi_t}
-    - \epsilon \sum_{k \ne j} \sum_{A \in \D{j}{k,\ell}} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
-    & \qquad\qquad\qquad\qquad\quad + \epsilon \sum_{k \ne j} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}
-\end{split} \label{fix:eq:before}\\
-&= \epsilon \sum_{A \in \D{j}{\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}
-    + \epsilon \sum_{k \ne j} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2} \label{fix:eq:after}\\
-&= \epsilon \sum_{k} \sum_{A \in \D{k}{j,\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}.
-\end{align} 
-To go from \eqref{fix:eq:before} to \eqref{fix:eq:after}, we reverse the order of summation in the subtracted term and rewrite the fraction inside the left term.
-\begin{align}
- & \sum_{A \in \D{j}{\ell}} \frac{1}{\sum_{t \in A} \pi_t}
-    - \sum_{k \ne j} \sum_{A \in \D{j}{k,\ell}} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
-=& \sum_{A \in \D{j}{\ell}} \frac{1}{\sum_{t \in A} \pi_t}
-    - \sum_{A \in \D{j}{\ell}} \sum_{k \in A, k \ne j} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
-=& \sum_{A \in \D{j}{\ell}} \sum_{k \in A} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2}
-    - \sum_{A \in \D{j}{\ell}} \sum_{k \in A, k \ne j} \frac{\pi_k}{(\sum_{t \in A} \pi_t)^2} \\
-=& \sum_{A \in \D{j}{\ell}} \frac{\pi_j}{(\sum_{t \in A} \pi_t)^2}
-\end{align}
-One can find the partial derivative with respect to $\pi_\ell$ at $\ell$ by noticing that each row of the Jacobian matrix sums to one:
-\begin{align}
-\sum_j \left[ \frac{\partial T(\vpi)}{\partial \pi_\ell} \right]_j
-&=\sum_j P(\vpi)_{\ell j} + \sum_j \sum_i \pi_i \frac{\partial P(\vpi)_{ij}}{\partial \pi_\ell} \\
-&= 1 + \sum_i \pi_i \frac{\partial}{\partial \pi_\ell} \sum_j P(\vpi)_{ij} = 1.
-\end{align}
-The matrix is therefore row-stochastic, and $\Vert T'(\vpi) \Vert_1 = 1$.
-Because transition probabilities are strictly positive on the edges of the comparison graph (which is, by assumption, strongly connected), there is a finite $m \in \mathbf{N}$ such that all entries of $T^m(\vpi)$ are lower-bounded by a strictly positive number.
-It is easy to see that the Jacobian matrix $T'$ also has strictly positive entries on the edges of the comparison graph, and therefore
-\begin{align}
-S'(\vpi) = (T^m(\vpi))' = \prod_{i = 0}^{m-1} T'(T^i(\vpi))
-\end{align}
-also has its entries lower-bounded by a strictly positive number.
-Furthermore, $S'(\vpi)$ is a product of stochastic matrices, hence $\Vert S'(\vpi) \Vert_1 = 1$.
-\end{proof}
-
-Now we will use the properties of the Jacobian matrix to show that $T$ is a fixed-point iteration, using a standard argument.
-Our proof is inspired by the lecture notes of \citet{tresch2007convergence} and \citet{petersdorff2014fixed}.
-
-\begin{proof}[Proof of Theorem~\ref{fix:thm:convergence}]
-Using the results of Lemma~\ref{fix:lem:jacobian}, let $S(\vpi) = T^m(\vpi)$ and write $S'(\vpi)$ as
-\begin{align}
-S'(\vpi) = \delta 1_{n \times n} + R(\vpi),
-\end{align}
-where $1_{n \times n}$ is the all-ones matrix, and $\Vert R(\vpi) \Vert_1 = 1 - n\delta = c < 1$.
-Now pick any $\bm{x}, \bm{y} \in \Delta_n$, and let $\tilde{S}(u) \doteq S(\bm{x} + u(\bm{x} - \bm{y}))$.
-Then $\tilde{S}'(u) = S'(\bm{x} + u(\bm{y} - \bm{x}))(\bm{y} - \bm{x})$, and
-\begin{align}
-S(\bm{y}) - S(\bm{x}) = \tilde{S}(1) - \tilde{S}(0) = \int_0^1 \tilde{S}'(u) du = \int_0^1 S'(\bm{x} + u(\bm{y} - \bm{x}))(\bm{y} - \bm{x}) du
-\end{align}
-As $S'$ is continuous, we have
-\begin{align}
-\Vert S(\bm{y}) - S(\bm{x}) \Vert_1 &\le \int_0^1 \Vert S'(\bm{x} + u(\bm{y} - \bm{x}))(\bm{y} - \bm{x}) \Vert_1 du \\
-&=   \int_0^1 \Vert \underbrace{\delta 1_{n \times n}(\bm{y} - \bm{x})}_{= 0} + R(\bm{x} + u(\bm{y} - \bm{x}))(\bm{y} - \bm{x}) \Vert_1 du \\
-&\le \int_0^1 \underbrace{\Vert R(\bm{x} + u(\bm{y} - \bm{x})) \Vert_2}_{\le c} \Vert \bm{y} - \bm{x} \Vert_1 du \\
-&\le c \Vert \bm{y} - \bm{x} \Vert_1
-\end{align}
-Therefore, by the contraction mapping principle, the sequence of iterates $\vpi^{k+1} = T^m(\vpi^k)$ converges to $\mlpi$.
-Finally, we observe that for any $\vpi \in \Delta_n$, the vectors $\vpi, T(\vpi), T^2(\vpi), \ldots$ occur in one of the sequences
-\begin{align}
-\left( S^k(T^r(\vpi)) \right)_{k \in \mathbf{N}_0}, \quad r \in \{ 0, \ldots, m\!-\!1 \}.
-\end{align}
-All sequences converge to $\mlpi$, and therefore
-\begin{align}
-\lim_{k \to \infty} T^k(\vpi) = \mlpi.
-\end{align}
-\end{proof}
-
-\begin{theorem}
-\label{fix:thm:consistency}
-Let $\mathcal{A} = \{ A_\ell \}$ be a collection of sets of alternatives such that for any partition of $\mathcal{A}$ into two non-empty sets $S$ and $T$, $\left( \cup_{A \in S} A \right) \cap \left( \cup_{A \in T} A \right) \ne \varnothing$.
-Let $d_\ell$ be the number of choices observed over alternatives $A_\ell$.
-Then $\rcpi \to \bm{\pi}^*$ as $d_\ell \to \infty \ \forall \ell$.
-\end{theorem}
-
-\begin{proof}
-Let $d \to \infty$ be a shorthand for $d_\ell \to \infty \ \forall \ell$.
-The condition on $\mathcal{A}$ is equivalent to stating that the hypergraph $H = (V, \mathcal{A})$ with $V = \{1, \ldots, n\}$ is connected.
-First, we show that asymptotically, the graph $G_\mathcal{D} = (V, E)$ is connected.
-For a given set of alternatives $A_\ell$, let $i, j \in A_\ell$.
-The probability that $(j, i) \in E$ is
-\begin{align}
-1 - \left(1 - \frac{\pi_i}{\sum_{t \in A_\ell} \pi_t} \right)^{d_\ell}
-> 1 - (1 - \pi_i)^{d_\ell}
-\xrightarrow{d_\ell \to \infty} 1,
-\end{align}
-where we use the fact that $\pi_i > 0 \ \forall i$.
-Therefore, asymptotically, every alternative set $A_\ell$ forms a clique in $G_\mathcal{D}$.
-By assumption of connectivity on the hypergraph $H$, $G_{\mathcal{D}}$ is strongly connected.
-
-Now that we know that the Markov chain is asymptotically ergodic, we will show that the stationary distribution matches the true model parameters.
-Let $C_\ell^s$ be a random variable denoting the item chosen in the $s$-th observation over alternatives $A_\ell$.
-By the law of large numbers, for any item $i \in A_\ell$
-\begin{align}
-\label{fix:eq:lln}
-\lim_{d_\ell \to \infty} \frac{1}{d_\ell} \sum_{s = 1}^{d_\ell} 1\{C_\ell^s = i\} = \frac{\pi^*_i}{\sum_{t \in A_\ell} \pi^*_t}.
-\end{align}
-Now consider two items $i$ and $j$.
-If they have never been compared, $\lambda_{ij} = \lambda_{ji} = 0$.
-Otherwise, suppose that they have been compared in alternative sets whose indices are in $B = \{ \ell \mid i, j \in A_\ell \}$
-Let $\mathbf{1}\{X\}$ be the indicator variable for event $X$.
-By construction of the transition rates in \LSR{}, we have that
-\begin{align}
-\label{fix:eq:ratio}
-\frac{\lambda_{ij}}{\lambda_{ji}}
-= \frac{\sum_{\ell \in B} \sum_{s = 1}^{d_\ell} \mathbf{1}\{C_\ell^s = j\} \ n / |A_\ell|}
-       {\sum_{\ell \in B} \sum_{s = 1}^{d_\ell} \mathbf{1}\{C_\ell^s = i\} \ n / |A_\ell|}.
-\end{align}
-From \eqref{fix:eq:lln} it follows that
-\begin{align}
-\lim_{d \to \infty}\frac{\lambda_{ij}}{\lambda_{ji}}
-& = \frac{\sum_{\ell \in B} (\pi^*_j / \sum_{t \in A_\ell} \pi^*_t) \ n / |A_\ell|}
-         {\sum_{\ell \in B} (\pi^*_i / \sum_{t \in A_\ell} \pi^*_t) \ n / |A_\ell|} \\
-& = \frac{\pi^*_j }{\pi^*_i}
-    \cdot \frac{\sum_{\ell \in B}(1 / \sum_{t \in A_\ell} \pi^*_t) \ n / |A_\ell|}
-               {\sum_{\ell \in B}(1 / \sum_{t \in A_\ell} \pi^*_t) \ n / |A_\ell|}
-  = \frac{\pi^*_j}{\pi^*_i}.
-\end{align}
-Therefore, when $d \to \infty$,
-\begin{align}
-\sum_{j \ne i} \pi^*_i \lambda_{ij} = \sum_{j \ne i} \pi^*_i \left( \frac{\pi^*_j}{\pi^*_i} \lambda_{ji} \right)
-                                    = \sum_{j \ne i} \pi^*_j \lambda_{ji}  \quad \forall i.
-\end{align}
-It is easy to recognize the global balance equations, and it follows that $\bm{\pi}^*$ is the stationary distribution of the asymptotical Markov chain.
-\end{proof}
-
-
-\section{Bound on error rate of ML estimate}
+\section{Bound on Error Rate of ML Estimate}
 
 We use the analytical framework of \citet{negahban2017rank} to bound the error rate of the ML estimator in the case where
 \begin{enuminline}
@@ -269,7 +80,7 @@ It follows that if $\omega(n \log n)$ comparison pairs are chosen uniformly at r
 \citet{hajek2014minimax} recently proved a more general version of our result, using a different analytical technique.
 Their bound is qualitatively similar, but also applies to multiway rankings and heterogeneous number of comparisons.
 
-\section{Derivation for the Rao--Kupper model}
+\section{Derivation for the Rao--Kupper Model}
 
 We consider a model that was proposed by Rao and Kupper in 1967 \citep{rao1967ties}.
 This model extends the Bradley--Terry model in that a comparison between two items can result in a tie.
@@ -308,17 +119,17 @@ Therefore, the ML estimate is the stationary distribution of a Markov chain with
 \begin{align}
 \lambda_{ij} = \frac{A_{ij} + T_{ij}\tfrac{\hat{\pi}_i}{\hat{\pi}_i + \alpha \hat{\pi}_j}}{\alpha \hat{\pi}_i + \hat{\pi}_j}.
 \end{align}
-The extension of \LSR{} and \ILSR{} to the Rao--Kupper model given these transition rates is straightforward.
+The extension of LSR and I-LSR to the Rao--Kupper model given these transition rates is straightforward.
 
 
 
-\section{Finding the stationary distribution}
+\section{Finding the Stationary Distribution}
 
 A set of transition rates $[\lambda_{ij}]$ that satisfy the strong connectivity assumption yields a unique stationary distribution $\bm{\pi}$.
 In practice, finding this stationary distribution can be implemented in various ways.
 We distinguish implementations based on whether they consider a continuous-time or a discrete-time perspective on Markov chains.
 
-\paragraph{Continuous-time perspective.}
+\paragraph{Continuous-Time Perspective}
 We consider the infinitesimal generator matrix $Q$, where $Q_{ij} \doteq \lambda_{ij}$ and $Q_{ii} \doteq - \sum_{j} \lambda_{ij}$.
 The stationary distribution satisfies $\bm{\pi} Q = 0$; this is essentially a matrix formulation of the global balance equations.
 Therefore, one approach to finding the steady-state distribution is to compute the rank-$1$ left nullspace of $Q$.
@@ -326,14 +137,14 @@ This can be done e.g., by LU decomposition, a basic linear-algebra primitive.
 In the dense case, the running time of a typical implementation is $O(n^3)$, but highly optimized parallel implementations such as that provided by LAPACK \citep{anderson1999lapack} are commonly available.
 In the sparse case, LU decomposition can be done significantly faster using adapted algorithms, such as that of \citet{demmel1999supernodal}.
 
-\paragraph{Discrete-time perspective.}
+\paragraph{Discrete-Time Perspective}
 Let $\epsilon < 1 / \max_i |Q_{ii}|$, then $P = I + \epsilon Q$ is the transition matrix of a discrete-time Markov chain that satisfies $\bm{\pi} P = \bm{\pi}$.
 In this case, finding the steady-state distribution is equivalent to finding the left eigenvector associated to the leading eigenvalue of the transition matrix $P$.
 This is also a well-studied linear algebra problem for which plenty of efficient, off-the-shelf algorithms exist.
 For example, power iteration methods can find the eigenvector in a few (sparse) matrix multiplications.
 Beyond these well-known algorithms, the recently proposed randomized approach of \citet{halko2011finding} enables us to scale to truly large problem sizes ($n$ is $O(10^6)$ or more.)
 
-For our experiments, we have implemented \LSR{} and \ILSR{} using a dense LU factorization of the generator matrix.
+For our experiments, we have implemented LSR and I-LSR using a dense LU factorization of the generator matrix.
 The Python code, which relies on the \texttt{numpy} and \texttt{scipy} libraries\footnote{
 See: \url{http://www.scipy.org/}.
 }, is displayed in Figure~\ref{fix:lst:implementation}
@@ -372,16 +183,16 @@ def statdist(chain):
     return res / res.sum()
 \end{lstlisting}
 \caption{
-Python implementation of one iteration of \ILSR{}.
+Python implementation of one iteration of I-LSR.
 }
 \label{fix:lst:implementation}
 \end{figure}
 
-\section{Experimental procedure}
+\section{Experimental Procedure}
 
 We give a few additional details on the procedure that we followed for the experiments of Section~4 in the main paper.
 All experiments were run on a machine with a quad-core 2.0 GHz Haswell processor, and 16GB of RAM, running Mac OS X 10.9.
-For \LSR{} and \ILSR{}, we used a slightly adapted version the code presented in Figure~\ref{fix:lst:implementation}.
+For LSR and I-LSR, we used a slightly adapted version the code presented in Figure~\ref{fix:lst:implementation}.
 We implemented the Rank Centrality (RC), GMM-F \citep{azari2013generalized}, and MM \citep{hunter2004mm} algorithms in Python.
 For Newton-Raphson, we implemented our choice model on top of the popular \texttt{statsmodels} Python library\footnote{
 See: \url{http://statsmodels.sourceforge.net/}
