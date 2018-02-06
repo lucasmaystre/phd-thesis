@@ -2,19 +2,15 @@
 \section{Experimental Evaluation}
 \label{fi:sec:experimental}
 
-In this section, we compare LSR and I-LSR to other inference algorithms in terms of
-\begin{enuminline}
-\item statistical efficiency, and
-\item empirical performance.
-\end{enuminline}
-In order to understand the efficiency of the estimators, we generate synthetic data from a known ground truth.
+In this section, we compare LSR and I-LSR to other inference algorithms in terms of statistical efficiency and empirical performance.
+First, in order to measure the statistical efficiency of the estimators, we generate synthetic data from a known ground truth.
 Then, we look at five real-world datasets and investigate the practical performance of the algorithms in terms of accuracy, running time and convergence rate.
 
 \paragraph{Error Metric}
-As the probability of $i$ winning over $j$ depends on the ratio of strengths $\pi_i / \pi_i$, the strengths are typically logarithmically spaced.
+As the probability of $i$ winning over $j$ depends on the ratio of strengths $\gamma_i / \gamma_j$, the strengths are typically logarithmically spaced.
 In order to evaluate the accuracy of an estimate $\bm{\gamma}$ to ground truth parameters $\bm{\gamma}'$, we therefore use a $\log$ transformation, reminiscent of the random-utility-theoretic formulation of the choice model \citep{mcfadden1973conditional,hajek2014minimax}.
-Define $\bm{\theta} \doteq[\log \pi_i - t]$, with $t$ chosen such that $\sum_i \theta_i = 0$.
-We will consider the root-mean-squared error (RMSE)
+Define $\bm{\theta} \doteq[\log \gamma_i - t]$, with $t$ chosen such that $\sum_i \theta_i = 0$.
+We will consider the root-mean-squared error
 \begin{align*}
 E_{\text{RMS}} = \Vert \bm{\theta} - \bm{\theta}' \Vert_2 / \sqrt{N}.
 \end{align*}
@@ -38,10 +34,10 @@ In short, the four estimators vary according to
 \item whether they use as-is rankings or derived comparisons, and
 \item whether the model is fitted using an approximate spectral algorithm or using exact maximum likelihood.
 \end{enuminline}
-Figure~\ref{fi:fig:efficiency} plots $E_{\text{RMS}}$ for increasing sizes of partial rankings, as well as a lower bound to the error of any estimator for the Plackett--Luce model (see \citet{hajek2014minimax} for details.)
-We observe that breaking the rankings into pairwise comparisons (*-F estimators) incurs a significant efficiency loss over using the $K$-way rankings directly (LSR and ML.)
+Figure~\ref{fi:fig:efficiency} plots $E_{\text{RMS}}$ for increasing sizes of partial rankings, as well as a lower bound to the error of any estimator for the Plackett--Luce model (see \citet{hajek2014minimax} for details).
+We observe that breaking the rankings into pairwise comparisons (*-F estimators) incurs a significant efficiency loss over using the $K$-way rankings directly (LSR and ML).
 We conclude that by correctly weighting pairwise rates in the Markov chain, LSR distinctly outperforms the rank-breaking approach as $K$ increases.
-We also observe that the ML estimate is always more efficient.
+We also observe that the MLE is always more efficient.
 Spectral estimators such as LSR provide a quick, asymptotically consistent estimate of parameters, but this observation justifies calling them \emph{approximate} inference algorithms.
 
 
@@ -64,18 +60,59 @@ The YouTube\footnote{%
 See: \url{https://archive.ics.uci.edu/ml/machine-learning-databases/00223/}.},
 GIFGIF\footnote{%
 See: \url{http://lucas.maystre.ch/gifgif-data}.}
-and chess datasets\footnote{%
+and chess\footnote{%
 See: \url{https://www.kaggle.com/c/chess}.}
-contain pairwise comparisons.
+datasets contain pairwise comparisons.
 Among those, the chess dataset is particular in that it features 45\% of ties;
 in this case we use the extension of the Bradley--Terry model proposed by \citet{rao1967ties}.
 We preprocess each dataset by discarding items that are not part of the largest strongly connected component in the comparison graph.
 For each dataset, the number of items $N$, the number of rankings $M$, as well as the size $K$ of a partial ranking are given in Table~\ref{fi:tab:approxalg}.
-Additional details on the experimental setup are given in the supplementary material.
+
+\paragraph{Experimental Procedure}
+All experiments were run on a machine with a quad-core 2.0 GHz Haswell processor and 16 GB of RAM, running Mac OS X 10.9.
+For LSR and I-LSR, we use a slightly adapted version the Python code presented in Listing~\ref{fi:lst:implementation}, which calls a dense LU factorization routine.
+We implemented the Rank Centrality (RC), GMM-F and MM \citep{hunter2004mm} algorithms in Python as well.
+For the Newton-Raphson algorithm, we implemented the choice model on top of the popular \texttt{statsmodels} Python library\footnote{%
+See: \url{http://statsmodels.sourceforge.net/}
+} that provides a Newton-Raphson solver.
+We have compared our implementation of the MM algorithm to that of \citeauthor{hunter2004mm} written in Matlab\footnote{
+See: \url{http://sites.stat.psu.edu/~dhunter/code/btmatlab/}
+}, and observed that ours has comparable running time.
+For the chess dataset, we use the Rao--Kupper model with $\alpha = \sqrt{2}$.
+Note that this parameter could also be estimated from the data, however in our experiments we focus on the performance of algorithms for estimating $\bm{\gamma}$.
+
+\begin{lstlisting}[
+  caption={Python implementation of one iteration of I-LSR.},
+  label={fi:lst:implementation},
+  language=Python,
+  numbers=none,
+  frame=single]
+import numpy as np
+import scipy.linalg as spl
+
+def weighted_lsr(n, rankings, weights):
+    chain = np.zeros((n, n), dtype=float)
+    for ranking in rankings:
+        sum_weights = sum(weights[x] for x in ranking)
+        for i, winner in enumerate(ranking):
+            val = 1.0 / sum_weights
+            for loser in ranking[i+1:]:
+                chain[loser, winner] += val
+            sum_weights -= weights[winner]
+    chain -= np.diag(chain.sum(axis=1))
+    return statdist(chain)
+
+def statdist(chain):
+    lu, piv = spl.lu_factor(generator.T)
+    res = spl.solve_triangular(lu[:-1,:-1], -lu[:-1,-1])
+    res = np.append(res, 1.0)
+    return res / res.sum()
+\end{lstlisting}
+
 We first compare the estimates produced by three approximate ML inference algorithms, LSR, GMM-F and Rank Centrality (RC).
 Note that RC applies only to pairwise comparisons, and that LSR is the only algorithm able to infer the parameters in the Rao-Kupper model.
 Also note that in the case of pairwise comparisons, GMM-F and LSR are strictly equivalent.
-In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the ML estimate $\bm{\theta}^\star$ and the running time $T$ of the algorithm.
+In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the MLE $\bm{\theta}^\star$ and the running time $T$ of the algorithm.
 
 \sisetup{group-minimum-digits=4,detect-weight=true}
 \begin{table}[ht]
@@ -103,7 +140,7 @@ In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the
 
 The smallest value of $E_{\text{RMS}}$ is highlighted in bold for each dataset.
 We observe that in the case of multiway partial rankings, LSR is almost four times more accurate than GMM-F on the datasets considered.
-In the case of pairwise comparisons, RC is slightly worse than LSR and GMM-F, because the number of comparisons per pair is not homogeneous (see Section~\ref{fi:sec:pairwise}.)
+In the case of pairwise comparisons, RC is slightly worse than LSR and GMM-F, because the number of comparisons per pair is not homogeneous (see Section~\ref{fi:sec:pairwise}).
 The running time of the three algorithms is comparable.
 
 Next, we turn our attention to ML inference and consider three iterative algorithms: I-LSR, MM and Newton-Raphson.
@@ -121,7 +158,7 @@ In Table~\ref{fi:tab:mlalg}, we report the number of iterations $I$ needed to re
     \toprule
              &             & \multicolumn{2}{c}{I-LSR}        & \multicolumn{2}{c}{MM}      & \multicolumn{2}{c}{Newton} \\
                              \cmidrule(l){3-4}                  \cmidrule(l){5-6}             \cmidrule(l){7-8}
-    Dataset  & $\kappa$               & $I$ &         $T$ [s] &        $I$ &        $T$ [s] &     $I$ &     $T$ [s] \\
+    Dataset  & $\xi$               & $I$ &         $T$ [s] &        $I$ &        $T$ [s] &     $I$ &     $T$ [s] \\
     \midrule
     NASCAR   & \num{0.832} &  \num{3} &   \bfseries\num{0.08} &    \num{4} &     \num{0.10} &     --- &         --- \\
     Sushi    & \num{0.899} &  \num{2} &   \bfseries\num{0.42} &    \num{4} &     \num{1.09} & \num{3} & \num{10.45} \\
@@ -146,13 +183,13 @@ I-LSR consistently outperforms MM and Newton-Raphson in running time.
 Even if the average running time per iteration is in general larger than that of MM, it needs considerably fewer iterations:
 For the YouTube dataset, I-LSR yields an increase in speed of over $50$ times.
 
-The slow convergence of minorization-maximization algorithms is known \cite{hunter2004mm}, yet the scale of the issue and its apparent unpredictability is surprising.
+The slow convergence of minorization-maximization algorithms is known \citep{hunter2004mm}, yet the scale of the issue and its apparent unpredictability is surprising.
 In Hunter's MM algorithm, updating a given $\gamma_i$ involves only parameters of items to which $i$ has been compared.
 Therefore, we speculate that the convergence rate of MM is dependent on the expansion properties of the comparison graph $\mathcal{G}$.
 As an illustration, we consider the sushi dataset.
-To quantify the expansion properties, we look at the spectral gap $\kappa$ of a simple random walk on $\mathcal{G}$;
+To quantify the expansion properties, we look at the spectral gap $\xi$ of a simple random walk on $\mathcal{G}$;
 intuitively, the larger the spectral gap is, the better the expansion properties are \citep{levin2008markov}.
-The original comparison graph is almost complete, and $\kappa = 0.899$.
+The original comparison graph is almost complete, and $\xi = 0.899$.
 By breaking each \num{10}-way ranking into \num{5} independent pairwise comparisons, we effectively sparsify the comparison graph.
 As a result, the spectral gap decreases to \num{0.815}.
 In Figure~\ref{fi:fig:convergence}, we show the convergence rate of MM and I-LSR for the original ($K = 10$) and modified ($K = 2$) datasets.
@@ -172,3 +209,4 @@ I-LSR is robust to this change, whereas the convergence rate of MM significantly
 }
 \label{fi:fig:convergence}
 \end{figure}
+

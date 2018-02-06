@@ -23,13 +23,14 @@ Much later, this algorithm was explained by \citet{hunter2004mm} as an instance 
 Today, Hunter's MM algorithm is the \emph{de facto} standard for ML inference in Luce's model.
 As the likelihood can be written as a concave function, off-the-shelf optimization procedures such as the Newton-Raphson method can also be used, although they have been been reported to be slower and less practical \citep{hunter2004mm}.
 Recently, \citet{kumar2015inverting} looked at the problem of finding the transition matrix of a Markov chain, given its stationary distribution.
-The problem of inferring Luce's model parameters from data can be reformulated in their framework, and the ML estimate is the solution to the inversion of the stationary distribution.
+The problem of inferring Luce's model parameters from data can be reformulated in their framework, and the MLE is the solution to the inversion of the stationary distribution.
 Their work stands out as the first to link ML inference to Markov chains, albeit very differently from the way presented in our paper.
+
 Beyond algorithms, properties of the maximum-likelihood estimator in this model were studied extensively.
 %\citet{simons1999asymptotics} show that the estimator is asymptotically normal in the finite sample case.
-\citet{hajek2014minimax} consider the Plackett--Luce model for $k$-way rankings.
-They give an upper bound to the estimation error and show that the ML estimator is minimax-optimal.
-In summary, they show that only $\omega(n/k \log n)$ samples are enough to drive the mean-square error down to zero, as $n$ increases.
+\citet{hajek2014minimax} consider the Plackett--Luce model for $K$-way rankings.
+They give an upper bound to the estimation error and show that the MLE is minimax-optimal.
+In summary, they show that only $\omega(N/K \log N)$ samples are enough to drive the mean-square error down to zero, as $N$ increases.
 \citet{rajkumar2014statistical} consider the Bradley--Terry model for pairwise comparisons.
 They show that the ML estimator is able to recover the correct ranking, even when the data is generated as per another model, e.g., Thurstone's \citep{thurstone1927method}, as long as a so-called \emph{low-noise} condition is satisfied.
 %These results expose the fact the ML estimate enjoys numerous desirable qualities, and makes are relevant and useful to practitioners.

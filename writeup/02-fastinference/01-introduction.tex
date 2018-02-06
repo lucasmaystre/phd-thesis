@@ -2,60 +2,93 @@
 \section{Introduction}
 \label{fi:sec:intro}
 
-Aggregating pairwise comparisons and partial rankings are important problems with applications in econometrics \citep{mcfadden1973conditional}, psychometrics \citep{thurstone1927method, bradley1952rank}, sports ranking \citep{plackett1975analysis, elo1978rating} and multiclass classification \citep{hastie1998classification}.
-One possible approach to tackle these problems is to postulate a statistical model of discrete choice.
-In this spirit, \citet{luce1959individual} stated the \emph{choice axiom} in a foundational work published over fifty years ago.
-Denote $p(i \mid A)$ the probability of choosing item $i$ when faced with alternatives in the set $A$.
-Given two items $i$ and $j$, and any two sets of alternatives $A$ and $B$ containing $i$ and $j$, the axiom posits that
-\begin{align*}
-\frac{p(i \mid A)}{p(j \mid A)}
-= \frac{p(i \mid B)}{p(j \mid B)}.
-%p(i \mid A) / p(j \mid A)
-%= p(i \mid B) / p(j \mid B).
-\end{align*}
-In other words, the odds of choosing item $i$ over item $j$ are independent of the rest of the alternatives.
-This simple assumption directly leads to a unique parametric choice model, known as the Bradley--Terry model in the case of pairwise comparisons, and the Plackett--Luce model in the generalized case of $k$-way rankings.
-In this paper, we highlight a connection between the maximum-likelihood (ML) estimate under these models and the stationary distribution of a Markov chain parametrized by the observed choices.
-Markov chains were already used in recent work \citep{dwork2001rank, negahban2012iterative, azari2013generalized} to aggregate pairwise comparisons and rankings.
-These approaches reduce the problem to that of finding a stationary distribution.
-By formalizing the link between the likelihood of observations under the choice model and a certain Markov chain, we unify these algorithms and explicate them from an ML inference perspective.
-We will also take a detour, and use this link in the reverse direction to give an alternative proof to a recent result on the error rate of the ML estimate \cite{hajek2014minimax}, by using spectral analysis techniques.
-
-Beyond this, we make two contributions to statistical inference for this model.
-First, we develop a simple, consistent and computationally efficient spectral algorithm that is applicable to a wide range of models derived from the choice axiom.
+Markov chains have been used in recent work to aggregate inconsistent outcomes of pairwise comparisons and (partial) rankings \citep{dwork2001rank, negahban2012iterative, azari2013generalized}.
+The idea is to build a Markov chain that is biased towards items that have won often, and to reduce the problem of ranking items to that of finding the \emph{stationary distribution} of the chain (the ranking is then induced by the items' stationary probabilities).
+In the following, we highlight a connection between the MLE under models based on Luce's choice axiom and the stationary distribution of a Markov chain parametrized by the observed choices.
+By formalizing this link, we unify previous algorithms and explicate them from an ML inference perspective.
+Beyond this, the link suggests two new algorithms for parameter inference.
+First, we develop a simple, consistent and computationally efficient spectral algorithm that is applicable to a wide range of models derived from Luce's choice axiom.
 The exact formulation of the Markov chain used in the algorithm is distinct from related work \citep{negahban2012iterative, azari2013generalized} and achieves a significantly better statistical efficiency at no additional computational cost.
-Second, we observe that with a small adjustment, the algorithm can be used iteratively, and it then converges to the ML estimate.
-An evaluation on five real-world datasets reveals that it runs consistently faster than competing approaches and has a much more predictable performance that does not depend on the structure of the data.
+Second, we observe that with a small adjustment, the algorithm can be used iteratively, and it then converges to the MLE.
+An evaluation on five real-world datasets reveals that it runs consistently faster than competing approaches and has a more predictable performance that does not depend on the structure of the data.
 The key step, finding a stationary distribution, can be offloaded to commonly available linear-algebra primitives, which makes our algorithms  scale well.
-Our algorithms are intuitively pleasing, simple to understand and implement, and they outperform the state of the art, hence we believe that they will be highly useful to practitioners.
+Our algorithms are intuitively pleasing, simple to understand and implement, and they outperform the state of the art, hence we believe that they are highly useful to practitioners.
 
-The rest of the paper is organized as follows.
-We begin by introducing some notations and presenting a few useful facts about the choice model and about Markov chains.
-By necessity, our exposition is succinct, and the reader is encouraged to consult \citet{luce1959individual} and \citet{levin2008markov} for a more thorough exposition.
+We begin by introducing some notations and presenting a few useful facts about the MLE and about Markov chains.
 In Section~\ref{fi:sec:relwork}, we discuss related work.
 In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experimental} we evaluate them on synthetic and real-world data.
-We conclude in Section~\ref{fi:sec:conclusion}.
 
-%Link between a generalized method of moments and maximum-likelihood estimator.
 
-\paragraph{Discrete Choice Model}
-%\textbf{Discrete choice model.}
-Denote by $n$ the number of items.
-Luce's choice axiom implies that each item $i \in \{1, \ldots, n\}$ can be parametrized by a positive strength $\pi_i \in \mathbf{R}_{>0}$ such that $p(i \mid A) = \pi_i / \sum_{j \in A} \pi_j$ for any $A$ containing $i$.
-The strengths $\bm{\pi} = [\pi_i]$ are defined up to a multiplicative factor;
-%For identifiability we let $\bm{\pi} \in \Delta_n$, where $\Delta_n = \{ \bm{u} \in \mathbf{R}^n \mid u_i > 0, \sum_i u_i = 1 \}$ is the open $(n\!-\!1)$-dimensional simplex.
-for identifiability, we let $\sum_i \pi_i = 1$.
-An alternative parametrization of the model is given by $\theta_i = \log(\pi_i)$, in which case the model is sometimes referred to as \emph{conditional logit} \citep{mcfadden1973conditional}.
+\subsection{Maximum-Likelihood Estimate}
 
-\paragraph{Markov Chain Theory}
-%\textbf{Markov chain theory.}
-We represent a finite, stationary, continuous-time Markov chain by a directed graph $G = (V, E)$, where $V$ is the set of states and $E$ is the set of transitions with positive rate.
-If $G$ is strongly connected, the Markov chain is said to be ergodic and admits a unique \emph{stationary distribution} $\bm{\pi}$.
-The global balance equations relate the transition rates $\lambda_{ij}$ to the stationary distribution as follows:
+%The log-likelihood \eqref{fi:eq:loglik} is not concave in $\bm{\gamma}$ (it can be made strictly concave using a simple reparametrization), but we briefly show in the supplementary material that it admits a unique stationary point, at the ML estimate $\bm{\gamma}^\star$.
+
+Suppose that we collect $M$ independent choice observations in the multiset $\mathcal{D} = \{(c_m, \mathcal{A}_m) : m = 1, \ldots, M\}$.
+Each observation consists of a choice $c_m$ among a set of alternatives $\mathcal{A}_m$;
+we say that \emph{$i$ wins over $j$} and denote by $i \succ j$ whenever $i, j \in \mathcal{A}_m$ and $c_m = i$.
+We postulate that the choices are generated from Luce's choice model, and for simplicity we denote the model parameter associated with item $c_m$ by $\gamma_m$.
+From~\eqref{in:eq:luce}, it follows that the log-likelihood of parameters $\bm{\gamma}$ given observations $\mathcal{D}$ is given by
+\begin{align}
+\label{fi:eq:loglik}
+\ell(\bm{\gamma}) = \sum_{m = 1}^M \bigg[ \log \gamma_m - \log{\sum_{j \in \mathcal{A}_m} \gamma_j} \bigg].
+\end{align}
+In order to ensure that the parameters are likelihood-identifiable, we assume without loss of generality that $\sum_i \gamma_i = 1$.
+Next, we introduce the \emph{comparison graph}.
+
+\begin{definition}
+The \emph{comparison graph} $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is a directed graph with $\mathcal{V} = [N]$ and $(j, i) \in \mathcal{E}$ if and only if $i$ wins at least once over $j$ in $\mathcal{D}$.
+\end{definition}
+
+The existence and uniqueness of the MLE is completely determined by the connectivity of $\mathcal{G}$, as the following well-known theorem shows.
+
+\begin{theorem}[\citealp{zermelo1928berechnung, ford1957solution, hunter2004mm}]
+The likelihood function~\eqref{fi:eq:loglik} admits a unique maximizer $\bm{\gamma}^\star \in \mathbf{R}^N_{>0}$ such that $\sum_i \gamma^\star_i = 1$ if and only if $\mathcal{G}$ is strongly connected.
+\end{theorem}
+
+Throughout this chapter, we will assume that $\mathcal{G}$ is strongly connected.
+In practice, if this assumption does not hold, we can consider each strongly-connected component separately.
+Finally, note that even though $\ell(\bm{\gamma})$ admits a unique maximizer, it is not concave.
+However, reparametrizing the model using $\theta_i \doteq \log \gamma_i$, the log-likelihood becomes
+\begin{align*}
+\ell(\bm{\theta}) = \sum_{m = 1}^M \bigg[ \theta_m - \log{\sum_{j \in \mathcal{A}_m} \exp \theta_j} \bigg],
+\end{align*}
+which is strictly concave in $\bm{\theta}$ (when $\mathcal{G}$ is strongly connected).
+Furthermore, for all $i \in [N]$,
+\begin{align*}
+\frac{\partial \ell}{\partial \gamma_i}
+  = \frac{\partial \ell}{\partial \theta_i} \cdot \frac{\partial \theta_i}{\partial \gamma_i}
+  = \frac{\partial \ell}{\partial \theta_i} \cdot \frac{1}{\gamma_i}
+\quad \implies \quad
+\frac{\partial \ell}{\partial \theta_i} = 0 \iff \frac{\partial \ell}{\partial \gamma_i} = 0.
+\end{align*}
+As the strictly concave function $\ell({\bm{\theta}})$ has a single stationary point, it follows that $\ell(\bm{\gamma})$ has a single stationary point at $\bm{\gamma}^\star$.
+
+
+\subsection{Markov Chains}
+
+We represent a finite, homogeneous, continuous-time Markov chain on $N$ states by a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, where $\mathcal{V} = [N]$ and $\mathcal{E}$ is the set of transitions with positive rate\footnote{%
+Our exposition of Markov chains is succinct, and the interested reader is encouraged to consult \citet{levin2008markov} for a more thorough exposition.}.
+If $\mathcal{G}$ is strongly connected, the Markov chain is said to be ergodic and admits a unique \emph{stationary distribution} $\bm{\pi} \in \mathbf{R}^N_{>0}$, $\sum_i \pi_i = 1$.
+The \emph{global balance equations} relate the transition rates $\lambda_{ij}$ to the stationary distribution as follows:
 \begin{align}
 \label{fi:eq:balance}
-%\textstyle
 \sum_{j \ne i} \pi_i \lambda_{ij} = \sum_{j \ne i} \pi_j \lambda_{ji} \quad \forall i.
 \end{align}
 The stationary distribution is therefore invariant to changes in the time scale, i.e., to a rescaling of the transition rates.
-In the supplementary file, we briefly discuss how to find $\bm{\pi}$ given $[\lambda_{ij}]$.
+Given transition rates $\bm{\Lambda} = [\lambda_{ij}]$, finding the stationary distribution $\bm{\pi}$ can be implemented in several different ways.
+We distinguish implementations based on whether they consider a continuous-time or a discrete-time perspective on Markov chains.
+
+\paragraph{Continuous-Time Perspective}
+We define the infinitesimal generator matrix $\bm{Q}$ as $q_{ij} \doteq \lambda_{ij}$ and $q_{ii} \doteq - \sum_{j} \lambda_{ij}$.
+The stationary distribution satisfies $\bm{\pi}^\tr \bm{Q} = 0$; this is simply a matrix formulation of the global balance equations~\eqref{fi:eq:balance}.
+Therefore, one approach to finding the steady-state distribution is to compute the rank-$1$ left nullspace of $\bm{Q}$.
+This can be done e.g., by LU decomposition, a basic linear-algebra primitive.
+In the dense case, the running time of a typical implementation is $O(N^3)$, but highly optimized parallel implementations such as that provided by LAPACK \citep{anderson1999lapack} are commonly available.
+In the sparse case, LU decomposition can be done significantly faster using adapted algorithms, such as that of \citet{demmel1999supernodal}.
+
+\paragraph{Discrete-Time Perspective}
+Let $\epsilon < 1 / \max_i |q_{ii}|$, then $\bm{P} = \bm{I} + \epsilon \bm{Q}$ is the transition matrix of a discrete-time Markov chain that satisfies $\bm{\pi}^\tr \bm{P} = \bm{\pi}$.
+In this case, finding the steady-state distribution is equivalent to finding the left eigenvector associated to the leading eigenvalue of the transition matrix $\bm{P}$.
+This is also a well-studied linear algebra problem for which plenty of efficient, off-the-shelf algorithms exist.
+For example, power iteration methods can find the eigenvector in a few (sparse) matrix multiplications.
+Beyond these well-known algorithms, recently-proposed randomized approaches such as that of \citet{halko2011finding} make it possible to scale to very large problem sizes ($N \sim 10^6$ or more).
