@@ -46,13 +46,13 @@ The Markov chain with inhomogeneous transition rates $\lambda_{ji} = f(\mathcal{
 \end{theorem}
 
 \begin{proof}[Proof]
-Let $\bm{Q}(\bm{\gamma})$ be the infinitesimal generator matrix of the Markov chain $\bm{\gamma}(t)$, i.e., $q_{ij} = \lambda_{ij}$ for all $i \ne j$ and  $q_{ii} = - \sum_{j} \lambda_{ij}$ for all $i$.
+Let $\bm{Q}(\bm{\gamma})$ be the infinitesimal generator matrix of the Markov chain $\bm{\gamma}(t)$.
 The dynamics of the Markov chain are described by the differential equation
 \begin{align}
 \label{fi:eq:dynsys}
 \frac{d \bm{\gamma}}{dt} = \bm{\gamma}^\tr \bm{Q}(\bm{\gamma}).
 \end{align}
-By construction, the invariant distributions of the Markov chain coincide with the maximizers of the likelihood~\eqref{fi:eq:loglik}.
+By construction, the invariant distributions of the Markov chain coincide with the maximizers of the log-likelihood~\eqref{fi:eq:loglik}.
 Hence, we know that $\bm{\gamma}^\star$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\gamma}^\tr \bm{Q}(\bm{\gamma}) = \bm{0}$.
 We will now show that this point is globally and asymptotically stable, i.e., $\bm{\gamma}(t) \to \bm{\gamma}^\star$ as $t \to \infty$ for any $\bm{\gamma}(0)$ in the open probability simplex.
 To this end, it suffices to show that $V(\bm{\gamma}) = - \ell(\bm{\gamma}) + \ell(\bm{\gamma}^\star)$ is a Lyapunov function for the dynamical system~\eqref{fi:eq:dynsys}.
@@ -67,7 +67,7 @@ Hence,
 \end{align*}
 for all $\bm{\gamma} \ne \bm{\gamma}^\star$.
 Third, $\ell(\bm{\gamma})$ grows unboundedly as $\bm{\gamma}$ approaches the boundary of the probability simplex \citep[Lemma~1]{hunter2004mm} and therefore $V(\bm{\gamma})$ does so as well.
-The result then follows by appying the Barbashin-Krasovskii theorem, a standard result found, e.g., in \citet[Chapter~3]{khalil1996nonlinear}.
+The result then follows by applying the Barbashin-Krasovskii theorem, a standard result found, e.g., in \citet[Chapter~3]{khalil1996nonlinear}.
 \end{proof}
 
 
@@ -82,7 +82,7 @@ Algorithm~\ref{fi:alg:lsr} summarizes this procedure, called \emph{Luce Spectral
 %Note that as this Markov chain has different transition rates than that of \eqref{fi:eq:master}, $\bar{\bm{\gamma}} \ne \bm{\gamma}^\star$ in general.
 If we consider a growing number of observations, LSR converges to the true model parameters $\bm{\gamma}'$, even in the restrictive case where the sets of alternatives are fixed.
 
-\begin{algorithm}[ht]
+\begin{algorithm}[t]
   \caption{Luce Spectral Ranking}
   \label{fi:alg:lsr}
   \begin{algorithmic}[1]
@@ -107,8 +107,8 @@ Then $\bar{\bm{\gamma}} \to \bm{\gamma}'$ as $M_n \to \infty \ \forall n$.
 \begin{proof}
 Let $M \to \infty$ be a shorthand for $M_n \to \infty \ \forall n$.
 The condition on $\mathcal{U}$ is equivalent to stating that the hypergraph $H = (\mathcal{V}, \mathcal{U})$, with $\mathcal{V} = [N]$, is connected.
-First, we show that asymptotically, the comparison graph $\mathcal{G}$ is strongly connected.
-For a given set of alternatives $\mathcal{A}_n$, let $i, j \in \mathcal{A}_n$.
+It implies that, asymptotically, the comparison graph $\mathcal{G}$ is strongly connected.
+Indeed, for a given set of alternatives $\mathcal{A}_n$, let $i, j \in \mathcal{A}_n$.
 The probability that $(j, i) \in \mathcal{E}$ is
 \begin{align*}
 1 - \left(1 - \frac{\gamma'_i}{\sum_{k \in \mathcal{A}_n} \gamma'_k} \right)^{M_n}
@@ -129,7 +129,7 @@ By the law of large numbers, for any item $i \in \mathcal{A}_n$,
 \end{align}
 Now consider two items $i$ and $j$.
 If they have never been compared, $\lambda_{ij} = \lambda_{ji} = 0$.
-Otherwise, suppose that they have been compared in alternative sets whose indices are in $\mathcal{B} = \{ n \mid i, j \in \mathcal{A}_n \}$
+Otherwise, suppose that they have been compared in alternative sets whose indices are in $\mathcal{B} = \{ n : i, j \in \mathcal{A}_n \}$
 By construction of the transition rates in LSR, we have that
 \begin{align*}
 \frac{\lambda_{ij}}{\lambda_{ji}}
@@ -139,12 +139,9 @@ By construction of the transition rates in LSR, we have that
 From \eqref{fi:eq:lln} it follows that
 \begin{align*}
 \lim_{M \to \infty}\frac{\lambda_{ij}}{\lambda_{ji}}
-& = \frac{\sum_{n \in \mathcal{B}} (\gamma'_j / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
-         {\sum_{n \in \mathcal{B}} (\gamma'_i / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}} \\
-& = \frac{\gamma'_j }{\gamma'_i}
-    \cdot \frac{\sum_{n \in \mathcal{B}}(1 / \sum_{k \in \mathcal{A}_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
-               {\sum_{n \in \mathcal{B}}(1 / \sum_{k \in \mathcal{A}_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
-  = \frac{\gamma'_j }{\gamma'_i}.
+    = \frac{\sum_{n \in \mathcal{B}} (\gamma'_j / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
+         {\sum_{n \in \mathcal{B}} (\gamma'_i / \sum_{k \in A_n} \gamma'_k) \ N / \Abs{\mathcal{A}_n}}
+    = \frac{\gamma'_j }{\gamma'_i}.
 \end{align*}
 Therefore, when $M \to \infty$,
 \begin{align*}
@@ -162,7 +159,7 @@ We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
 %For now, we will only note that because LSR is consistent implies that asymptotically, a single iteration is enough.
 %This is in contrast to the MM algorithm \citep{hunter2004mm}, which is not consistent.
 
-\begin{algorithm}[ht]
+\begin{algorithm}[t]
   \caption{Iterative Luce Spectral Ranking}
   \label{fi:alg:ilsr}
   \begin{algorithmic}[1]
@@ -207,8 +204,8 @@ Rank Centrality considers transition rates proportional to the \emph{ratio} of w
 
 \citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that it is minimax-optimal.
 Because the two estimators are equivalent in the setting of balanced pairwise comparisons, the bound also applies to LSR.
-More interestingly, the expression of the MLE as a stationary distribution enables us to reuse the same analytical techniques to bound the error of the MLE.
-In the supplementary file, we therefore provide an alternative proof of the recent result of \citet{hajek2014minimax} on the minimax-optimality of the MLE. % TODO
+%More interestingly, the expression of the MLE as a stationary distribution enables us to reuse the same analytical techniques to bound the error of the MLE.
+%In the supplementary file, we therefore provide an alternative proof of the recent result of \citet{hajek2014minimax} on the minimax-optimality of the MLE. % TODO
 
 \subsection{Plackett--Luce Model}
 \label{fi:sec:partial}
@@ -216,20 +213,20 @@ In the supplementary file, we therefore provide an alternative proof of the rece
 Another case of interest is when observations do not consist of only a single choice, but of a ranking over the alternatives.
 We now suppose $M$ observations consisting of $K$-way rankings, $2 \le K \le N$.
 For conciseness, we suppose that $K$ is the same for all observations.
-Let one such observation be $\sigma(1) \succ \cdots \succ \sigma(K)$, where $\sigma(r)$ is the item with $r$-th rank.
-\citet{luce1959individual} and later \citet{plackett1975analysis} independently proposed a model of rankings where
+Let one such observation be $i(1) \succ \cdots \succ i(K)$, where $i(r)$ is the item with $r$-th rank.
+The Plackett--Luce model (c.f. Section~\ref{in:sec:choice}) posits
 \begin{align*}
-\Prob{ \sigma(1) \succ \cdots \succ \sigma(K) }
-  = \prod_{r = 1}^{K} \frac{\gamma_{\sigma(r)}}{\sum_{p = r}^{K} \gamma_{\sigma(p)}}.
+\Prob{ i(1) \succ \cdots \succ i(K) }
+  = \prod_{r = 1}^{K} \frac{\gamma_{i(r)}}{\sum_{s = r}^{K} \gamma_{i(s)}}.
 \end{align*}
-In this model, a ranking can be interpreted as a sequence of $K-1$ independent choices:
-Choose the first item, then choose the second among the remaining alternatives, etc.
+A ranking can thus be interpreted as a sequence of $K-1$ independent choices:
+choose the first item, then choose the second among the remaining alternatives, etc.
 With this point of view in mind, LSR and I-LSR can easily accommodate data consisting of $K$-way rankings, by decomposing the $M$ observations into $M' = M (K - 1)$ choices.
 
 \citet{azari2013generalized} provide a class of consistent estimators for the Plackett--Luce model, using the idea of breaking rankings into pairwise comparisons.
 Although they explain their algorithms from a generalized-method-of-moments perspective, it is straightforward to reinterpret their estimators as stationary distributions of particular Markov chains.
-In fact, for $k = 2$, their algorithm GMM-F is identical to LSR.
-When $k > 2$ however, breaking a ranking into $\binom{k}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
+In fact, for $K = 2$, their algorithm GMM-F is identical to LSR.
+When $K > 2$ however, breaking a ranking into $\binom{K}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
 The Markov chain that LSR builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
 In Section~\ref{fi:sec:experimental}, we show that this weighting turns out to be crucial.
 Our approach yields a significant improvement in statistical efficiency, yet keeps the same attractive computational cost and ease of use.
@@ -241,7 +238,7 @@ Our approach yields a significant improvement in statistical efficiency, yet kee
 The link between the MLE and the stationary distribution of a Markov chain seemingly applies to other variants and extensions of Luce's choice model.
 As an illustration, we consider the model proposed by \citet{rao1967ties}, which extends the Bradley--Terry model to the case where a comparison between two items can result in a tie.
 This model is useful, e.g., for chess, where a significant fraction of comparison outcomes do not result in either a win or a loss.
-Letting $\alpha \in [1, \infty)$, the probabilities of $i$ winning over and tying with $j$, respectively, are given as follows.
+Letting $\alpha \in [1, \infty)$, the probabilities of $i$ winning over and tying with $j$, respectively, are given by
 \begin{align*}
 p(i \succ j) &= \frac{\gamma_i}{\gamma_i + \alpha \gamma_j}, \\
 p(i \equiv j) &= \frac{\gamma_i \gamma_j(\alpha^2 - 1)}{(\gamma_i + \alpha\gamma_j)(\alpha \gamma_i + \gamma_j)}.
@@ -279,4 +276,3 @@ For example, for LSR, the transition rates simplify to $\lambda_{ij} \propto a_{
 
 Beyond the Rao--Kupper model, we believe that our algorithms can be generalized to further models that are based on the choice axiom.
 However, this axiom is key, and other choice models (such as Thurstone's \citeyearpar{thurstone1927law}) do not seem to admit the stationary-distribution interpretation we derive here.
-

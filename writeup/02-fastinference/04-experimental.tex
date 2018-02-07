@@ -9,7 +9,7 @@ Then, we look at five real-world datasets and investigate the practical performa
 \paragraph{Error Metric}
 As the probability of $i$ winning over $j$ depends on the ratio of strengths $\gamma_i / \gamma_j$, the strengths are typically logarithmically spaced.
 In order to evaluate the accuracy of an estimate $\bm{\gamma}$ to ground truth parameters $\bm{\gamma}'$, we therefore use a $\log$ transformation, reminiscent of the random-utility-theoretic formulation of the choice model \citep{mcfadden1973conditional,hajek2014minimax}.
-Define $\bm{\theta} \doteq[\log \gamma_i - t]$, with $t$ chosen such that $\sum_i \theta_i = 0$.
+Define $\bm{\theta} \doteq [\log \gamma_i - \kappa]$, with $\kappa$ chosen such that $\sum_i \theta_i = 0$.
 We will consider the root-mean-squared error
 \begin{align*}
 E_{\text{RMS}} = \Vert \bm{\theta} - \bm{\theta}' \Vert_2 / \sqrt{N}.
@@ -64,8 +64,8 @@ and chess\footnote{%
 See: \url{https://www.kaggle.com/c/chess}.}
 datasets contain pairwise comparisons.
 Among those, the chess dataset is particular in that it features 45\% of ties;
-in this case we use the extension of the Bradley--Terry model proposed by \citet{rao1967ties}.
-We preprocess each dataset by discarding items that are not part of the largest strongly connected component in the comparison graph.
+in this case we use the model proposed by \citet{rao1967ties}.
+We preprocess each dataset by discarding items that are not part of the largest strongly connected component in the comparison graph, in order to ensure that the MLE is well-defined.
 For each dataset, the number of items $N$, the number of rankings $M$, as well as the size $K$ of a partial ranking are given in Table~\ref{fi:tab:approxalg}.
 
 \paragraph{Experimental Procedure}
@@ -75,7 +75,7 @@ We implemented the Rank Centrality (RC), GMM-F and MM \citep{hunter2004mm} algor
 For the Newton-Raphson algorithm, we implemented the choice model on top of the popular \texttt{statsmodels} Python library\footnote{%
 See: \url{http://statsmodels.sourceforge.net/}
 } that provides a Newton-Raphson solver.
-We have compared our implementation of the MM algorithm to that of \citeauthor{hunter2004mm} written in Matlab\footnote{
+We have compared our implementation of the MM algorithm to that of \citeauthor{hunter2004mm} written in Matlab\footnote{%
 See: \url{http://sites.stat.psu.edu/~dhunter/code/btmatlab/}
 }, and observed that ours has comparable running time.
 For the chess dataset, we use the Rao--Kupper model with $\alpha = \sqrt{2}$.
@@ -109,7 +109,7 @@ def statdist(chain):
     return res / res.sum()
 \end{lstlisting}
 
-We first compare the estimates produced by three approximate ML inference algorithms, LSR, GMM-F and Rank Centrality (RC).
+We first compare the estimates produced by three approximate ML inference algorithms, LSR, GMM-F and RC.
 Note that RC applies only to pairwise comparisons, and that LSR is the only algorithm able to infer the parameters in the Rao-Kupper model.
 Also note that in the case of pairwise comparisons, GMM-F and LSR are strictly equivalent.
 In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the MLE $\bm{\theta}^\star$ and the running time $T$ of the algorithm.

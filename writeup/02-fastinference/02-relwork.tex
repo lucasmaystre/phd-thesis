@@ -8,7 +8,7 @@ Two decades later, \citet{page1998pagerank} developed PageRank, an algorithm tha
 In the same vein, \citet{dwork2001rank} proposed several variants of Markov chains for aggregating heterogeneous rankings.
 The idea is to construct a random walk that is biased towards high-ranked items, and use the ranking induced by the stationary distribution.
 More recently, \citet{negahban2012iterative} presented Rank Centrality, an algorithm for aggregating pairwise comparisons close in spirit to that of \citep{dwork2001rank}.
-When the data is generated under the Bradley--Terry model, this algorithm asymptotically recovers model parameters with only $\omega(n \log n)$ pairwise comparisons.
+When the data is generated under the Bradley--Terry model, this algorithm asymptotically recovers model parameters with only $\omega(N \log N)$ pairwise comparisons.
 For the more general case of rankings under the Plackett--Luce model, \citet{azari2013generalized} propose to break rankings into pairwise comparisons and to apply an algorithm similar to Rank Centrality.
 They show that the resulting estimator is statistically consistent.
 %Lastly, we mention \citep{fogel2014serialrank} who take a slightly different approach to spectral ranking, based on seriation, w
