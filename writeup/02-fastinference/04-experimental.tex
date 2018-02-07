@@ -8,7 +8,7 @@ Then, we look at five real-world datasets and investigate the practical performa
 
 \paragraph{Error Metric}
 As the probability of $i$ winning over $j$ depends on the ratio of strengths $\gamma_i / \gamma_j$, the strengths are typically logarithmically spaced.
-In order to evaluate the accuracy of an estimate $\bm{\gamma}$ to ground truth parameters $\bm{\gamma}'$, we therefore use a $\log$ transformation, reminiscent of the random-utility-theoretic formulation of the choice model \citep{mcfadden1973conditional,hajek2014minimax}.
+In order to evaluate the accuracy of an estimate $\bm{\gamma}$ to ground truth parameters $\bm{\gamma}'$, we therefore use a $\log$ transformation, reminiscent of the random-utility-theoretic formulation of the choice model.
 Define $\bm{\theta} \doteq [\log \gamma_i - \kappa]$, with $\kappa$ chosen such that $\sum_i \theta_i = 0$.
 We will consider the root-mean-squared error
 \begin{align*}
