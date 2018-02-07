@@ -107,39 +107,39 @@ In the following, we report results for the values that worked best \emph{a post
 
 \paragraph{Synthetic dataset.}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.67\linewidth]{rs-baselines}
-\caption{
-Synthetic dataset with $\lambda = 5$ and $n = 200$.
-The experiment is repeated \num{10} times, and we report the mean and the standard deviation.
-Compared to random sampling, AL results in significantly better rankings for a given budget $c$.
-}
-\label{rs:fig:baselines}
-\end{figure}
-
 We generate $n$ i.i.d. parameters $\theta_1, \ldots, \theta_n$ uniformly in $[0, (n+1) / \lambda]$ and draw samples from $\BT(\bm{\theta})$.
 The ground-truth ranking is the one induced by the parameters.
-Figure~\ref{rs:fig:baselines} presents results for $n = \num{200}$ and $\lambda = \num{5}$ (plots for different values of $\lambda$ are presented in Appendix~\ref{rs:app:figures}, and are qualitatively similar).
+Figure~\ref{rs:fig:synthetic} presents results for $n = \num{200}$ and $\lambda = \num{5}$ (plots for different values of $\lambda$ are presented in Appendix~\ref{rs:app:figures}, and are qualitatively similar).
 In comparison to random sampling, AL is very effective and results in significantly better ranking estimates for any given number of comparisons.
 The two Bayesian methods, though being the most computationally expensive, perform the best for all values of $c$, but are nearly indistinguishable from uncertainty sampling.
 The two sorting-based strategies perform similarly (with a small edge for Mergesort).
 They are slightly worse than the Bayesian methods but are still able to reap most of the benefits of active learning.
 
+\begin{figure}[t]
+\centering
+\includegraphics{rs-synthetic}
+\caption{
+Synthetic dataset with $\lambda = 5$ and $n = 200$.
+The experiment is repeated \num{10} times, and we report the mean and the standard deviation.
+Compared to random sampling, AL results in significantly better rankings for a given budget $c$.
+}
+\label{rs:fig:synthetic}
+\end{figure}
+
 
 \paragraph{Sushi dataset.}
 
-\begin{figure*}[t]
+\begin{figure}[t]
 \centering
-\includegraphics[width=\linewidth]{rs-datasets}
+\includegraphics{rs-sushi}
 \caption{
 Results on two real-world datasets.
 Every experiment is repeated \num{10} times, and we report the mean and the standard deviation.
 Left: on the sushi dataset, sorting-based and Bayesian AL strategies have near-identical performance starting from $c \approx \num{1000}$.
 Right: on the GIFGIF dataset, most AL strategies are computationally too expensive---except for sorting-based methods.
 }
-\label{rs:fig:datasets}
-\end{figure*}
+\label{rs:fig:sushi}
+\end{figure}
 
 Next, we consider a dataset of Sushi preferences \citep{kamishima2009efficient}.
 In this dataset, \num{5000} respondents give a strict ordering over \num{10} different types of sushi.
@@ -154,7 +154,7 @@ When an outcome for pair $(i,j)$ is requested, we sample uniformly at random ove
 In the rare case where no outcome is available, we return $i \prec j$ with probability $1/2$.
 This enables us to compare sampling strategies in a realistic setting, where the assumptions of the BT model do not necessarily hold anymore.
 
-Results are shown in Figure~\ref{rs:fig:datasets} (left).
+Results are shown in Figure~\ref{rs:fig:sushi}.
 Once again, active learning performs noticeably better than random sampling.
 On this real-world dataset, the performance of our sorting-based strategies is indistinguishable from that of the Bayesian methods, after completing one entire call to the sorting procedure (slightly less than \num{1000} comparisons).
 This result should be interpreted in light of the time needed to select all $10^4$ pairs: a fraction of a second for sorting-based strategies, and several hours for the Bayesian methods.
@@ -163,6 +163,18 @@ A detailed analysis reveals that uncertainty sampling increasingly focuses on a 
 
 
 \paragraph{GIFGIF dataset.}
+
+\begin{figure}[t]
+\centering
+\includegraphics{rs-gifgif}
+\caption{
+Results on two real-world datasets.
+Every experiment is repeated \num{10} times, and we report the mean and the standard deviation.
+Left: on the sushi dataset, sorting-based and Bayesian AL strategies have near-identical performance starting from $c \approx \num{1000}$.
+Right: on the GIFGIF dataset, most AL strategies are computationally too expensive---except for sorting-based methods.
+}
+\label{rs:fig:gifgif}
+\end{figure}
 
 GIFGIF\footnote{See \url{http://www.gif.gf/}.
 Data available at \url{http://lucas.maystre.ch/gifgif-data}.} is a project of the MIT Media Lab that aims at explaining the emotions communicated by a collection of animated GIF images.
@@ -179,7 +191,7 @@ In this sense, the experiment enables us to compare sampling strategies by using
 The large number of items makes uncertainty sampling and the two Bayesian methods prohibitively expensive.
 We try a simplified, computationally less expensive version of uncertainty sampling where, at every iteration, each item is compared to its two closest neighbors, but this heuristic fails spectacularly: The resulting displacement is over $5\times$ larger than random sampling for $c = 10^6$, and is therefore not reported here (see Appendix~\ref{rs:app:figures}).
 
-Figure~\ref{rs:fig:datasets} (right) compares the displacement of random sampling to that of the two sorting-based sampling strategies for increasing $c$.
+Figure~\ref{rs:fig:gifgif} compares the displacement of random sampling to that of the two sorting-based sampling strategies for increasing $c$.
 The adaptive sampling approaches perform systematically better.
 After $10^6$ comparisons, the displacement of random sampling is \num{14}~\% and \num{23}~\% larger than that of Quicksort and Mergesort, respectively.
 Conversely, in order to reach any target displacement, Mergesort requires approximately $2 \times$ fewer comparisons than random sampling.

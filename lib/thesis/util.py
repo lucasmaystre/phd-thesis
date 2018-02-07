@@ -13,9 +13,11 @@ MPL_RCPARAMS = {
     "xtick.major.width": 0.5,
     "xtick.minor.width": 0.5,
     "xtick.labelsize": 9,
+    "xtick.top": True,
     "ytick.major.width": 0.5,
     "ytick.minor.width": 0.5,
     "ytick.labelsize": 9,
+    "ytick.right": True,
     "text.usetex": True,           # use LaTeX to write all text
     "text.latex.unicode": True,
     "font.family": "serif",        # use serif rather than sans-serif

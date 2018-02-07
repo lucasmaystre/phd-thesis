@@ -218,9 +218,9 @@ This result should be compared to the \BigOmega{n^2} comparisons needed if sampl
 
 \paragraph{Empirical validation.}
 
-\begin{figure*}[t]
+\begin{figure}[p]
 \centering
-\includegraphics[width=\linewidth]{rs-bounds}
+\includegraphics{rs-bounds}
 \caption{
 Empirical validation of Theorem~\ref{rs:thm:quickdisp} and illustration of Theorem~\ref{rs:thm:multidisp}.
 Every simulation is repeated $50$ times, and we report the mean and the standard deviation.
@@ -228,7 +228,7 @@ Left and middle: total and maximum displacement (respectively) for increasing $n
 Right: displacement of the aggregate ranking $\hsigma$ for increasing $m$, fixing $n = \num{200}$ and $\lambda = \num{4}$ and using two different aggregation rules.
 }
 \label{rs:fig:bounds}
-\end{figure*}
+\end{figure}
 
 In Figure~\ref{rs:fig:bounds}, we illustrate the results of Theorems~\ref{rs:thm:quickdisp} and~\ref{rs:thm:multidisp} by running simulations for increasing $n$ and different values of $\lambda$.
 The bound on \Disp{\sigma} is tight in $n$, but the dependence on $\lambda$ appears to be linear rather than quadratic.

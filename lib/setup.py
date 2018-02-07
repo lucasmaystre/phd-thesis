@@ -6,6 +6,7 @@ setup(
     version="0.1",
     packages=[
         "thesis",
+        "thesis.robustsort",
         "thesis.playerkern",
     ],
 )
