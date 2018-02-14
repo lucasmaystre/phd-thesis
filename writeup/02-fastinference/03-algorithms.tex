@@ -50,19 +50,19 @@ Let $\bm{Q}(\bm{\gamma})$ be the infinitesimal generator matrix of the Markov ch
 The dynamics of the Markov chain are described by the differential equation
 \begin{align}
 \label{fi:eq:dynsys}
-\frac{d \bm{\gamma}}{dt} = \bm{\gamma}^\tr \bm{Q}(\bm{\gamma}).
+\frac{d \bm{\gamma}}{dt} = \bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}).
 \end{align}
 By construction, the invariant distributions of the Markov chain coincide with the maximizers of the log-likelihood~\eqref{fi:eq:loglik}.
-Hence, we know that $\bm{\gamma}^\star$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\gamma}^\tr \bm{Q}(\bm{\gamma}) = \bm{0}$.
+Hence, we know that $\bm{\gamma}^\star$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}) = \bm{0}$.
 We will now show that this point is globally and asymptotically stable, i.e., $\bm{\gamma}(t) \to \bm{\gamma}^\star$ as $t \to \infty$ for any $\bm{\gamma}(0)$ in the open probability simplex.
 To this end, it suffices to show that $V(\bm{\gamma}) = - \ell(\bm{\gamma}) + \ell(\bm{\gamma}^\star)$ is a Lyapunov function for the dynamical system~\eqref{fi:eq:dynsys}.
 First, we have that $V(\bm{\gamma}^\star) = 0$ and $V(\bm{\gamma}) > 0$ for all $\bm{\gamma} \ne \bm{\gamma}^\star$ (by definition of the MLE).
-Second, we note that $\bm{\gamma}^\tr \bm{Q}(\bm{\gamma}) = \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})$.
+Second, we note that $\bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}) = \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})$.
 Hence,
 \begin{align*}
 \frac{dV}{dt}
-    = \left( \nabla V \right)^\tr \frac{d \bm{\gamma}}{dt}
-    = - [\nabla \ell(\bm{\gamma})]^\tr \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})
+    = \left( \nabla V \right)^\Tr \frac{d \bm{\gamma}}{dt}
+    = - [\nabla \ell(\bm{\gamma})]^\Tr \Diag{\bm{\gamma}} \nabla \ell(\bm{\gamma})
     < 0,
 \end{align*}
 for all $\bm{\gamma} \ne \bm{\gamma}^\star$.
@@ -74,7 +74,7 @@ The result then follows by applying the Barbashin-Krasovskii theorem, a standard
 \subsection{Approximate and Exact ML Inference}
 
 We approximate the Markov chain described in \eqref{fi:eq:master} by considering a priori that all alternatives have equal strength.
-That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ by fixing $\bm{\gamma}$ to $[1/N \; \cdots \; 1/N]^\tr$.
+That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ by fixing $\bm{\gamma}$ to $[1/N \; \cdots \; 1/N]^\Tr$.
 For $i \ne j$, the contribution of $i$ winning over $j$ to the rate of transition $\lambda_{ji}$ is $N / \Abs{\mathcal{A}}$.
 In other words, for each observation, the winning item is rewarded by a fixed amount of incoming rate that is evenly split across the alternatives (the chunk allocated to itself is discarded).
 We interpret the stationary distribution $\bar{\bm{\gamma}}$ as an estimate of model parameters.
@@ -155,7 +155,7 @@ Starting from the LSR estimate, we can iteratively refine the transition rates o
 By \eqref{fi:eq:master}, the only fixed point of this iteration is the MLE $\bm{\gamma}^\star$.
 We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
 
-%In Section~\ref{fi:sec:experimental}, we will investigate in detail the performance and practical advantages of this algorithm over the others for computing the ML estimate.
+%In Section~\ref{fi:sec:experiments}, we will investigate in detail the performance and practical advantages of this algorithm over the others for computing the ML estimate.
 %For now, we will only note that because LSR is consistent implies that asymptotically, a single iteration is enough.
 %This is in contrast to the MM algorithm \citep{hunter2004mm}, which is not consistent.
 
@@ -164,7 +164,7 @@ We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
   \label{fi:alg:ilsr}
   \begin{algorithmic}[1]
     \Require observations $\mathcal{D}$
-    \State $\bm{\gamma} \gets [1/N \; \cdots \; 1/N]^\tr$
+    \State $\bm{\gamma} \gets [1/N \; \cdots \; 1/N]^\Tr$
     \Repeat
       \State $\bm{\Lambda} \gets \bm{0}_{N \times N}$
       \For{$(i, \mathcal{A}) \in \mathcal{D}$}
@@ -183,11 +183,11 @@ LSR (or one iteration of I-LSR) entails
 \item finding a stationary distribution.
 \end{enuminline}
 Let $D \doteq \sum_{m} \Abs{\mathcal{A}_m}$, and let $S$ be the running time of finding the stationary distribution.
-Then LSR has running time $O(D + S)$.
-As a comparison, one iteration of the MM algorithm \citep{hunter2004mm} is $O(D)$.
+Then LSR has running time $\BigO{D + S}$.
+As a comparison, one iteration of the MM algorithm \citep{hunter2004mm} is $\BigO{D}$.
 Finding the stationary distribution can be implemented in different ways.
-% with $S$ ranging from $O(\min(D, N^2))$ for power methods to $O(N^3)$ for a dense LU decomposition.
-For example, in a sparse regime where $D \ll N^2$, the stationary distribution can be found with the power method in a few $O(D)$ sparse matrix multiplications.
+% with $S$ ranging from $\BigO{\min(D, N^2)}$ for power methods to $\BigO{N^3}$ for a dense LU decomposition.
+For example, in a sparse regime where $D \ll N^2$, the stationary distribution can be found with the power method in a few $\BigO{D}$ sparse matrix multiplications.
 In practice, whether $D$ or $S$ turns out to be dominant in the running time is not a foregone conclusion.
 
 \subsection{Bradley--Terry Model}
@@ -226,7 +226,7 @@ Although they explain their algorithms from a generalized-method-of-moments pers
 In fact, for $K = 2$, their algorithm GMM-F is identical to LSR.
 When $K > 2$ however, breaking a ranking into $\binom{K}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
 The Markov chain that LSR builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
-In Section~\ref{fi:sec:experimental}, we show that this weighting turns out to be crucial.
+In Section~\ref{fi:sec:experiments}, we show that this weighting turns out to be crucial.
 Our approach yields a significant improvement in statistical efficiency, yet keeps the same attractive computational cost and ease of use.
 
 

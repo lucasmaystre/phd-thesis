@@ -26,7 +26,7 @@ For every node $i$ and every $j \in N^+_i$, the probability that $j$ is selected
 \label{cr:eq:singlelik}
 p_{ij} = \frac{\lambda_j}{\sum_{k \in N^+_i} \lambda_k}
 \end{align}
-for some parameter vector $\bm{\lambda} = \begin{bmatrix}\lambda_1 & \cdots & \lambda_n \end{bmatrix}^\transp \in \mathbf{R}_{>0}^n$.
+for some parameter vector $\bm{\lambda} = \begin{bmatrix}\lambda_1 & \cdots & \lambda_n \end{bmatrix}^\Tr \in \mathbf{R}_{>0}^n$.
 Intuitively, the parameter $\lambda_i$ can be interpreted as the strength (or utility) of item $i$.
 Note that $p_{ij}$ depends only on the out-neighborhood of node $i$.
 As such, the choice process satisfies the Markov property, and we can think of the sequence of choices as a trajectory in a Markov chain.

@@ -60,8 +60,8 @@ The structure of the updates in~\eqref{cr:eq:mmiter} leads to an extremely simpl
 A graphical representation of an iteration from the perspective of a single node is given in Figure~\ref{cr:fig:msgpassing}.
 Each iteration consists of two phases of message passing, with $\gamma_i$ flowing towards in-neighbors $N^-_i$, then $\lambda_i$ flowing towards out-neighbors $N^+_i$.
 The updates to a node's state are a function of the sum of the messages.
-As the algorithm does two passes over the edges and two passes over the vertices, an iteration takes $O(m + n)$ time.
-The edges can be processed in any order, and the algorithm maintains a state over only $O(n)$ values associated with the vertices.
+As the algorithm does two passes over the edges and two passes over the vertices, an iteration takes $\BigO{m + n}$ time.
+The edges can be processed in any order, and the algorithm maintains a state over only $\BigO{n}$ values associated with the vertices.
 Furthermore, the algorithm can be conveniently expressed in the well-known vertex-centric programming model \citep{malewicz2010pregel}.
 This makes it easy to implement ChoiceRank inside scalable, optimized graph-processing systems such as Apache Spark \citep{gonzalez2014graphx}.
 

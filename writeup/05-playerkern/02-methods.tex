@@ -48,13 +48,11 @@ Because a draw can be written as the product of a win and a loss, model inferenc
 
 \subsection{The Player Kernel}
 
-\newcommand{\Wx}{\ensuremath{\mathcal{W}}}
-\newcommand{\Lx}{\ensuremath{\mathcal{L}}}
 We now consider an application to football and propose a method to quantify how similar two match outcomes are expected to be.
 Denote by $P$ the number of distinct players appearing in a dataset of matches.
 We define a team's \emph{lineup} as the set consisting of the \num{11} players starting the match.
-For a given match, let $\Wx$ and $\Lx$ be the lineups of the winning and losing teams, respectively.
-Define $\bm{z} \in \mathbf{R}^P$ such that $z_p = 1$ if $p \in \Wx$, $z_p = -1$ if $p \in \Lx$ and $z_p = 0$ otherwise.
+For a given match, let $\mathcal{W}$ and $\mathcal{L}$ be the lineups of the winning and losing teams, respectively.
+Define $\bm{z} \in \mathbf{R}^P$ such that $z_p = 1$ if $p \in \mathcal{W}$, $z_p = -1$ if $p \in \mathcal{L}$ and $z_p = 0$ otherwise.
 We then define the player kernel as
 \begin{align*}
 k(\bm{z}, \bm{z}') = \sigma^2 \bm{z}^\top \bm{z}'.

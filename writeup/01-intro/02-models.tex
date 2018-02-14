@@ -23,7 +23,7 @@ In this case,
 \label{in:eq:thu5}
 \Prob{i \succ j} = \Phi(\theta_i - \theta_j).
 \end{align}
-The vector of $N$ parameters $\bm{\theta} = [\theta_1 \; \cdots \; \theta_N]^\tr \in \mathbf{R}^N$ drives the probabilities of all $\binom{N}{2}$ possible pairwise comparisons.
+The vector of $N$ parameters $\bm{\theta} = [\theta_1 \; \cdots \; \theta_N]^\Tr \in \mathbf{R}^N$ drives the probabilities of all $\binom{N}{2}$ possible pairwise comparisons.
 Intuitively, $\theta_i$ can be interpreted as the \emph{score} of stimulus $i$, and the probability of observing a comparison outcome for $i$ and $j$ that is consistent with the true order increases with the distance $\theta_i - \theta_j$.
 Note that as~\eqref{in:eq:thu5} only involves pairwise distances, the parameters $\bm{\theta}$ are identifiable only up to a constant.
 In order to resolve this ambiguity, the parameters are often chosen such that $\sum_i \theta_i = 0$.
@@ -65,7 +65,7 @@ Indeed, the likelihood~\eqref{in:eq:thu5} is log-concave in $\bm{\theta}$, and s
 It is also interesting to note that Thurstone's model lends itself particularly well to approximate Bayesian inference methods \citep{chu2005extensions, chu2005preference}.
 An important quantity in Bayesian inference is the \emph{marginal likelihood}, typically of the form
 \begin{align*}
-\int_{\mathbf{R}^N} \Prob{i \succ j ; \bm{\theta}} \DNorm{\bm{\theta} \mid \bm{\mu}, \bm{S}} d\bm{\theta}.
+\int_{\mathbf{R}^N} \Prob{i \succ j \mid \bm{\theta}} \DNorm{\bm{\theta} \mid \bm{\mu}, \bm{S}} d\bm{\theta}.
 \end{align*}
 In the case of Thurstone's model, this integral admits a simple closed-form solution. See, e.g., \citet[Section~3.9]{rasmussen2006gaussian}.
 

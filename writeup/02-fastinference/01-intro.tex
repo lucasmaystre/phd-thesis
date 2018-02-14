@@ -16,7 +16,7 @@ Our algorithms are intuitively pleasing, simple to understand and implement, and
 
 We begin by introducing some notations and presenting a few useful facts about the MLE and about Markov chains.
 In Section~\ref{fi:sec:relwork}, we discuss related work.
-In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experimental} we evaluate them on synthetic and real-world data.
+In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experiments} we evaluate them on synthetic and real-world data.
 
 
 \subsection{Maximum-Likelihood Estimate}
@@ -80,14 +80,14 @@ We distinguish implementations based on whether they consider a continuous-time 
 
 \paragraph{Continuous-Time Perspective}
 Let $\bm{Q}$ be the infinitesimal generator matrix of the Markov chain, i.e., $q_{ij} \doteq \lambda_{ij}$ and $q_{ii} \doteq - \sum_{j} \lambda_{ij}$.
-The stationary distribution satisfies $\bm{\pi}^\tr \bm{Q} = 0$; this is simply a matrix formulation of the global balance equations~\eqref{fi:eq:balance}.
+The stationary distribution satisfies $\bm{\pi}^\Tr \bm{Q} = 0$; this is simply a matrix formulation of the global balance equations~\eqref{fi:eq:balance}.
 Therefore, one approach to finding the steady-state distribution is to compute the rank-$1$ left nullspace of $\bm{Q}$.
 This can be done, e.g., by LU decomposition, a basic linear-algebra primitive.
-In the case where $\bm{Q}$ is dense, the running time of a typical implementation is $O(N^3)$, but highly optimized parallel implementations such as that provided by LAPACK \citep{anderson1999lapack} are commonly available.
+In the case where $\bm{Q}$ is dense, the running time of a typical implementation is $\BigO{N^3}$, but highly optimized parallel implementations such as that provided by LAPACK \citep{anderson1999lapack} are commonly available.
 In the sparse case, LU decomposition can be done significantly faster using adapted algorithms, such as that of \citet{demmel1999supernodal}.
 
 \paragraph{Discrete-Time Perspective}
-Let $\epsilon < 1 / \max_i |q_{ii}|$, then $\bm{P} = \bm{I} + \epsilon \bm{Q}$ is the transition matrix of a discrete-time Markov chain that satisfies $\bm{\pi}^\tr \bm{P} = \bm{\pi}$.
+Let $\epsilon < 1 / \max_i |q_{ii}|$, then $\bm{P} = \bm{I} + \epsilon \bm{Q}$ is the transition matrix of a discrete-time Markov chain that satisfies $\bm{\pi}^\Tr \bm{P} = \bm{\pi}$.
 In this case, finding the steady-state distribution is equivalent to finding the left eigenvector associated to the leading eigenvalue of the transition matrix $\bm{P}$.
 This is also a well-studied linear algebra problem for which plenty of efficient, off-the-shelf algorithms exist.
 For example, power iteration methods can find the eigenvector in a few (sparse) matrix multiplications.

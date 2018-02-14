@@ -3,7 +3,7 @@
 \label{cr:sec:theory}
 
 In this section, we describe some important statistical properties of the network choice model.
-We begin by observing that $O(n)$ values summarizing the traffic at each node is a sufficient statistic for the $O(n^2)$ entries of the Markov-chain transition matrix.
+We begin by observing that $\BigO{n}$ values summarizing the traffic at each node is a sufficient statistic for the $\BigO{n^2}$ entries of the Markov-chain transition matrix.
 We then connect our statistical model to the steady-state inversion problem defined by \citet{kumar2015inverting}.
 Guided by this connection, we study the maximum-likelihood (ML) estimate of model parameters, but find that the estimate is likely to be ill-defined in many scenarios of practical interest.
 Lastly, we study how to overcome this issue by introducing a prior distribution on the parameters $\bm{\lambda}$; the prior guarantees that the inference problem is well-posed.
@@ -26,7 +26,7 @@ Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we 
 \end{align}
 where $c^-_i = \sum_{j \in N^-_i} c_{ji}$ and $c^+_i = \sum_{j \in N^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
 This formulation of the log-likelihood exhibits a key feature of the model:
-the set of $2n$ counts $\{ (c^-_i, c^+_i) \mid i \in V \}$ is a sufficient statistic of the $O(n^2)$ counts $\{ c_{ij} \mid (i, j) \in E \}$ for the parameters $\bm{\lambda}$.
+the set of $2n$ counts $\{ (c^-_i, c^+_i) \mid i \in V \}$ is a sufficient statistic of the $\BigO{n^2}$ counts $\{ c_{ij} \mid (i, j) \in E \}$ for the parameters $\bm{\lambda}$.
 (In Appendix~\ref{cr:app:extensions}, we show that it is in fact minimally sufficient.)
 In other words, it is enough to observe marginal information about the number of arrivals and departures at each node---we collectively call this data the \emph{traffic} at a node---and no additional information can be gained by observing the full choice process.
 This makes the model particularly attractive, because it means that it is unnecessary to track users across nodes.
@@ -46,7 +46,7 @@ If users' typical trajectories consist of many hops, it is reasonable to approxi
 
 In recent work, \citet{kumar2015inverting} define the problem of \emph{steady-state inversion} as follows:
 Given a strongly-connected directed graph $G = (V, E)$ and a target distribution over the nodes $\bm{\pi}$, find a Markov chain on $G$ with stationary distribution $\bm{\pi}$.
-As there are $m = O(n^2)$ degrees of freedom (the transition probabilities) for $n$ constraints (the stationary distribution), the problem is in most cases underdetermined.
+As there are $m = \BigO{n^2}$ degrees of freedom (the transition probabilities) for $n$ constraints (the stationary distribution), the problem is in most cases underdetermined.
 Following Luce's ideas, the transition probabilities are constrained to be proportional to a latent score of the destination node as per \eqref{cr:eq:singlelik}, thus reducing the number of parameters from $m$ to $n$.
 Denote by $P(\bm{s})$ the Markov-chain transition matrix parametrized with scores $\bm{s}$.
 The score vector $\bm{s}$ is a solution for the steady-state inversion problem if and only if $\bm{\pi} = \bm{\pi} P(\bm{s})$, or equivalently

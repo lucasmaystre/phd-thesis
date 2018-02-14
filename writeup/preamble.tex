@@ -184,7 +184,7 @@
 \bibliographystyle{abbrvnat}
 
 \newlist{enuminline}{enumerate*}{1}
-\setlist[enuminline,1]{label=\itshape\alph*\upshape)}
+\setlist[enuminline,1]{label=(\itshape\alph*\upshape)}
 
 % Removes double spacing after end of sentence.
 % See: http://practicaltypography.com/one-space-between-sentences.html.
@@ -198,55 +198,49 @@
 \theoremstyle{definition}
 \newtheorem*{definition}{Definition}
 
-% For fastinference.
-\newcommand{\vpi}{\ensuremath{\bm{\pi}}}
-\newcommand{\rcpi}{\ensuremath{\bar{\bm{\pi}}}}
-\newcommand{\mlpi}{\ensuremath{\hat{\bm{\pi}}}}
-
-% For robustsort.
-\newcommand{\intint}[2]{\ensuremath{\{#1 \; .. \; #2 \}}}
-\newcommand{\BigO}[2][]{\ensuremath{%
-\ifthenelse{\isempty{#1}}{O( #2 )}{O_{ #1 }( #2 )}}}
-\newcommand{\LittleO}[1]{\ensuremath{o(#1)}}
-\newcommand{\BigOmega}[1]{\ensuremath{\Omega(#1)}}
-\newcommand{\LittleOmega}[1]{\ensuremath{\omega(#1)}}
-\newcommand{\Set}[1]{\ensuremath{\mathbf{#1}}}
+% Probability.
 \newcommand{\Prob}[1]{\ensuremath{\mathbf{P}\left[ #1 \right]}}
 \newcommand{\Exp}[2][]{\ensuremath{%
 \ifthenelse{\isempty{#1}}{\mathbf{E}\left[ #2 \right]}{\mathbf{E}_{#1}\left[ #2 \right]}}}
 \newcommand{\Cov}[2]{\ensuremath{\mathbf{Cov}\left[ #1, #2 \right]}}
 \newcommand{\Var}[1]{\ensuremath{\mathbf{Var}\left[ #1 \right]}}
-\newcommand{\Abs}[1]{\ensuremath{\lvert #1 \rvert}}
-\newcommand{\Norm}[1]{\ensuremath{\lVert #1 \rVert}}
 \newcommand{\Indic}[1]{\ensuremath{\mathbf{1} \left \{ #1 \right \} }}
-\newcommand{\Diag}[1]{\ensuremath{\text{diag} \left( #1 \right) }}
 
+% Distributions.
 \newcommand{\DExp}[1]{\ensuremath{\mathrm{Exp}( #1 )}}
 \newcommand{\DGamma}[1]{\ensuremath{\mathrm{Gamma}( #1 )}}
 \newcommand{\DGumbel}[1]{\ensuremath{\mathrm{Gumbel}( #1 )}}
 \newcommand{\DBeta}[1]{\ensuremath{\mathrm{Beta}( #1 )}}
-\newcommand{\DUniform}[1]{\ensuremath{\mathrm{U}( #1 )}}
+\newcommand{\DUnif}[1]{\ensuremath{\mathrm{U}( #1 )}}
 \newcommand{\DNorm}[1]{\ensuremath{\mathrm{N}( #1 )}}
 
+% Asymptotics
+\newcommand{\BigO}[2][]{\ensuremath{%
+\ifthenelse{\isempty{#1}}{O( #2 )}{O_{ #1 }( #2 )}}}
+\newcommand{\LittleO}[1]{\ensuremath{o(#1)}}
+\newcommand{\BigOmega}[1]{\ensuremath{\Omega(#1)}}
+\newcommand{\LittleOmega}[1]{\ensuremath{\omega(#1)}}
 
+% Paired delimiters.
+\DeclarePairedDelimiter{\Ceil}{\lceil}{\rceil}
+\DeclarePairedDelimiter{\Abs}{\lvert}{\rvert}
+\DeclarePairedDelimiter{\Norm}{\lVert}{\rVert}
+
+% Algorithms.
+\algnewcommand{\OneLineFor}[1]{\State \algorithmicfor\ #1\ \algorithmicdo}
+\algnewcommand{\OneLineIf}[1]{\State \algorithmicif\ #1\ \algorithmicthen}
+
+% Various
+\newcommand{\Tr}{\top}
+\newcommand{\Diag}[1]{\ensuremath{\text{diag} \left( #1 \right) }}
+\newcommand{\IntInt}[2]{\ensuremath{\{#1 \; .. \; #2 \}}}
 \newcommand{\Disp}[2][]{\ensuremath{%
 \ifthenelse{\isempty{#1}}{\Delta( #2 )}{\Delta_{#1}( #2 )}}}
-\newcommand{\Dispp}{\ensuremath{\Delta}}
-\newcommand{\id}{\ensuremath{\mathrm{id}}}
-\newcommand{\ssigma}{\ensuremath{\sigma^{\star}}}
-\newcommand{\hsigma}{\ensuremath{\hat{\sigma}}}
-\newcommand{\tsigma}{\ensuremath{\tilde{\sigma}}}
-\newcommand{\bsigma}{\ensuremath{\bar{\sigma}}}
-
+\newcommand{\Id}{\ensuremath{\mathrm{id}}}
 \DeclareMathOperator{\BT}{BT}
 \DeclareMathOperator{\KL}{KL}
 \DeclareMathOperator*{\Argmin}{arg\,min}
 \DeclareMathOperator*{\Argmax}{arg\,max}
-\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
 
-% For choicerank.
-\newcommand{\transp}{\top} % TODO Remove.
-\newcommand{\tr}{\top}
-\algnewcommand{\OneLineFor}[1]{\State \algorithmicfor\ #1\ \algorithmicdo}
 
 \hyphenation{wahrscheinlichkeits-rechnung PageRank ChoiceRank}
