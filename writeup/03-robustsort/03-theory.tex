@@ -51,7 +51,7 @@ In either case, the pivot is not included in the recursive calls, which ensures 
 \begin{lemma}
 \label{rs:lem:samplecomp}
 %If the comparison outcomes are independent of the query order,
-Quicksort samples \BigO{N \log N} comparisons w.h.p.
+Quicksort samples \BigO{N \log N} comparisons with high probability.
 \end{lemma}
 
 \begin{proof}[Proof (sketch).]
@@ -65,7 +65,7 @@ With respect to the standard proof, we need some additional work to formalize th
 Lemma~\ref{rs:lem:samplecomp} complements Theorem~$3$ in \citet{ailon2010preference}, which states that Quicksort samples \BigO{N \log N} in expectation.
 These results might suggest that \emph{all} properties of Quicksort carry over to the noisy setting.
 This is not the case.
-For example, although Quicksort uses approximately $2N \ln N$ comparisons on average in the noiseless setting \citep{sedgewick2011algorithms}, this number can be distinctly different with inconsistent comparison outcomes\footnote{E.g., if comparison outcomes are uniformly random, all items are ``good'' pivots w.h.p., and the average number of comparisons will be closer to $n \log_2 N$ on average, for large $N$.}.
+For example, although Quicksort uses approximately $2N \ln N$ comparisons on average in the noiseless setting \citep{sedgewick2011algorithms}, this number can be distinctly different with inconsistent comparison outcomes\footnote{E.g., if comparison outcomes are uniformly random, all items are ``good'' pivots with high probability, and the average number of comparisons will be closer to $n \log_2 N$ on average, for large $N$.}.
 
 Quicksort (and efficient sorting algorithms in general) infer most pairs of items' relative position by transitivity and thus rely heavily on the consistency of comparison outcomes.
 In the noisy case, it is therefore important to precisely understand the effect of an inconsistent outcome on the output of the algorithm; this effect extends beyond the pair of items whose comparison outcome was inconsistent.
@@ -127,13 +127,14 @@ We are now ready to state our main result.
 \label{rs:thm:quickdisp}
 Let $\bm{\theta}$ be sampled from a Poisson point process of rate $\lambda$.
 Let $\sigma$ be the output of Quicksort using comparison outcomes sampled from $\BT(\bm{\theta})$.
-Then, w.h.p.,
+Then,
 \begin{align}
 \Disp{\sigma}
     &= \BigO{ \lambda^2 N }, \label{rs:eq:qdtot} \\
 \max_{i} \; \Abs{\sigma(i) - i}
-    &= \BigO{ \lambda \log N }. \label{rs:eq:qdmax}
+    &= \BigO{ \lambda \log N }, \label{rs:eq:qdmax}
 \end{align}
+with high probability.
 \end{theorem}
 
 \begin{proof}[Proof (sketch)]
@@ -166,8 +167,41 @@ Hence, our bound on \Disp{\sigma} shows that Quicksort is order-optimal (in $N$)
 
 In light of Theorem~\ref{rs:thm:quickdisp}, a natural question to ask is as follows.
 How many comparisons are needed in order to find the correct ranking?
-Clearly, finding the exact ranking is difficult: in fact, \BigOmega{N} comparison outcomes are necessary to discriminate the closest pair of items reliably (see Appendix~\ref{rs:app:adjacent}). % TODO remove?
-As such, we will focus on finding a ranking that matches the ground truth everywhere, except at a vanishing fraction of the items.
+Finding the exact ranking is difficult: in fact, \BigOmega{N} comparison outcomes are necessary to discriminate the closest pair of items reliably, as we show next.
+Suppose that we are given $K$ comparisons to find the relative order between $i$ and $j$, and define $e_{ij}$ as the event ``more than half of the $K$ comparison outcomes between $i$ and $j$ are inconsistent''.
+
+\begin{proposition}
+Let $\bm{\theta}$ be sampled from a Poisson point process of rate $\lambda$.
+Then, there is a pair $i, j \in [N]$ and a constant $c > 0$ independent of $N$ such that if $K = \LittleO{\lambda N}$,
+\begin{align*}
+\Prob{e_{ij}} \ge c
+\end{align*}
+with high probability.
+\end{proposition}
+
+\begin{proof}
+The distance between the two closest items is $d_{\min} = \min_i \Abs{\theta_{i+i} - \theta{i}} = \min_n x_n$, i.e., the minimum of $N-1$ independent exponential random variables of rate $\lambda$.
+Therefore, $d_{\min} \sim \DExp{(N-1)\lambda}$, and for $N \ge 2$ with probability at least $1 - e^{-1/2} \approx 0.39$ we have $d_{\min} \le (\lambda N)^{-1}$.
+Let $z_k$ be the indicator random variable for the event ``the outcome of the $k$-th comparison is incorrect''.
+Assuming that $d_{\min} \le (\lambda N)^{-1}$ and that $\lambda N \ge 1/2$,
+\begin{align*}
+\Prob{z_k = 0}
+    &\le \frac{1}{1 + \exp[-1 / (\lambda N)]} \le \frac{1}{2 - 1/(\lambda N)}
+     = \frac{1}{2} \cdot \left( 1 + \frac{1}{2\lambda N - 1} \right) \\
+    &\le \frac{1}{2} \exp \left[ \frac{1}{2\lambda N - 1} \right],
+\end{align*}
+where we used the inequality $e^{x} \ge 1 + x$ twice.
+The probability of \emph{correctly} identifying the relative order between the two closest items based on $K$ comparisons is
+\begin{align*}
+\Prob{\sum_{k = 1}^K z_k \le K/2}
+    &\le \sum_{\ell = 1}^{K/2} \binom{K}{\ell} \Prob{z_k = 0}^K
+     \le \exp \left[ \frac{K}{2\lambda N - 1} \right] \cdot 2^{-K} \sum_{\ell = 1}^{K/2} \binom{K}{\ell} \\
+    &= \frac{1}{2} \exp \left[ \frac{K}{2\lambda N - 1} \right].
+\end{align*}
+As $\Prob{e_{ij}} = 1 - \Prob{\sum_{k = 1}^K z_k \le K/2}$, it follows that, if $K = \LittleO{\lambda N}$, the probability of \emph{incorrectly} identifying the relative order between the two closest items is bounded from below by a positive constant.
+\end{proof}
+
+As finding the \emph{exact} ranking appears to be difficult, we will instead focus on finding a ranking that matches the ground truth everywhere, except at a vanishing fraction of the items.
 
 \begin{algorithm}[t]
    \caption{Multisort}
@@ -193,10 +227,11 @@ We call the procedure Multisort and describe it in Algorithm~\ref{rs:alg:multiso
 \label{rs:thm:multidisp}
 Let $\bm{\theta}$ be sampled from a Poisson point process of rate $\lambda$.
 Let $\hat{\sigma}$ be the output of Multisort using $K = \BigO{\lambda^2 \log^5 N}$ and comparison outcomes sampled from $\BT(\bm{\theta})$.
-Then, w.h.p.,
+Then,
 \begin{align*}
-\Disp{\hat{\sigma}} = \LittleO{\lambda N}.
+\Disp{\hat{\sigma}} = \LittleO{\lambda N}
 \end{align*}
+with high probability.
 \end{theorem}
 
 \begin{proof}[Proof (sketch)]
@@ -220,8 +255,8 @@ This result should be compared to the \BigOmega{N^2} comparisons needed if sampl
 In Figure~\ref{rs:fig:bounds}, we illustrate the results of Theorems~\ref{rs:thm:quickdisp} and~\ref{rs:thm:multidisp} by running simulations for increasing $N$ and different values of $\lambda$.
 The bound on \Disp{\sigma} is tight in $N$, but the dependence on $\lambda$ appears to be linear rather than quadratic.
 The bound on $\max_i \Abs{\sigma(i) - i}$ appears to be tight in $N$ and $\lambda$.
-Finally, we compare the Copeland aggregation of $K$ outputs of Quicksort with the ranking induced by the maximum-likelihood (ML) estimate, inferred from the outcomes of all the pairwise comparisons sampled by the $K$ runs.
-Although the ranking induced by the ML estimate does not benefit from the guarantees of Theorem~\ref{rs:thm:multidisp}, it performs better in practice.
+Finally, we compare the Copeland aggregation of $K$ outputs of Quicksort with the ranking induced by the maximum-likelihood estimate (MLE), inferred from the outcomes of all the pairwise comparisons sampled by the $K$ runs.
+Although the ranking induced by the MLE does not benefit from the guarantees of Theorem~\ref{rs:thm:multidisp}, it performs better in practice.
 We will make use of this observation in Section~\ref{rs:sec:experiments}.
 
 \begin{figure}[p]
@@ -247,7 +282,7 @@ That is,
 \text{i.i.d.}\; \bar{\theta}_1, \ldots, \bar{\theta}_N \sim \DUnif{0, (N+1) / \lambda},
 \end{align*}
 with $\theta_1, \ldots, \theta_N$ the order statistics of $\bar{\bm{\theta}}$, i.e., the random variables arranged in increasing order.
-From some elementary results on the joint distribution of order statistics \citep[see, e.g.,][]{arnold2008first}, we see that
+From some elementary results on the joint distribution of order statistics \citep[see, e.g.,][]{arnold2008first}, we have that
 \begin{align*}
 \Abs{\theta_{i+k} - \theta_{i}} \sim (N+1) / \lambda \cdot \DBeta{k, N - k + 1},
 \end{align*}

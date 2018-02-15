@@ -3,7 +3,7 @@
 \label{rs:sec:proofs}
 
 Section~\ref{rs:sec:pflemmas} contains the proofs of Lemmas~\ref{rs:lem:samplecomp} and~\ref{rs:lem:dispbound}.
-Section~\ref{rs:sec:pfqdisp} presents the proof for our result on the displacement of the output of a single call to Quicksort (Theorem~\ref{rs:thm:quickdisp}), and Section~\ref{rs:sec:pfmdisp} that of our result on the displacement of the Copeland aggregation of multiple outputs.
+Section~\ref{rs:sec:pfqdisp} presents the proof for our result on the displacement of the output of a single call to Quicksort (Theorem~\ref{rs:thm:quickdisp}), and Section~\ref{rs:sec:pfmdisp} that of our result on the displacement of the Copeland aggregation of multiple outputs (Theorem~\ref{rs:thm:multidisp}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Lemmas~\ref{rs:lem:samplecomp} and~\ref{rs:lem:dispbound}}
@@ -19,7 +19,7 @@ The following proposition is due to \citet{landau1953dominance}.
 Let $(s_1, \ldots, s_N)$ with $0 \le s_1 \le \cdots \le s_N$ be the score sequence of a tournament on $N$ vertices.
 Then,
 \begin{align*}
-\frac{n - 1}{2} \le s_k \le \frac{N + n - 2}{2} \quad \forall\ n \in [N].
+\frac{n - 1}{2} \le s_n \le \frac{N + n - 2}{2} \quad \forall\ n \in [N].
 \end{align*}
 \end{proposition}
 
@@ -105,7 +105,7 @@ where the first equality follows from \ref{rs:itm:tsa}, and the second follows f
 
 \begin{figure}[t]
 \centering
-\includegraphics{rs-lemma3}
+\includegraphics[scale=1.2]{rs-qsort}
 \caption{Illustration of the decomposition of \Disp[\mathcal{V}]{\tilde{\sigma}} into contributions of individual errors over a sequence of steps.
 In this example, $\mathcal{V} = \{ 1, \ldots, 9 \}$, $p = 5$ and there are five errors.
 At step $t = 1$, we process the errors $(5, 3)$ and $(5, 6)$;
@@ -113,7 +113,7 @@ at step $t = 2$, we process the errors $(5, 2)$ and $(5, 8)$, and finally, at st
 The shifts caused by an error are highlighted in red and green.
 In this example, $\Disp[\mathcal{V}]{\tilde{\sigma}} = 25 < 2 \sum_{(i,j) \in \mathcal{E}_{\mathcal{V}}} \Abs{i - j} = 26$.
 }
-\label{rs:fig:lemma3}
+\label{rs:fig:qsort}
 \end{figure}
 
 Finally, we bound $\Disp[\mathcal{V}]{\tilde{\sigma}}$.
@@ -127,7 +127,7 @@ That is, we process $(p, i) \in \mathcal{E}_{\mathcal{V}}^-$ and $(p, i') \in \m
 
 \item At steps $t = \kappa + 1, \ldots, \Abs{\mathcal{E}_{\mathcal{V}}^+}$, we process the remaining errors in $\mathcal{E}_{\mathcal{V}}^+$, once again in increasing order of distance to  $p$.
 \end{enumerate}
-Figure~\ref{rs:fig:lemma3} illustrates the state of the ranking at different steps on a concrete example.
+Figure~\ref{rs:fig:qsort} illustrates the state of the ranking at different steps on a concrete example.
 We start with the first case, i.e., $t \le \kappa$.
 The effect of the errors $(p, i)$ and $(p, i')$ on $\Disp[\mathcal{V}]{\tilde{\sigma}}$ is as follows.
 \begin{itemize}
@@ -293,7 +293,7 @@ Using the fact that the pairwise marginals of Quicksort match the pairwise compa
 \begin{align}
 \label{rs:eq:maxz2}
 \Prob{\sigma(j) < \sigma(i)}
-    = p(j \prec i)
+    = \Prob{j \prec i}
     \le \exp(-3 \log N) = N^{-3}.
 \end{align}
 Combining \eqref{rs:eq:maxz1} and \eqref{rs:eq:maxz2}, and using a union bound over the $\binom{N}{2}$ pairs, we see that with probability $1 - 1/N$ there is no pair of items $(i, j)$ separated by at least $3 (\lambda + 1)e \log N$ position with $i < j$ but $\sigma(j) < \sigma(i)$.
@@ -341,16 +341,19 @@ Then, using Theorem~\ref{rs:thm:stability},
 %As $d_{ij} \ge 1 / (e \lambda \log^2 n)$ with high probability,
 \begin{align*}
 p - \frac{1}{2}
-    = \Prob{i \prec j} - \frac{1}{2} = \frac{1 - \exp(-d_{ij})}{2[1 + \exp(-d_{ij})]}
-    \ge \frac{1 - \exp[- 1/(e \lambda \log^2 N)]}{4}
-    \ge \frac{1}{8e \lambda \log^2 N}
+     = \Prob{i \prec j} - \frac{1}{2}
+    &= \frac{1 - \exp(-d_{ij})}{2[1 + \exp(-d_{ij})]} \\
+    &\ge \frac{1 - \exp[- 1/(e \lambda \log^2 N)]}{4}
+     \ge \frac{1}{8e \lambda \log^2 N}
 \end{align*}
 with high probability.
 In the last inequality, we used the fact that $1 - e^{-x} \ge x/2$ for $x \in [0, 1]$.
 The random variables $t_1, \ldots, t_K$ are independent Bernoulli trials, and using a Chernoff bound we obtain
 \begin{align*}
-\Prob{\hat{\sigma}(j) < \hat{\sigma}(i)} = \Prob{ \sum_{k = 1}^K t_k \le K/2}
-    \le \exp[-2K(p - 1/2)^2] \le \exp \left[ -\frac{K}{32e^2 \lambda^2 \log^4 N} \right].
+\Prob{\hat{\sigma}(j) < \hat{\sigma}(i)}
+    &= \Prob{ \sum_{k = 1}^K t_k \le K/2} \\
+    &\le \exp[-2K(p - 1/2)^2]
+     \le \exp \left[ -\frac{K}{32e^2 \lambda^2 \log^4 N} \right].
 \end{align*}
 By choosing $K = 96e^2 \lambda^2 \log^5 N$, we have $\Prob{\hat{\sigma}(j) < \hat{\sigma}(i)} \le N^{-3}$, and using a union bound we see that with probability $1 - 1/N$ we have $\hat{\sigma}(i) = i$ for all $i \in \mathcal{G}$.
 Therefore, the total displacement is

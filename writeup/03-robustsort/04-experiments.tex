@@ -6,7 +6,7 @@ In practice, the comparison budget for estimating a ranking from noisy data migh
 Building upon the observations made at the end of Section~\ref{rs:sec:poisson}, we suggest the following practical active-learning strategy:
 for a budget of $M$ pairwise comparisons, run the sorting procedure repeatedly until the budget is depleted (the last call might have to be truncated).
 Then, retain only the set of $M$ comparison pairs and their outcomes and discard the rankings produced by the sorting procedure.
-The final ranking estimate is then induced from the ML estimate over the set of $M$ comparison outcomes.
+The final ranking estimate is then induced from the MLE over the set of $M$ comparison outcomes.
 
 In this section, we demonstrate the effectiveness of this sampling strategy on synthetic and real-world data.
 In particular, we show that it is comparable to existing AL strategies at a minuscule fraction of the computational cost.
@@ -108,7 +108,7 @@ In the following, we report results for the values that worked best \emph{a post
 
 We generate $N$ i.i.d. parameters $\theta_1, \ldots, \theta_n$ uniformly in $[0, (N\!+\!1) / \lambda]$ and draw samples from $\BT(\bm{\theta})$.
 The ground-truth ranking is the one induced by the parameters.
-Figure~\ref{rs:fig:synthetic} presents results for $N = \num{200}$ and $\lambda = \num{5}$ (plots for different values of $\lambda$ are presented in Appendix~\ref{rs:app:figures}, and are qualitatively similar).
+Figure~\ref{rs:fig:synthetic} presents results for $N = \num{200}$ and $\lambda = \num{5}$.
 In comparison to random sampling, AL is very effective and results in significantly better ranking estimates for any given number of comparisons.
 The two Bayesian methods, though being the most computationally expensive, perform the best for all values of $M$, but are nearly indistinguishable from uncertainty sampling.
 The two sorting-based strategies perform similarly (with a small edge for Mergesort).
@@ -188,7 +188,7 @@ We fit a BT model by using all the available comparisons and use the induced ran
 We then generate new, synthetic comparison outcomes from the BT model.
 In this sense, the experiment enables us to compare sampling strategies by using a large BT model with realistic parameters.
 The large number of items makes uncertainty sampling and the two Bayesian methods prohibitively expensive.
-We try a simplified, computationally less expensive version of uncertainty sampling where, at every iteration, each item is compared to its two closest neighbors, but this heuristic fails spectacularly: The resulting displacement is over $5\times$ larger than random sampling for $M = 10^6$, and is therefore not reported here (see Appendix~\ref{rs:app:figures}). % TODO
+We try a simplified, computationally less expensive version of uncertainty sampling where, at every iteration, each item is compared to its two closest neighbors, but this heuristic fails spectacularly: The resulting displacement is over $5\times$ larger than random sampling for $M = 10^6$, and is therefore not reported here.
 
 Figure~\ref{rs:fig:gifgif} compares the displacement of random sampling to that of the two sorting-based sampling strategies for increasing $M$.
 The adaptive sampling approaches perform systematically better.
