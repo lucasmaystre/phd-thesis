@@ -14,6 +14,7 @@ An evaluation on five real-world datasets reveals that it runs consistently fast
 The key step, finding a stationary distribution, can be offloaded to commonly available linear-algebra primitives, which makes our algorithms  scale well.
 Our algorithms are intuitively pleasing, simple to understand and implement, and they outperform the state of the art, hence we believe that they are highly useful to practitioners.
 
+\paragraph{Outline of the Chapter}
 We begin by introducing some notations and presenting a few useful facts about the MLE and about Markov chains.
 In Section~\ref{fi:sec:relwork}, we discuss related work.
 In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experiments} we evaluate them on synthetic and real-world data.
@@ -35,7 +36,7 @@ From~\eqref{in:eq:luce}, it follows that the log-likelihood of parameters $\bm{\
 In order to ensure that the parameters are likelihood-identifiable, we assume without loss of generality that $\sum_i \gamma_i = 1$.
 Next, we introduce a new object.
 
-\begin{definition}[Comparison Graph]
+\begin{definition}[comparison graph]
 The \emph{comparison graph} $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is a directed graph with $\mathcal{V} = [N]$ and $(j, i) \in \mathcal{E}$ if and only if $i$ wins at least once over $j$ in $\mathcal{D}$.
 \end{definition}
 

@@ -71,6 +71,7 @@ In the case of Thurstone's model, this integral admits a simple closed-form solu
 
 
 \subsection{Bradley--Terry Model}
+\label{in:sec:btmodel}
 
 Almost concurrently to Thurstone, Zermelo proposed (in German) a method for ranking chess players based on match outcomes \citep{zermelo1928berechnung}.
 He set out to address two problems:
@@ -137,7 +138,7 @@ A natural way to extend the Bradley--Terry model~\eqref{in:eq:zermelo} to choice
 Simply put, the probability of a choice is always proportional to the strength $\gamma_i$ of the item $i$, no matter what the set of alternatives is.
 This choice model is due to \citet{luce1959individual}, who showed that it is closely related to the following property.
 
-\begin{definition}[Independence of Irrelevant Alternatives]
+\begin{definition}[independence of irrelevant alternatives]
 A probabilistic choice model is said to satisfy the \emph{independence from irrelevant alternatives} (IIA) property if for any $\mathcal{A} \subseteq [N]$ and any $i, j \in \mathcal{A}$,
 \begin{align*}
 \frac{\Prob{j \succeq \mathcal{A}}}{\Prob{i \succeq \mathcal{A}}}
@@ -208,7 +209,6 @@ Finally, we note that all the models discussed so far can be analyzed and genera
 This enables, for example, an extension of Thurstone's model to multiway comparisons, in a similar way to Luce's extension of the Bradley--Terry model.
 In this framework, the choice probabilities are defined by the probability of certain orderings of a collection of random variables (representing the utility of the alternatives).
 
-% TODO I think this is not necessary.
-% 6. modern advances
-% inference: ML (hunter), Bayesian (Chu / Ghahramani, caron/doucet), spectral-based.
-% guarantees: Negahban, Hajek, Vojnovic
+% modern advances (I think this is not necessary here):
+% - inference: ML (hunter), Bayesian (Chu / Ghahramani, caron/doucet), spectral-based.
+% - guarantees: Negahban, Hajek, Vojnovic

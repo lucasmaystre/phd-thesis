@@ -24,7 +24,7 @@ Today, Hunter's MM algorithm is the \emph{de facto} standard for ML inference in
 As the likelihood can be written as a concave function, off-the-shelf optimization procedures such as the Newton-Raphson method can also be used, although they have been been reported to be slower and less practical \citep{hunter2004mm}.
 Recently, \citet{kumar2015inverting} looked at the problem of finding the transition matrix of a Markov chain, given its stationary distribution.
 The problem of inferring Luce's model parameters from data can be reformulated in their framework, and the MLE is the solution to the inversion of the stationary distribution.
-Their work stands out as the first to link ML inference to Markov chains, albeit very differently from the way presented in our paper.
+Their work stands out as the first to link ML inference to Markov chains, albeit very differently from the way presented in this chapter.
 
 Beyond algorithms, properties of the maximum-likelihood estimator in this model were studied extensively.
 %\citet{simons1999asymptotics} show that the estimator is asymptotically normal in the finite sample case.
@@ -37,6 +37,6 @@ They show that the ML estimator is able to recover the correct ranking, even whe
 We also mention that as an alternative to likelihood maximization, Bayesian inference has also been proposed.
 \citet{caron2012efficient} present a Gibbs sampler, and \citet{guiver2009bayesian} propose an approximate inference algorithm based on expectation propagation.
 
-In this work, we provide a unifying perspective on recent advances in spectral algorithms \citep{negahban2012iterative, azari2013generalized} from a maximum-likelihood estimation perspective.
+In this chapter, we provide a unifying perspective on recent advances in spectral algorithms \citep{negahban2012iterative, azari2013generalized} from a maximum-likelihood estimation perspective.
 It turns out that this perspective enables us to make contributions on both sides:
 On the one hand, we develop an improved and more general spectral ranking algorithm, and on the other hand, we propose a faster procedure for ML inference by using this algorithm iteratively.
