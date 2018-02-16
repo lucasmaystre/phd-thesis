@@ -101,7 +101,7 @@ A significant difference between clicking a link and taking a bicycle trip is th
 In future work, one might consider incorporating edge weights and using the weighted network choice model presented in Appendix~\ref{cr:app:extensions}.
 
 
-\subsection{Scaling ChoiceRank to Billions of Nodes}
+\subsection{Scaling to Large Networks}
 
 To demonstrate ChoiceRank's scalability, we develop a simple implementation in the Rust programming language, based on the ideas of COST \citep{mcsherry2015scalability}.
 Our code is publicly available online\footnote{See: \url{http://lucas.maystre.ch/choicerank}.}.
@@ -118,7 +118,7 @@ There is no publicly available information on the traffic at each page, therefor
 As such, this experiment does not attempt to measure the validity of the model (unlike the experiments of Section~\ref{cr:sec:accuracy}).
 Instead, it focuses on testing the algorithm's potential to scale to to very large networks.
 
-\paragraph{Results.}
+\paragraph{Results}
 We run \num{20} iterations of ChoiceRank on a dual Intel Xeon E5-2680 v3 machine, with \num{256} GB of RAM and \num{6} HDDs configured in RAID 0.
 We arbitrarily set $\alpha = 2.0$ and $\beta = 1.0$ (but this choice has no impact on the results).
 Only about \num{65} GB of memory is used, all to store the nodes' state ($4 \times 4$ bytes per node).

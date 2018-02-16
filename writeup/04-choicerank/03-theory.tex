@@ -13,7 +13,7 @@ Our developments extend to the model variant proposed by \citet{kumar2015inverti
 In Appendix~\ref{cr:app:extensions}, we describe this variant and give the necessary adjustments to our developments.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Aggregate Traffic Is a Sufficient Statistic}
+\subsection{Sufficient Statistic}
 
 Let $c_{ij}$ denote the number of transitions that occurred along edge $(i, j) \in E$.
 Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we can write the log-likelihood of $\bm{\lambda}$ given data $\mathcal{D} = \{ c_{ij} \mid (i, j) \in E \}$ as
@@ -72,7 +72,7 @@ When $T \to \infty$, the optimality condition $\nabla \hat{\ell} (\bm{\lambda}^\
     \iff \pi_i &= \sum_{j \in N^-_i} \frac{\lambda^\star_i}{\sum_{k \in N^+_j} \lambda^\star_k} \pi_j \quad \forall i. \label{cr:eq:optimality}
 \end{align}
 Comparing~\eqref{cr:eq:optimality} to~\eqref{cr:eq:balance}, it is clear that $\bm{\lambda}^\star$ is a solution of the steady-state inversion problem.
-As such, the network choice model presented in this paper can be viewed as a principled extension of the steady-state inversion problem to the finite-data case.
+As such, the network choice model presented in this chapter can be viewed as a principled extension of the steady-state inversion problem to the finite-data case.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -138,7 +138,7 @@ In short, the proof of Theorem~\ref{cr:thm:map} shows that as a result of the Ga
 This guarantees that the log-posterior will always have exactly one maximizer.
 Unlike the results that we derive for the ML estimate, Theorem~\ref{cr:thm:map} does not impose any condition on the graph $G$ for the estimate to be well-defined.
 
-\paragraph{Remark.}
+\paragraph{Remark}
 Note that varying the rate $\beta$ in the Gamma prior simply rescales the parameters $\bm{\lambda}$.
 Furthermore, it is clear from~\eqref{cr:eq:singlelik} that such a rescaling affects neither the likelihood of the observed data nor the prediction of future transitions.
 As a consequence, we may assume that $\beta = 1$ without loss of generality.

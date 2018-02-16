@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{cr:sec:introduction}
+\label{cr:sec:intro}
 
 Consider the problem of estimating click probabilities for links between pages of a website, given a hyperlink graph and aggregate statistics on the number of times each page has been visited.
 Naively, one might expect that the probability of clicking on a particular link should be roughly proportional to the traffic of the link's target.
@@ -56,10 +56,45 @@ Next, we test the scalability of the inference algorithm.
 We show that the algorithm is able to process a snapshot of the WWW hyperlink graph containing over a hundred billion edges using a single machine.
 
 
-\paragraph{Organization of the paper.}
+\paragraph{Outline of the Chapter}
 In Section~\ref{cr:sec:model}, we formalize the network choice model.
 In Section~\ref{cr:sec:relwork}, we briefly review related literature.
 In Section~\ref{cr:sec:theory}, we present salient statistical properties of the model and its maximum-likelihood estimator, and we propose a prior distribution that makes the inference problem well-posed.
 In Section~\ref{cr:sec:algorithm}, we describe an inference algorithm that enables an efficient implementation.
-We evaluate the model and the inference algorithm in Section~\ref{cr:sec:experiments}, before concluding in Section~\ref{cr:sec:conclusion}.
+We evaluate the model and the inference algorithm in Section~\ref{cr:sec:experiments}.
 In the appendices, we provide a more in-depth discussion of our model and algorithm, and we present proofs for all the theorems stated in the main text.
+
+
+\subsection{Network Choice Model}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\label{cr:sec:model}
+
+Let $G = (V,E)$ be a directed graph on $n$ nodes (corresponding to items) and $m$ edges.
+We denote the out-neighborhood of node $i$ by $N^+_i$ and its in-neighborhood by $N^-_i$.
+We consider the following choice process on $G$.
+A user starts at a node $i$ and is faced with alternatives $N^+_i$.
+The user chooses item $j$ and moves to the corresponding node.
+At node $j$, the user is faced with alternatives $N^+_j$ and chooses $k$, and so on.
+At any time, the user can stop.
+Figure~\ref{cr:fig:samplenet} gives an example of a graph and the alternatives available at a step of the process.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=.5\linewidth]{cr-graph-example}
+  \caption{An illustration of one step of the process.
+  The user is at node 6 and can reach nodes $N^+_6 = \{1, 2, 5, 7\}$.}
+  \label{cr:fig:samplenet}
+\end{figure}
+
+To define the transition probabilities, we posit Luce's well-known choice axiom that states that the odds of choosing item $j$ over item $j'$ do not depend on the rest of the alternatives \citep{luce1959individual}.
+This axiom leads to a unique probabilistic model of choice.
+For every node $i$ and every $j \in N^+_i$, the probability that $j$ is selected among alternatives $N^+_i$ can be written as
+\begin{align}
+\label{cr:eq:singlelik}
+p_{ij} = \frac{\lambda_j}{\sum_{k \in N^+_i} \lambda_k}
+\end{align}
+for some parameter vector $\bm{\lambda} = \begin{bmatrix}\lambda_1 & \cdots & \lambda_n \end{bmatrix}^\Tr \in \mathbf{R}_{>0}^n$.
+Intuitively, the parameter $\lambda_i$ can be interpreted as the strength (or utility) of item $i$.
+Note that $p_{ij}$ depends only on the out-neighborhood of node $i$.
+As such, the choice process satisfies the Markov property, and we can think of the sequence of choices as a trajectory in a Markov chain.
+In the context of this model, we can formulate the inference problem as follows.
+Given a directed graph $G = (V, E)$ and data on the aggregate traffic at each node, find a parameter vector $\bm{\lambda}$ that fits the data.

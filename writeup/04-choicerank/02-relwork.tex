@@ -2,7 +2,7 @@
 \section{Related Work}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{cr:sec:relwork}
 
-A variant of the network choice model was recently introduced by \citet{kumar2015inverting}, in an article that lays much of the groundwork for the present paper.
+A variant of the network choice model was recently introduced by \citet{kumar2015inverting}, in an article that lays much of the groundwork for this chapter.
 Their generative model of traffic and the parametrization of transition probabilities based on Luce's axiom form the basis of our work.
 \citeauthor{kumar2015inverting} define the \emph{steady-state inversion} problem as follows:
 Given a graph $G$ and a target stationary distribution, find transition probabilities that lead to the desired stationary distribution.
@@ -17,7 +17,7 @@ Furthermore, the statistical viewpoint that we develop also leads to
 \end{enuminline}
 These important extensions make the model easier to apply to real-world data.
 
-\paragraph{Luce's choice axiom.}
+\paragraph{Luce's Choice Axiom}
 The general problem of estimating parameters of models based on Luce's axiom has received considerable attention.
 Several decades before Luce's seminal book \citep{luce1959individual}, \citet{zermelo1928berechnung} proposed a model and an algorithm that estimates the strengths of chess players based on pairwise comparison outcomes (his model would later be rediscovered by \citet{bradley1952rank}).
 More recently, \citet{hunter2004mm} explained \citeauthor{zermelo1928berechnung}'s algorithm from the perspective of the minorization-maximization (MM) method.
@@ -29,13 +29,13 @@ In recent years, several authors have also analyzed the sample complexity of the
 Some of these results could be applied to our setting, but in general they require observing choices among well-identified sets of alternatives.
 Finally, we note that models based on Luce's axiom have been successfully applied to problems ranging from ranking players based on game outcomes \citep{zermelo1928berechnung, elo1978rating} to understanding consumer behavior based on discrete choices \citep{mcfadden1973conditional}, and to discriminating among multiple classes based on the output of pairwise classifiers \citep{hastie1998classification}.
 
-\paragraph{Network analysis.}
+\paragraph{Network Analysis}
 Understanding the preferences of users in networks is of significant interest in many domains.
 For brevity, we focus on literature related to hyperlink graphs.
 A method that has undoubtedly had a tremendous impact in this context is PageRank \citep{brin1998anatomy}.
 PageRank computes a set of scores that are proportional to the amount of time a surfer, who clicks on links randomly and uniformly, spends at each node.
 These scores are based only on the structure of the graph.
-The network choice model presented in this paper appears similar at first, but tackles a different problem.
+The network choice model presented in this chapter appears similar at first, but tackles a different problem.
 In addition to the structure of the graph, it uses the traffic at each page, and computes a set of scores that reflect the (non-uniform) probability of clicking on each link.
 Nevertheless, there are striking similarities in the implementation of the respective inference algorithms (see Section~\ref{cr:sec:experiments}).
 The HOTness method proposed by \citet{tomlin2003new} is somewhat related, but tries to tackle a harder problem.
