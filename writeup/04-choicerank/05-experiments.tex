@@ -55,33 +55,33 @@ We also consider a second clickstream dataset from a Hungarian online news porta
 The data consists of $\num{7029013}$ transitions on a graph containing $n = 41001$ nodes and $m = \num{974560}$ edges.
 ChoiceRank converges after \num{625} iterations.
 
-\begin{figure*}[t]
+\begin{figure}
   \centering
-  \includegraphics[width=\linewidth]{cr-combined}
+  \includegraphics{cr-perf-combined}
   \caption{
 Error distributions of the network choice model and three baselines for the Wikipedia (WP) and Citi Bike (CB) datasets.
 The boxes show the interquartile range, the whiskers show the $5^{\text{th}}$ and $95^{\text{th}}$ percentiles, the red horizontal bars show the median and the red squares show the mean.
 }
-  \label{cr:fig:results}
-\end{figure*}
+  \label{cr:fig:perf-combined}
+\end{figure}
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.6\linewidth]{cr-wikipedia-degrees}
+  \includegraphics[width=0.6\linewidth]{cr-perf-wikipedia}
   \caption{
 Average KL-divergence as a function of the number of possible transitions for the Wikipedia dataset.
 ChoiceRank performs comparatively better in the case where a node's out-degree is large.
 }
-  \label{cr:fig:wpdegs}
+  \label{cr:fig:perf-wikipedia}
 \end{figure}
 
-The four leftmost plots of Figure~\ref{cr:fig:results} show the error distributions.
+The four leftmost plots of Figure~\ref{cr:fig:perf-combined} show the error distributions.
 ChoiceRank significantly improves on the baselines, both in terms of KL-divergence and rank displacement.
 These results give compelling evidence that transitions do not occur proportionally with the target's page traffic: in terms of KL-divergence, ChoiceRank improves on Traffic by a factor $3\times$ and $2\times$, respectively.
 PageRank scores, while reflecting some notion of importance of a page, are not designed to estimate transitions, and understandably the corresponding baseline performs poorly.
 Uniform (perhaps the simplest of our baselines) is (by design) unable to distinguish among transitions, resulting in a large displacement error.
 We believe that its comparatively better performance in terms of KL-divergence (for Wikipedia) is mostly an artifact of the metric, which encourages ``prudent'' estimates.
-Finally, in Figure~\ref{cr:fig:wpdegs} we observe that ChoiceRank seems to perform comparatively better as the number of possible transition increases.
+Finally, in Figure~\ref{cr:fig:perf-wikipedia} we observe that ChoiceRank seems to perform comparatively better as the number of possible transition increases.
 
 
 \subsubsection{NYC Bicycle-Sharing Data}
@@ -95,7 +95,7 @@ The resulting data consists of \num{3.4} million rides on a graph containing $n 
 ChoiceRank converges after $\num{7508}$ iterations.
 We compute the error distribution in the same way as for the clickstream datasets.
 
-The two rightmost plots of Figure~\ref{cr:fig:results} display the results.
+The two rightmost plots of Figure~\ref{cr:fig:perf-combined} display the results.
 The observations made on the clickstream datasets carry over to this mobility dataset, albeit to a lesser degree.
 A significant difference between clicking a link and taking a bicycle trip is that in the latter case, there is a non-uniform ``cost'' of a transition due to the distance between source and target.
 In future work, one might consider incorporating edge weights and using the weighted network choice model presented in Appendix~\ref{cr:app:extensions}.

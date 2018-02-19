@@ -7,6 +7,7 @@ setup(
     packages=[
         "thesis",
         "thesis.robustsort",
+        "thesis.choicerank",
         "thesis.playerkern",
     ],
 )
