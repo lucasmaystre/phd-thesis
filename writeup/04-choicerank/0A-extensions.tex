@@ -13,26 +13,26 @@ in the generalized weighted network choice model.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Generalization of the Model}
 
-Let $G = (V, E)$ be a weighted, directed graph with edge weights $w_{ij} > 0$ for all $(i, j) \in E$.
+Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a weighted, directed graph with edge weights $w_{ij} > 0$ for all $(i, j) \in \mathcal{E}$.
 \citet{kumar2015inverting} propose the following generalization of Luce's choice model.
-Given a parameter vector $\bm{\lambda} \in \mathbf{R}_{>0}^n$, they define the choice probabilities as
+Given a parameter vector $\bm{\gamma} \in \mathbf{R}_{>0}^N$, they define the choice probabilities as
 \begin{align}
 \label{cr:eq:wsinglelik}
-p_{ij} = \frac{w_{ij} \lambda_j}{\sum_{k \in N^+_i} w_{ik} \lambda_k}, \quad j \in N^+_i.
+p_{ij} = \frac{w_{ij} \gamma_j}{\sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k}, \quad j \in \mathcal{N}^+_i.
 \end{align}
 We refer to this model as the \emph{weighted network choice model}.
 Intuitively, the strength of each alternative is weighted by the corresponding edge's weight;
 Luce's original choice model is obtained by setting $w_{ij} = \text{constant}$.
 In this general model, the log-likelihood becomes
 \begin{align}
-\ell(\bm{\lambda} ; \mathcal{D})
-    &= \sum_{(i,j) \in E} c_{ij} \bigg[ \log w_{ij} \lambda_j - \log \sum_{k \in N^+_i} w_{ik} \lambda_k \bigg] \nonumber \\
-    &= \sum_{(i,j) \in E} c_{ij} \bigg[ \log \lambda_j - \log \sum_{k \in N^+_i} w_{ik} \lambda_k \bigg] \nonumber
-       + \sum_{(i,j) \in E} c_{ij} \log w_{ij}, \nonumber \\
-    &= \sum_{i = 1}^n \bigg[ c^-_i \log \lambda_i - c^+_i \log\!\sum_{k \in N^+_i}\!w_{ik} \lambda_k \bigg] + \kappa_1, \label{cr:eq:wloglik}
+\ell(\bm{\gamma} ; \mathcal{D})
+    &= \sum_{(i,j) \in \mathcal{E}} c_{ij} \bigg[ \log w_{ij} \gamma_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] \nonumber \\
+    &= \sum_{(i,j) \in \mathcal{E}} c_{ij} \bigg[ \log \gamma_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] \nonumber
+       + \sum_{(i,j) \in \mathcal{E}} c_{ij} \log w_{ij}, \nonumber \\
+    &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - c^+_i \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa_1, \label{cr:eq:wloglik}
 \end{align}
-where $c^-_i = \sum_{j \in N^-_i} c_{ji}$ and $c^+_i = \sum_{j \in N^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
-Note that for every $i$, the weights $\{ w_{ij} \mid j \in N^+_i \}$ are equivalent up to rescaling.
+where $c^-_i = \sum_{j \in \mathcal{N}^-_i} c_{ji}$ and $c^+_i = \sum_{j \in \mathcal{N}^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
+Note that for every $i$, the weights $\{ w_{ij} : j \in \mathcal{N}^+_i \}$ are equivalent up to rescaling.
 
 This generalization is relevant in situations where the current context modulates the alternatives' strength.
 For example, this could be used to take into account the position or prominence of a link on a page in a hyperlink graph, or the distance between two locations in a mobility network.
@@ -45,27 +45,27 @@ Recall that $c_{ij}$ denotes the number of times we observe a transition from $i
 We set out to prove the following theorem for the weighted network choice model.
 
 \begin{theorem}
-Let $c^-_i = \sum_{j \in N^-_i} c_{ji}$ and $c^+_i = \sum_{j \in N^+_i} c_{ij}$ be the aggregate number of transitions arriving in and originating from $i$, respectively.
-Then, $\{ (c^-_i, c^+_i) \mid i \in V \}$ is a minimally sufficient statistic for the parameter $\bm{\lambda}$ in the weighted network choice model.
+Let $c^-_i = \sum_{j \in \mathcal{N}^-_i} c_{ji}$ and $c^+_i = \sum_{j \in \mathcal{N}^+_i} c_{ij}$ be the aggregate number of transitions arriving in and originating from $i$, respectively.
+Then, $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a minimally sufficient statistic for the parameters $\bm{\gamma}$ in the weighted network choice model.
 \end{theorem}
 
 \begin{proof}
-Let $f(\{ c_{ij} \} \mid \bm{\lambda})$ be the discrete probability density function of the data under the model with parameters $\bm{\lambda}$.
-Theorem $6.2.13$ in \citet{casella2002statistical} states that $\{ (c^-_i, c^+_i) \}$ is a minimally sufficient statistic for $\bm{\lambda}$ if and only if, for any $\{ c_{ij} \}$ and $\{ d_{ij} \}$ in the support of $f$,
+Let $f(\{ c_{ij} \} \mid \bm{\gamma})$ be the discrete probability density function of the data under the model with parameters $\bm{\gamma}$.
+Theorem $6.2.13$ in \citet{casella2002statistical} states that $\{ (c^-_i, c^+_i) \}$ is a minimally sufficient statistic for $\bm{\gamma}$ if and only if, for any $\{ c_{ij} \}$ and $\{ d_{ij} \}$ in the support of $f$,
 \begin{align}
 \label{cr:eq:minsuff}
 \begin{aligned}
-\frac{ f(\{ c_{ij} \} \mid \bm{\lambda}) }{ f(\{ d_{ij} \} \mid \bm{\lambda}) }\ \text{is independent of $\bm{\lambda}$}
+\frac{ f(\{ c_{ij} \} \mid \bm{\gamma}) }{ f(\{ d_{ij} \} \mid \bm{\gamma}) }\ \text{is independent of $\bm{\gamma}$}
 \iff (c^-_i, c^+_i) = (d^-_i, d^+_i) \quad \forall i.
 \end{aligned}
 \end{align}
 Taking the log of the ratio on the left-hand side and using~\eqref{cr:eq:wloglik}, we find that
 \begin{align*}
-\log \frac{ f(\{ c_{ij} \} \mid \bm{\lambda}) }{ f(\{ d_{ij} \} \mid \bm{\lambda}) } =
-  \sum_{i = 1}^n \bigg[ (c^-_i\!-\!d^-_i) \log \lambda_i
-                       - (c^+_i\!-\!d^+_i) \log\!\sum_{k \in N^+_i}\!w_{ik} \lambda_k \bigg] + \kappa_2.
+\log \frac{ f(\{ c_{ij} \} \mid \bm{\gamma}) }{ f(\{ d_{ij} \} \mid \bm{\gamma}) } =
+  \sum_{i = 1}^N \bigg[ (c^-_i\!-\!d^-_i) \log \gamma_i
+                       - (c^+_i\!-\!d^+_i) \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa_2.
 \end{align*}
-From this, it is easy to see that the ratio of densities is independent of $\bm{\lambda}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{cr:eq:minsuff}.
+From this, it is easy to see that the ratio of densities is independent of $\bm{\gamma}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{cr:eq:minsuff}.
 \end{proof}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -75,9 +75,9 @@ Using a $\text{Gamma}(\alpha, \beta)$ prior for each parameter, the log-posterio
 \begin{align}
 \label{cr:eq:wlogpost}
 \begin{aligned}
-&\log p(\bm{\lambda} \mid \mathcal{D}) =
-    \sum_{i = 1}^n \bigg[ (c^-_i + \alpha - 1) \log \lambda_i
-        - c^+_i \log \bigg( \sum_{k \in N^+_i} w_{ik} \lambda_k \bigg)  - \beta \lambda_i \bigg]
+&\log p(\bm{\gamma} \mid \mathcal{D}) =
+    \sum_{i = 1}^N \bigg[ (c^-_i + \alpha - 1) \log \gamma_i
+        - c^+_i \log \bigg( \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg)  - \beta \gamma_i \bigg]
     + \kappa_3.
 \end{aligned}
 \end{align}
@@ -85,31 +85,31 @@ We prove a theorem that guarantees that MAP estimation is well-posed in this gen
 
 \begin{theorem}
 \label{cr:thm:wmap}
-If i.i.d. $\lambda_1, \ldots, \lambda_n \sim \text{Gamma}(\alpha, \beta)$ with $\alpha > 1$, then there exists a unique maximizer $\bm{\lambda}^\star \in \mathbf{R}^n_{>0}$ of the weighted network choice model's log-posterior~\eqref{cr:eq:wlogpost}.
+If i.i.d. $\gamma_1, \ldots, \gamma_N \sim \text{Gamma}(\alpha, \beta)$ with $\alpha > 1$, then there exists a unique maximizer $\bm{\gamma}^\star \in \mathbf{R}^N_{>0}$ of the weighted network choice model's log-posterior~\eqref{cr:eq:wlogpost}.
 \end{theorem}
 
 \begin{proof}
-The log-posterior~\eqref{cr:eq:wlogpost} is not concave in $\bm{\lambda}$, but it can be made concave using the simple reparametrization $\lambda_i = e^{\theta_i}$.
+The log-posterior~\eqref{cr:eq:wlogpost} is not concave in $\bm{\gamma}$, but it can be made concave using the simple reparametrization $\gamma_i = e^{\theta_i}$.
 Under this reparametrization, the log-prior and the log-likelihood become
 \begin{align*}
 \log p(\bm{\theta})
-    &= \sum_{i = 1}^n \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_4, \\
+    &= \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_4, \\
 \ell(\bm{\theta} ; \mathcal{D})
-    &= \sum_{i = 1}^n \bigg[ c^-_i \theta_i - c^+_i \log \sum_{k \in N^+_i} w_{ik} e^{\theta_k} \bigg] + \kappa_5.
+    &= \sum_{i = 1}^N \bigg[ c^-_i \theta_i - c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg] + \kappa_5.
 \end{align*}
 It is easy to see that the log-likelihood is concave and the log-prior strictly concave in $\bm{\theta}$.
 As a result, the log-posterior is strictly concave in $\bm{\theta}$, which ensures that there exists at most one maximizer.
 
-Now consider any transition counts $\{ c_{ij} \}$ that satisfy $c^-_i = \sum_{j \in N^-_i} c_{ji}$ and $c^+_i = \sum_{j \in N^+_i} c_{ij}$.
+Now consider any transition counts $\{ c_{ij} \}$ that satisfy $c^-_i = \sum_{j \in \mathcal{N}^-_i} c_{ji}$ and $c^+_i = \sum_{j \in \mathcal{N}^+_i} c_{ij}$.
 The log-posterior can be written as
 \begin{align*}
 \log p(\bm{\theta} \mid \mathcal{D})
-    &= \sum_{i = 1}^n \sum_{j \in N^+_i} c_{ij} \bigg[ \theta_j - \log \sum_{k \in N^+_i} w_{ik} e^{\theta_k} \bigg]
-       + \sum_{i = 1}^n \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3\\
-    &\le -n^2 \cdot \max_{i,j} \log w_{ij}
-       + \sum_i^n \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3.
+    &= \sum_{i = 1}^N \sum_{j \in \mathcal{N}^+_i} c_{ij} \bigg[ \theta_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg]
+       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3\\
+    &\le -N^2 \cdot \max_{i,j} \log w_{ij}
+       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3.
 \end{align*}
-For $\alpha > 1$, it follows that $\lim_{\lVert \bm{\theta} \rVert \to \infty} \log p(\bm{\theta} \mid \mathcal{D}) = -\infty$, which ensures that there is at least one maximizer.
+For $\alpha > 1$, it follows that $\lim_{\Norm{\bm{\theta}} \to \infty} \log p(\bm{\theta} \mid \mathcal{D}) = -\infty$, which ensures that there is at least one maximizer.
 \end{proof}
 
-Note that Theorem~\ref{cr:thm:wmap} can easily be extended to independent but non-identical Gamma priors, where $\lambda_i \sim \text{Gamma}(\alpha_i, \beta_i)$ and $\alpha_i \ne \alpha_j$, $\beta_i \ne \beta_j$ in general.
+Note that Theorem~\ref{cr:thm:wmap} can easily be extended to independent but non-identical Gamma priors, where $\gamma_i \sim \text{Gamma}(\alpha_i, \beta_i)$ and $\alpha_i \ne \alpha_j$, $\beta_i \ne \beta_j$ in general.
