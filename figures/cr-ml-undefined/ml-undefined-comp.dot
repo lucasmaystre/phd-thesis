@@ -1,0 +1,17 @@
+// neato -n -Tpdf graph-example.dot > graph-example.pdf
+strict digraph G {
+  //splines=true;
+  node[shape=circle width=0.5];
+  subgraph dummy {
+    style=invis
+    bb="0,0,200,200"
+    1[pos="50,0"];
+    2[pos="200,50"];
+    3[pos="150,200"];
+    4[pos="0,150"];
+    3 -> 2;
+    3 -> 1;
+    4 -> 2;
+    2 -> 4;
+  }
+}

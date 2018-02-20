@@ -1,0 +1,25 @@
+// neato -n -Tpdf message-passing.dot > message-passing.pdf
+digraph G {
+  node[shape=circle width=0.5];
+  //edge[style=bold]
+  subgraph dummy {
+    style=invis
+    bb="0,0,300,300"
+    1[pos="50,205"];
+    2[pos="200,150"];
+    3[pos="250,50"];
+    4[pos="250,205"];
+
+    2 -> 1;
+    1 -> 2[style=dotted arrowhead=empty];
+
+    2 -> 3;
+    3 -> 2[style=dotted arrowhead=empty];
+
+    3 -> 2;
+    2 -> 3[style=dotted arrowhead=empty];
+
+    4 -> 2;
+    2 -> 4[style=dotted arrowhead=empty];
+  }
+}
