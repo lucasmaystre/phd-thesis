@@ -74,7 +74,7 @@ The result then follows by applying the Barbashin-Krasovskii theorem, a standard
 \subsection{Approximate and Exact ML Inference}
 
 We approximate the Markov chain described in \eqref{fi:eq:master} by considering a priori that all alternatives have equal strength.
-That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ by fixing $\bm{\gamma}$ to $[1/N \; \cdots \; 1/N]^\Tr$.
+That is, we set the transition rates $\lambda_{ji} \doteq f(\mathcal{D}_{i \succ j}, \bm{\gamma})$ by fixing $\bm{\gamma}$ to $[1/N \  \cdots \  1/N]^\Tr$.
 For $i \ne j$, the contribution of $i$ winning over $j$ to the rate of transition $\lambda_{ji}$ is $N / \Abs{\mathcal{A}}$.
 In other words, for each observation, the winning item is rewarded by a fixed amount of incoming rate that is evenly split across the alternatives (the chunk allocated to itself is discarded).
 We interpret the stationary distribution $\bar{\bm{\gamma}}$ as an estimate of model parameters.
@@ -164,7 +164,7 @@ We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
   \label{fi:alg:ilsr}
   \begin{algorithmic}[1]
     \Require observations $\mathcal{D}$
-    \State $\bm{\gamma} \gets [1/N \; \cdots \; 1/N]^\Tr$
+    \State $\bm{\gamma} \gets [1/N \  \cdots \  1/N]^\Tr$
     \Repeat
       \State $\bm{\Lambda} \gets \bm{0}_{N \times N}$
       \For{$(i, \mathcal{A}) \in \mathcal{D}$}
