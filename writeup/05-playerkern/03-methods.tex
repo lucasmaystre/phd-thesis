@@ -1,7 +1,7 @@
 \section{Methods}
 \label{pk:sec:methods}
 
-In this section, we first show how the model of pairwise comparisons proposed by Zermelo \cite{zermelo1928berechnung} and popularized by Bradley and Terry \cite{bradley1952rank} and Elo \cite{elo1978rating} can be expressed in the Gaussian process framework.
+In this section, we first show how the model of pairwise comparisons proposed by \citet{zermelo1928berechnung} and popularized by \citet{bradley1952rank} and \citet{elo1978rating} can be expressed in the Gaussian process framework.
 Second, we present the player kernel, a covariance function that relates matches through lineups.
 
 
@@ -9,7 +9,7 @@ Second, we present the player kernel, a covariance function that relates matches
 
 Suppose that we observe outcomes of comparisons between two objects (e.g., two players or two teams) in a universe of objects denoted $1, \ldots, M$.
 We begin by restricting ourselves to binary outcomes, i.e., we assume that one of the two objects wins.
-Zermelo \cite{zermelo1928berechnung} postulates that each object $u$ can be represented by a parameter $w_u \in \mathbf{R}_{>0}$, indicative of its relative chances of winning against an opponent.
+\citet{zermelo1928berechnung} postulates that each object $u$ can be represented by a parameter $w_u \in \mathbf{R}_{>0}$, indicative of its relative chances of winning against an opponent.
 Given these parameters, the probability of observing the outcome ``$u$ wins against $v$'' (denoted by $u \succ v$) is given by $w_u / (w_u + w_v)$.
 Using the reparametrization $w_u = e^{s_u}$, this can be rewritten as
 \begin{align}
@@ -35,8 +35,8 @@ Intuitively, the model can simply be specified by how similar any two match outc
 Furthermore, the Gaussian process viewpoint also makes it possible to take advantage of the vast amount of literature and software related to accurate, efficient and scalable inference.
 
 
-\paragraph{Handling draws.}
-Rao and Kupper \cite{rao1967ties} propose an extension of the pairwise comparison model for ternary (win, draw, loss) outcomes.
+\paragraph{Handling Draws}
+\citet{rao1967ties} propose an extension of the pairwise comparison model for ternary (win, draw, loss) outcomes.
 In this extension, the two different types of outcomes have probabilities
 \begin{align*}
 P(u \succ v) = \frac{1}{1 + \exp[f(\bm{x}) - \alpha]}\ \text{and}\ 
@@ -67,7 +67,7 @@ International club competitions (such as the UEFA Champions League) further cont
 Figure~\ref{pk:fig:kernel} illustrates the similarity of matches across different competitions in 2011--2012.
 
 
-\begin{figure}[t]
+\begin{figure}
   \centering
   \includegraphics[width=.8\linewidth]{pk-kernelmatrix}
   \caption{Heatmap of the magnitude of the kernel matrix for \num{3184} matches played over the year preceding Euro 2012.
@@ -75,7 +75,6 @@ White indicates zero correlation, a saturated color indicates more correlation.
 Matches between national teams exhibit non-zero covariance with matches of all other competitions.
 }
   \label{pk:fig:kernel}
-  \vspace{-0.1cm}
 \end{figure}
 
 It is interesting to note that the player kernel corresponds to a linear model over the players.
@@ -84,7 +83,7 @@ Such a model contains a massive number of parameters (possibly much more than th
 In fact, we observe that the model is ``weakly'' parametric: the number of distinct players usually grows with the number of matches observed.
 The kernel-based viewpoint that we take emphasizes the fact that estimating these parameters is not necessary.
 
-\paragraph{Relation to TrueSkill.}
-Our Gaussian process model coupled to the player kernel is very similar to TrueSkill \cite{herbrich2006trueskill}.
+\paragraph{Relation to TrueSkill}
+Our Gaussian process model coupled to the player kernel is very similar to TrueSkill \citep{herbrich2006trueskill}.
 The most important difference is that we take advantage of the dual representation and operate in the space of matches instead of the space of players.
 Beyond the conceptual reasons outlined above, it makes inference significantly less computationally intensive for the datasets that we consider.
