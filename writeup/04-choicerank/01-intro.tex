@@ -17,12 +17,6 @@ Building upon recent work by \citet{kumar2015inverting}, we present a statistica
 given a network (representing possible transitions between nodes) and the marginal traffic at each node, recover the transition probabilities.
 This problem is relevant to a number of scenarios (in social, information or transportation networks) where transition data is not available due to, e.g., privacy concerns or monitoring costs.
 
-%Our starting point is a choice model, i.e., a model that explains and predicts outcomes of comparisons between two or more alternatives from a universe of $n$ items.
-%In this context, a prominent paradigm (which dates back to \citet{thurstone1927method} and \citet{zermelo1928berechnung} almost a century ago) postulates that each item can be characterized by a latent \emph{strength} parameter, and that the (stochastic) comparison outcomes tend to favor items with greater strengths.
-%The parameters can be learned from observed choices and used for predicting future comparisons.
-%Models based on this paradigm have been successfully applied to problems ranging from ranking chess players based on game outcomes \citep{zermelo1928berechnung, elo1978rating} to understanding consumer behavior based on discrete choices \citep{mcfadden1973conditional}, and to discriminating among multiple classes based on the output of pairwise classifiers \citep{hastie1998classification}.
-%Here, we assume that the comparisons are generated from a specific stochastic process on a network, reminiscent of the random-surfer model introduced by \citet{brin1998anatomy}.
-%In our setting, every node in the network represents an item, and comparisons take place over the $n$ sets of alternatives induced by the neighborhoods of each node.
 We begin by postulating the following model of traffic.
 Users navigate from node to node along the edges of the network by making a choice between adjacent nodes at each step, reminiscent of the random-surfer model introduced by \citet{brin1998anatomy}.
 Choices are assumed to be independent and generated according to Luce's model \citep{luce1959individual}: each node in the network is chararacterized by a latent \emph{strength} parameter, and (stochastic) choice outcomes tend to favor nodes with greater strengths.
@@ -55,46 +49,8 @@ Our model yields promising results, suggesting that our method can be useful bey
 Next, we test the scalability of the inference algorithm.
 We show that the algorithm is able to process a snapshot of the WWW hyperlink graph containing over a hundred billion edges using a single machine.
 
-
 \paragraph{Outline of the Chapter}
-In Section~\ref{cr:sec:model}, we formalize the network choice model.
 In Section~\ref{cr:sec:relwork}, we briefly review related literature.
-In Section~\ref{cr:sec:theory}, we present salient statistical properties of the model and its maximum-likelihood estimator, and we propose a prior distribution that makes the inference problem well-posed.
-In Section~\ref{cr:sec:algorithm}, we describe an inference algorithm that enables an efficient implementation.
+In Section~\ref{cr:sec:model}, we formalize the network choice model and present salient statistical properties of the model.
+In Section~\ref{cr:sec:inference}, we propose a prior distribution that makes the inference problem well-posed and describe an inference algorithm that enables an efficient implementation.
 We evaluate the model and the inference algorithm in Section~\ref{cr:sec:experiments}.
-In the appendices, we provide a more in-depth discussion of our model and algorithm, and we present proofs for all the theorems stated in the main text.
-
-
-\subsection{Network Choice Model}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\label{cr:sec:model}
-
-Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a directed graph on $N$ nodes (corresponding to items) and $M$ edges.
-We denote the out-neighborhood of node $i$ by $\mathcal{N}^+_i$ and its in-neighborhood by $\mathcal{N}^-_i$.
-We consider the following choice process on $\mathcal{G}$.
-A user starts at a node $i$ and is faced with alternatives $\mathcal{N}^+_i$.
-The user chooses item $j$ and moves to the corresponding node.
-At node $j$, the user is faced with alternatives $\mathcal{N}^+_j$ and chooses $k$, and so on.
-At any time, the user can stop.
-Figure~\ref{cr:fig:samplenet} gives an example of a graph and the alternatives available at a step of the process.
-
-\begin{figure}
-  \centering
-  \includegraphics[scale=0.8]{cr-graph-example}
-  \caption{An illustration of one step of the process.
-  The user is at node 6 and can reach nodes $\mathcal{N}^+_6 = \{1, 2, 5, 7\}$.}
-  \label{cr:fig:samplenet}
-\end{figure}
-
-To define the transition probabilities, we posit Luce's well-known choice axiom that states that the odds of choosing item $j$ over item $j'$ do not depend on the rest of the alternatives \citep{luce1959individual}.
-This axiom leads to a unique probabilistic model of choice.
-For every node $i$ and every $j \in \mathcal{N}^+_i$, the probability that $j$ is selected among alternatives $\mathcal{N}^+_i$ can be written as
-\begin{align}
-\label{cr:eq:singlelik}
-p_{ij} = \frac{\gamma_j}{\sum_{k \in \mathcal{N}^+_i} \gamma_k}
-\end{align}
-for some parameter vector $\bm{\gamma} = [\gamma_1 \ \cdots \ \gamma_N]^\Tr \in \mathbf{R}_{>0}^N$.
-Intuitively, the parameter $\gamma_i$ can be interpreted as the strength (or utility) of item $i$.
-Note that $p_{ij}$ depends only on the out-neighborhood of node $i$.
-As such, the choice process satisfies the Markov property, and we can think of the sequence of choices as a trajectory in a Markov chain.
-In the context of this model, we can formulate the inference problem as follows.
-Given a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ and data on the aggregate traffic at each node, find a parameter vector $\bm{\gamma}$ that fits the data.

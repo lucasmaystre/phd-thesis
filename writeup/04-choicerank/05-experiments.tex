@@ -9,6 +9,7 @@ In this section, we investigate
 \item the potential of ChoiceRank to scale to very large networks.
 \end{enuminline}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Accuracy on Real-World Data}
 \label{cr:sec:accuracy}
 
@@ -16,7 +17,7 @@ We evaluate the network choice model on three datasets that are representative o
 %The first dataset contains clickstream data from the English Wikipedia, i.e., traces of users' navigation on a Web site.
 %The second dataset consists of the records of all trips made using New York City's bicycle-sharing service during the year 2015, i.e., mobility traces in a large city.
 Each dataset can be represented as a set of transition counts $\{ c_{ij} \}$ on a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$.
-We aggregate the transition counts into marginal traffic data $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ and fit a network choice model by using ChoiceRank.
+We aggregate the transition counts into marginal traffic data $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ and fit a network choice model by using ChoiceRank (for simplicity, we set $w_{ij} \equiv 1$ for all datasets).
 We set $\alpha = 2.0$ and $\beta = 1.0$ (these small values simply guarantee the convergence of the algorithm) and declare convergence when $\Norm{\bm{\gamma}^{(t)} - \bm{\gamma}^{(t-1)}} / N < 10^{-8}$.
 Given $\bm{\gamma}$, we estimate transition probabilities using $p_{ij} \propto \gamma_j$ as given by \eqref{cr:eq:singlelik}.
 To the best of our knowledge, there is no other published method tackling the problem of estimating transition probabilities from marginal traffic data.
@@ -98,9 +99,10 @@ We compute the error distribution in the same way as for the clickstream dataset
 The two rightmost plots of Figure~\ref{cr:fig:perf-combined} display the results.
 The observations made on the clickstream datasets carry over to this mobility dataset, albeit to a lesser degree.
 A significant difference between clicking a link and taking a bicycle trip is that in the latter case, there is a non-uniform ``cost'' of a transition due to the distance between source and target.
-In future work, one might consider incorporating edge weights and using the weighted network choice model presented in Appendix~\ref{cr:app:extensions}.
+In future work, one might consider experimenting with edge weights $\{ w_{ij} \}$ that capture this.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Scaling to Large Networks}
 
 To demonstrate ChoiceRank's scalability, we develop a simple implementation in the Rust programming language, based on the ideas of COST \citep{mcsherry2015scalability}.
