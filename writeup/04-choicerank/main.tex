@@ -1,16 +1,15 @@
 \chapter{Choices in Networks}
 \label{ch:choicerank}
 
-Understanding how users navigate in a network is of high interest in many applications.
 In this chapter\footnote{%
-This chapter is based on \citet{maystre2017choicerank}.
-}, we consider a setting where only aggregate node-level traffic is observed and tackle the task of learning edge transition probabilities.
-We cast it as a preference learning problem, and we study a model where choices follow Luce's axiom.
+This chapter is based on \citet{maystre2017choicerank}.},
+we address the problem of understanding how users navigate in a network of $N$ nodes.
+We consider a setting where only aggregate node-level traffic is observed and tackle the task of learning edge transition probabilities.
+We cast it as a preference learning problem and study a model where choices follow a variant of Luce's axiom.
 In this case, the $\BigO{N}$ marginal counts of node visits are a sufficient statistic for the $\BigO{N^2}$ transition probabilities.
-We show how to make the inference problem well-posed regardless of the network's structure, and we present ChoiceRank, an iterative algorithm that scales to networks that contains billions of nodes and edges.
+We show how to make the inference problem well-posed regardless of the network's structure, and we develop an iterative algorithm that scales to networks that contains billions of nodes and edges.
 We apply the model to two clickstream datasets and show that it successfully recovers the transition probabilities using only the network structure and marginal (node-level) traffic data.
 Finally, we also consider an application to mobility networks and apply the model to one year of rides on New York City's bicycle-sharing system.
-
 
 \input{01-intro}
 \input{02-relwork}
