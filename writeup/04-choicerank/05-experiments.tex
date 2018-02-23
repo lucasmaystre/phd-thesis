@@ -106,7 +106,7 @@ In future work, one might consider experimenting with edge weights $\{ w_{ij} \}
 \subsection{Scaling to Large Networks}
 
 To demonstrate ChoiceRank's scalability, we develop a simple implementation in the Rust programming language, based on the ideas of COST \citep{mcsherry2015scalability}.
-Our code is publicly available online\footnote{See: \url{http://lucas.maystre.ch/choicerank}.}.
+Our code is publicly available online\footnote{See: \url{https://github.com/lucasmaystre/choicerank}.}.
 The implementation repeatedly streams edges from disk and keeps four floating-point values per node in memory:
 the counts $c^-_i$ and $c^+_i$, the sum of messages $z_i$, and either $\mu_i$ or $\gamma_i$ (depending on the stage in the iteration).
 As edges can be processed in any order, it can be beneficial to reorder the edges in a way that accelerates the computation.
@@ -118,7 +118,7 @@ The data is available at \url{http://webdatacommons.org/hyperlinkgraph/}.} that 
 The edge list alone requires about $1$ TB of uncompressed storage.
 There is no publicly available information on the traffic at each page, therefore we generate a value $c_i$ for every node $i$ randomly and uniformly between \num{100} and \num{500}, and set both $c^-_i$ and $c^+_i$ to $c_i$.
 As such, this experiment does not attempt to measure the validity of the model (unlike the experiments of Section~\ref{cr:sec:accuracy}).
-Instead, it focuses on testing the algorithm's potential to scale to to very large networks.
+Instead, it focuses on testing the algorithm's potential to scale to very large networks.
 
 \paragraph{Results}
 We run \num{20} iterations of ChoiceRank on a dual Intel Xeon E5-2680 v3 machine, with \num{256} GB of RAM and \num{6} HDDs configured in RAID 0.

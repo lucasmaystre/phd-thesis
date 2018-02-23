@@ -13,7 +13,6 @@ Adding the log-prior to the log-likelihood, we can write the log-posterior as
         - c^+_i \log \bigg( \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg)  - \beta \gamma_i \bigg]
     + \kappa.
 \end{align}
-where $\kappa$ is a constant that is independent of $\bm{\gamma}$.
 The Gamma prior translates into a form of regularization that makes the inference problem well-posed, as shown by the following theorem.
 
 \begin{theorem}
@@ -22,13 +21,12 @@ If i.i.d. $\gamma_1, \ldots, \gamma_N \sim \DGamma{\alpha, \beta}$ with $\alpha 
 \end{theorem}
 
 \begin{proof}
-The log-posterior~\eqref{cr:eq:logpost} is not concave in $\bm{\gamma}$, but it can be made concave using the simple reparametrization $\gamma_i = e^{\theta_i}$.
-Under this reparametrization, the log-prior and the log-likelihood become
+Under the reparametrization $\gamma_i = e^{\theta_i}$, the log-prior and the log-likelihood become
 \begin{align*}
 \log p(\bm{\theta})
-    &= \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_4, \\
+    &= \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa \\
 \ell(\bm{\theta} ; \mathcal{D})
-    &= \sum_{i = 1}^N \bigg[ c^-_i \theta_i - c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg] + \kappa_5.
+    &= \sum_{i = 1}^N \bigg[ c^-_i \theta_i - c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg] + \kappa.
 \end{align*}
 It is easy to see that the log-likelihood is concave and the log-prior strictly concave in $\bm{\theta}$ (for $\alpha > 1$).
 As a result, the log-posterior is strictly concave in $\bm{\theta}$, which ensures that there exists at most one maximizer.
@@ -38,9 +36,9 @@ The log-posterior can be written as
 \begin{align*}
 \log p(\bm{\theta} \mid \mathcal{D})
     &= \sum_{i = 1}^N \sum_{j \in \mathcal{N}^+_i} c_{ij} \bigg[ \theta_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg]
-       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3\\
+       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa\\
     &\le -N^2 \cdot \max_{i,j} \log w_{ij}
-       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa_3.
+       + \sum_{i = 1}^N \left[ (\alpha - 1) \theta_i - \beta e^{\theta_i} \right] + \kappa.
 \end{align*}
 For $\alpha > 1$, it follows that $\lim_{\Norm{\bm{\theta}} \to \infty} \log p(\bm{\theta} \mid \mathcal{D}) = -\infty$, which ensures that there is at least one maximizer.
 \end{proof}
@@ -55,12 +53,12 @@ As a consequence, we may assume that $\beta = 1$ without loss of generality.
 
 The maximizer of the log-posterior does not have a closed-form solution.
 In the spirit of the algorithms of \citet{hunter2004mm} for variants of Luce's choice model, we develop a minorization-maximization (MM) algorithm.
-Simply put, the algorithm iteratively refines an estimate of the maximizer by solving a sequence of surrogates of the log-posterior.
+Simply put, the algorithm iteratively refines an estimate of the maximizer by solving a sequence of simpler optimization problems.
 Using the inequality $\log x \le \log \tilde{x} + x/\tilde{x} - 1$ (with equality if and only if $x = \tilde{x}$), we can lower-bound the log-posterior~\eqref{cr:eq:logpost} by
 \begin{align}
 \label{cr:eq:minorizing}
 \begin{aligned}
-f^{(t)}(\bm{\gamma}) = \kappa_2 + \sum_{i = 1}^N \bigg[
+f^{(t)}(\bm{\gamma}) = \kappa + \sum_{i = 1}^N \bigg[
     & (c^-_i + \alpha - 1) \log \gamma_i - \beta \gamma_i \\
     &- c^+_i \bigg( \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma^{(t)}_k
                    +\frac{\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k}{\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma^{(t)}_k} -1 \bigg) \bigg],
@@ -78,7 +76,7 @@ Unlike the maximization of the log-posterior, the surrogate optimization problem
     \quad \text{where }
     \mu_j^{(t)} = \frac{c^+_j}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma_k^{(t)}}.
 \end{align}
-The iterates provably converge to the maximizer of~\eqref{cr:eq:logpost}, as shown by the following theorem.
+The iterates provably converge to the maximizer of the log-posterior~\eqref{cr:eq:logpost}, as shown by the following theorem.
 
 \begin{theorem}
 \label{cr:thm:mmconv}
@@ -97,11 +95,11 @@ Second, $g \left[ M(\bm{\gamma}) \right] = g(\bm{\gamma})$ if and only if $\bm{\
 It follows that $\lim_{t \to \infty} \bm{\gamma}^{(t)} = \bm{\gamma}^{\star}$.
 \end{proof}
 
-It is known that MM algorithms exhibit geometric convergence in a neighborhood of the maximizer \citep{lange2000optimization}.
-A thorough investigation of the convergence properties is left for future work.
+How fast does the sequence of iterates converge?
+It is known that MM algorithms exhibit geometric convergence in a neighborhood of the maximizer \citep{lange2000optimization}, but a thorough investigation of the convergence properties is left for future work.
 %In practice, we notice that adding a little bit of regularization through the Gamma prior greatly improves convergence.
 
-The structure of the updates in~\eqref{cr:eq:mmiter} leads to an extremely simple and efficient implementation, given in Algorithm~\ref{cr:alg:choicerank}: we call it ChoiceRank.
+The structure of the updates in~\eqref{cr:eq:mmiter} leads to an extremely simple and efficient implementation, described in Algorithm~\ref{cr:alg:choicerank}: we call it ChoiceRank.
 A graphical representation of an iteration from the perspective of a single node is given in Figure~\ref{cr:fig:msgpassing}.
 Each iteration consists of two phases of message passing, with $\gamma_i$ flowing towards in-neighbors $\mathcal{N}^-_i$, then $\mu_i$ flowing towards out-neighbors $\mathcal{N}^+_i$ (each message being weighted by the edge strength $w_{ij}$).
 The updates to a node's state are a function of the sum of the messages.
@@ -114,7 +112,7 @@ This makes it easy to implement ChoiceRank inside scalable, optimized graph-proc
   \caption{ChoiceRank}
   \label{cr:alg:choicerank}
   \begin{algorithmic}[1]
-    \Require graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, counts $\{ (c^-_i, c^+_i) \}$, weights $\{ w_{ij} \}$
+    \Require graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, counts $\{ (c^-_i, c^+_i) \}$, edge weights $\{ w_{ij} \}$
     \State $\bm{\gamma} \gets [1 \ \cdots \ 1]^\Tr$
     \Repeat
       \State $\bm{z} \gets \bm{0}_N$
@@ -140,18 +138,18 @@ This makes it easy to implement ChoiceRank inside scalable, optimized graph-proc
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{EM Viewpoint}
 
-The MM algorithm can be seen from an expectation-maximization (EM) viewpoint, following the ideas of \citet{caron2012efficient}.
+The MM algorithm can also be interpreted from an expectation-maximization (EM) viewpoint, following the ideas of \citet{caron2012efficient}.
 We introduce $N$ independent random variables $\mathcal{Z} = \{ z_i : i = 1, \ldots, N \}$, where
 \begin{align*}
 z_i \sim \text{Gamma} \bigg( c^+_i, \sum_{j \in \mathcal{N}^+_i} w_{ij} \gamma_j \bigg).
 \end{align*}
-With the addition of these latent random variables the complete log-likelihood becomes
+With the addition of these latent random variables, the complete log-likelihood becomes
 \begin{align*}
 \ell(\bm{\gamma} ; \mathcal{D}, \mathcal{Z})
-    &= \ell(\bm{\gamma}, \mathcal{D}) + \sum_{i = 1}^N \log p(z_i \mid \mathcal{D}, \bm{\gamma}) \\
+    &= \ell(\bm{\gamma}; \mathcal{D}) + \sum_{i = 1}^N \log p(z_i \mid \mathcal{D}, \bm{\gamma}) \\
     &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] \\
-    &\qquad +\sum_{i = 1}^N \bigg[  c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k - z_i \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] + \kappa_6 \\
-    &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - z_i \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] + \kappa_6.
+    &\qquad +\sum_{i = 1}^N \bigg[  c^+_i \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k - z_i \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] + \kappa \\
+    &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - z_i \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg] + \kappa.
 \end{align*}
 Using a $\text{Gamma}(\alpha, \beta)$ prior for each parameter, the expected value of the log-posterior with respect to the conditional $\mathcal{Z} \mid \mathcal{D}$ under the estimate $\bm{\gamma}^{(t)}$ is
 \begin{align*}
@@ -159,7 +157,7 @@ Q(\bm{\gamma}, \bm{\gamma}^{(t)})
     &= \mathbf{E}_{\mathcal{Z} \mid \mathcal{D}, \bm{\gamma}^{(t)}} \left[ \ell(\bm{\gamma} ; \mathcal{D}, \mathcal{Z}) \right]
        + \log p(\bm{\gamma}) \\
     &=\sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - c^+_i \frac{\sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k}{\sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma^{(t)}_k} \bigg]
-      + \sum_{i = 1}^N \bigg[ (\alpha -1) \log \gamma_i - \beta \gamma_i \bigg] + \kappa_7
+      + \sum_{i = 1}^N \bigg[ (\alpha -1) \log \gamma_i - \beta \gamma_i \bigg] + \kappa.
 \end{align*}
 The EM algorithm starts with an initial $\bm{\gamma}^{(0)}$ and iteratively refines the estimate by solving the optimization problem $\bm{\gamma}^{(t+1)} = \Argmax_{\bm{\gamma}} Q(\bm{\gamma}, \bm{\gamma}^{(t)})$.
 It is not difficult to see that for a given $\bm{\gamma}^{(t)}$, maximizing $Q(\bm{\gamma}, \bm{\gamma}^{(t)})$ is equivalent to maximizing the minorizing function $f^{(t)}(\bm{\gamma})$ defined in~\eqref{cr:eq:minorizing}.

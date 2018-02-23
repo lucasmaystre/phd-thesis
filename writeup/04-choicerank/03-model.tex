@@ -2,7 +2,7 @@
 \section{Network Choice Model}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{cr:sec:model}
 
-Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a weighted, directed graph on $N$ nodes (corresponding to items) and $M$ edges, with edge weights $w_{ij} > 0$ for all $(i, j) \in \mathcal{E}$.
+Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a directed graph on $N$ nodes (corresponding to items) and $M$ edges, with edge weights $w_{ij} > 0$ for all $(i, j) \in \mathcal{E}$.
 We denote the out-neighborhood of node $i$ by $\mathcal{N}^+_i$ and its in-neighborhood by $\mathcal{N}^-_i$.
 We consider the following choice process on $\mathcal{G}$.
 A user starts at a node $i$ and is faced with alternatives $\mathcal{N}^+_i$.
@@ -26,27 +26,24 @@ For every node $i$ and every $j \in \mathcal{N}^+_i$, the probability that $j$ i
 p_{ij} = \frac{w_{ij} \gamma_j}{\sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k},
 \end{align}
 for some parameter vector $\bm{\gamma} = [\gamma_1 \ \cdots \ \gamma_N]^\Tr \in \mathbf{R}_{>0}^N$.
-Intuitively, the parameter $\gamma_i$ can be interpreted as the strength (or utility) of item $i$.
-The edge weights are relevant in situations where the current context modulates the alternatives' strength;
+Intuitively, the parameter $\gamma_i$ can be interpreted as the utility of item $i$.
+The edge weights are relevant in situations where the current context modulates the alternatives' utility;
 for example, they can be used to encode the position or prominence of a link on a page in a hyperlink graph, or the distance between two locations in a mobility network.
 Luce's original choice model is obtained by setting $w_{ij} \doteq \text{constant}$.
 Note that $p_{ij}$ depends only on the out-neighborhood of node $i$.
 As such, the choice process satisfies the Markov property, and we can think of the sequence of choices as a trajectory in a Markov chain.
 
 In the context of this model, we can formulate the inference problem as follows.
-Given a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, weights $\{ w_{ij} \}$ and data on the aggregate traffic at each node, find a parameter vector $\bm{\gamma}$ that fits the data.
+Given a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, edge weights $\{ w_{ij} \}$ and data on the aggregate traffic at each node, find a parameter vector $\bm{\gamma}$ that fits the data.
 
-In this section, we describe some important statistical properties of the network choice model.
-We begin by observing that $\BigO{N}$ values summarizing the traffic at each node is a sufficient statistic for the $\BigO{N^2}$ entries of the Markov-chain transition matrix.
-We then connect our statistical model to the steady-state inversion problem defined by \citet{kumar2015inverting}.
-Guided by this connection, we study the maximum-likelihood (ML) estimate of model parameters, but find that the estimate is likely to be ill-defined in many scenarios of practical interest.
-Lastly, we study how to overcome this issue by introducing a prior distribution on the parameters $\bm{\gamma}$; the prior guarantees that the inference problem is well-posed.
-
-In order to simplify some expressions, we use $\kappa_1, \kappa_2, \ldots$ to denote constants that do not depend on the parameter vector $\bm{\gamma}$.
+\paragraph{Notation}
+In some expressions, we use $\kappa$ to denote a constant that does not depend on the parameter vector $\bm{\gamma}$.
+Its value may change from line to line.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sufficient Statistic}
 
+We begin by observing that $\BigO{N}$ values summarizing the aggregate traffic at each node is a sufficient statistic of the transition counts.
 Let $c_{ij}$ denote the number of transitions that occurred along edge $(i, j) \in \mathcal{E}$.
 Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we can write the log-likelihood of $\bm{\gamma}$ given data $\mathcal{D} = \{ c_{ij} : (i, j) \in \mathcal{E} \}$ as
 \begin{align}
@@ -55,14 +52,14 @@ Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we 
     &= \sum_{j = 1}^N \sum_{i \in \mathcal{N}^-_j}\!c_{ij} \log \gamma_j
        - \sum_{i = 1}^N \sum_{j \in \mathcal{N}^+_i}\!c_{ij} \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k
        + \sum_{(i,j) \in \mathcal{E}} c_{ij} \log w_{ij}, \nonumber \\
-    &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - c^+_i \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa_1, \label{cr:eq:loglik}
+    &= \sum_{i = 1}^N \bigg[ c^-_i \log \gamma_i - c^+_i \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa, \label{cr:eq:loglik}
 \end{align}
 where $c^-_i = \sum_{j \in \mathcal{N}^-_i} c_{ji}$ and $c^+_i = \sum_{j \in \mathcal{N}^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
 This formulation of the log-likelihood exhibits a key feature of the model:
-the set of $2N$ counts $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a sufficient statistic of the $\BigO{N^2}$ counts $\{ c_{ij} : (i, j) \in \mathcal{E} \}$ for the parameters $\bm{\gamma}$.
+the set of $2N$ counts $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a sufficient statistic of the $M = \BigO{N^2}$ counts $\{ c_{ij} : (i, j) \in \mathcal{E} \}$ for the parameters $\bm{\gamma}$.
 
 \begin{theorem}
-The aggregate transitions  $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a minimally sufficient statistic for the parameters $\bm{\gamma}$.
+The set of aggregate transitions  $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a minimally sufficient statistic for the parameters $\bm{\gamma}$.
 \end{theorem}
 
 \begin{proof}
@@ -79,7 +76,7 @@ Taking the log of the ratio on the left-hand side and using~\eqref{cr:eq:loglik}
 \begin{align*}
 \log \frac{ f(\{ c_{ij} \} \mid \bm{\gamma}) }{ f(\{ d_{ij} \} \mid \bm{\gamma}) } =
   \sum_{i = 1}^N \bigg[ (c^-_i\!-\!d^-_i) \log \gamma_i
-                       - (c^+_i\!-\!d^+_i) \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa_2.
+                       - (c^+_i\!-\!d^+_i) \log\!\sum_{k \in \mathcal{N}^+_i}\!w_{ik} \gamma_k \bigg] + \kappa.
 \end{align*}
 From this, it is easy to see that the ratio of densities is independent of $\bm{\gamma}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{cr:eq:minsuff}.
 \end{proof}
@@ -101,7 +98,7 @@ If users' typical trajectories consist of many hops, it is reasonable to approxi
 % Also works if all the Markov trajectories are loops.
 
 In recent work, \citet{kumar2015inverting} define the problem of \emph{steady-state inversion} as follows:
-Given a strongly-connected directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with weights $\{ w_{ij} \}$ and a target distribution over the nodes $\bm{\pi}$, find a Markov chain on $\mathcal{G}$ with stationary distribution $\bm{\pi}$.
+Given a strongly-connected directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with edge weights $\{ w_{ij} \}$ and a target distribution over the nodes $\bm{\pi}$, find a Markov chain on $\mathcal{G}$ with stationary distribution $\bm{\pi}$.
 As there are $M = \BigO{N^2}$ degrees of freedom (the transition probabilities) for $N$ constraints (the stationary distribution), the problem is in most cases underdetermined.
 Following Luce's ideas, the transition probabilities are constrained to be proportional to a latent score of the destination node as per \eqref{cr:eq:singlelik}, thus reducing the number of parameters from $M$ to $N$.
 Denote by $\bm{P}(\bm{s})$ the Markov-chain transition matrix parametrized with scores $\bm{s}$.
@@ -121,7 +118,7 @@ Therefore,
     \xrightarrow{T \to \infty} \sum_{i = 1}^N \pi_i \bigg[ \log \gamma_i - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg].
 \end{align*}
 Let $\bm{\gamma}^\star$ be a maximizer of the average log-likelihood.
-When $T \to \infty$, the optimality condition $\nabla \hat{\ell} (\bm{\gamma}^\star) = \bm{0}$ implies, for all $i$,
+When $T \to \infty$, the optimality condition $\nabla \hat{\ell} = \bm{0}$ implies, for all $i$,
 \begin{align}
 &\frac{\partial \hat{\ell}(\bm{\gamma})}{\partial \gamma_i} \bigg|_{\bm{\gamma} = \bm{\gamma}^\star}
     = \frac{\pi_i}{\gamma^\star_i} - \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} \pi_j}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma^\star_k}
@@ -137,7 +134,7 @@ As such, the network choice model presented in this chapter can be viewed as a p
 \label{cr:sec:maxlik}
 
 The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave using the simple reparametrization $\gamma_i = e^{\theta_i}$.
-Therefore, any local minimum of the likelihood is a global minimum.
+Therefore, any local minimum of the likelihood is a global minimum (c.f. Section~\ref{fi:sec:mle}).
 Unfortunately, it turns out that the conditions guaranteeing that the ML estimate is well-defined (i.e., that it exists and is unique) are restrictive and impractical.
 
 \begin{definition}[comparison graph]
@@ -168,17 +165,15 @@ Using $\gamma_i = e^{\theta_i}$, we can rewrite the reparametrized log-likelihoo
         = \sum_{i = 1}^N \sum_{j \in \mathcal{N}^+_i} a_{ij} \bigg[ \theta_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} e^{\theta_k} \bigg],
 \end{align*}
 and, without loss of generality, we can assume that $\sum_i \theta_i = 0$ and $\min_{ij} w_{ij} = 1$.
-We will characterize conditions for
+We study the conditions under which
 \begin{enuminline}
-\item the boundedness of super-level sets and
-\item strict concavity
+\item super-level sets of the likelihood function $\ell(\bm{\theta})$ are bounded, and
+\item the likelihood function is strict concave.
 \end{enuminline}
-of the likelihood function $\ell(\bm{\theta})$.
-These conditions are necessary and sufficient for the existence and uniqueness of the maximizer.
 
-First, we shall prove that the super-level set $\{ \bm{\theta} : \ell(\bm{\theta}) \ge c \}$ is bounded and compact for any $c$, if and only if the comparison graph is strongly connected.
+First, we prove that the super-level set $\{ \bm{\theta} : \ell(\bm{\theta}) \ge c \}$ is bounded and compact for any $c$, if and only if the comparison graph is strongly connected.
 The compactness of all super-level sets ensures that there is at least one maximizer.
-Pick any unit vector $\bm{u}$ such that $\sum_i u_i = 0$, and let $\bm{\theta} = s \bm{u}$
+Pick any unit-norm vector $\bm{u}$ such that $\sum_i u_i = 0$, and let $\bm{\theta} = s \bm{u}$
 When $s \to \infty$, then $e^{\theta_i} > 0$ and $e^{\theta_j} \to 0 $ for some $i$ and $j$.
 As the comparison graph is strongly connected, there is a path from $i$ to $j$, and along this path there must be two consecutive nodes $i', j'$ such that $e^{\theta_{i'}} > 0$ and $e^{\theta_{j'}} \to 0$.
 The existence of the edge $(i',j')$ in the comparison graph means that there is a $k$ such that $i', j' \in \mathcal{N}^+_k$ and $a_{kj'} > 0$.
@@ -228,7 +223,7 @@ In order to verify the necessary and sufficient condition of Theorem~\ref{cr:thm
 \end{align*}
 \citet{dines1926positive} presents a simple algorithm to find such a non-negative solution.
 Alternatively, \citet{kumar2015inverting} suggest recasting the problem as one of maximum flow in a network.
-However, the computational cost of running \citeauthor{dines1926positive}' or max-flow algorithms is significantly greater than that of running the inference algorithm that we develop in Section~\ref{cr:sec:algorithm}.
+However, the computational cost of running \citeauthor{dines1926positive}' or max-flow algorithms is significantly greater than that of running the inference algorithm that we develop later, in Section~\ref{cr:sec:algorithm}.
 
 \paragraph{Example}
 In order to illustrate Theorem~\ref{cr:thm:mlboth}, we describe an innocuous-looking example where the MLE does not exist.
@@ -294,6 +289,7 @@ Because the likelihood is invariant to a rescaling of the parameters, it is easy
 
 The network of Figure~\ref{cr:fig:samplenet} illustrates an instance where even the necessary the condition fails:
 although the graph $\mathcal{G}$ is strongly connected, its associated alternatives hypergraph $\mathcal{H}$ (depicted in Figure~\ref{cr:fig:samplehyp}) is disconnected, and no matter what the data $\mathcal{D}$ is, the ML estimate will never be uniquely defined.
+Note that this problematic situation does not only affect carefully hand-crafted networks: the alternatives hypergraph of all three real-world networks considered in Section~\ref{cr:sec:experiments} are disconnected as well.
 
 \begin{figure}
   \centering
@@ -303,3 +299,6 @@ The hyperedge associated to $\mathcal{N}^+_6$ is highlighted in red.
 Note that the component $\{3, 4\}$ is disconnected from the rest of the hypergraph.}
   \label{cr:fig:samplehyp}
 \end{figure}
+
+Guided by this connection, we study the maximum-likelihood (ML) estimate of model parameters, but find that the estimate is likely to be ill-defined in many scenarios of practical interest.
+
