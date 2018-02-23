@@ -21,7 +21,7 @@ The history of algorithms for maximum-likelihood inference under Luce's model go
 In the special case of pairwise comparisons, the same iterative algorithm was independently discovered by \citet{zermelo1928berechnung}, \citet{ford1957solution} and \citet{dykstra1960rank}.
 Much later, this algorithm was explained by \citet{hunter2004mm} as an instance of minorization-maximization (MM) algorithm, and extended to the more general choice model.
 Today, Hunter's MM algorithm is the \emph{de facto} standard for ML inference in Luce's model.
-As the likelihood can be written as a concave function, off-the-shelf optimization procedures such as the Newton-Raphson method can also be used, although they have been been reported to be slower and less practical \citep{hunter2004mm}.
+As the likelihood can be written as a concave function, off-the-shelf optimization procedures such as the Newton-Raphson method can also be used, although they have been reported to be slower and less practical \citep{hunter2004mm}.
 Recently, \citet{kumar2015inverting} looked at the problem of finding the transition matrix of a Markov chain, given its stationary distribution.
 The problem of inferring Luce's model parameters from data can be reformulated in their framework, and the MLE is the solution to the inversion of the stationary distribution.
 Their work stands out as the first to link ML inference to Markov chains, albeit very differently from the way presented in this chapter.
