@@ -3,78 +3,76 @@
 %\markboth{Abstract}{Abstract}  % TODO: Do we need this if the abstract takes several pages?
 \addcontentsline{toc}{chapter}{Mathematical Notation} % adds an entry to the table of contents
 
-\begin{table}[h]
-  \caption{Mathematical symbols.}
-  \label{fr:tab:symbols}
-  \centering
-  \begin{tabular}{ll}
-    \toprule
-    Symbol        & Description \\
-    \midrule
-    $x$  & normal face denote scalar value \\
-    \addlinespace
-    $\bm{x} = [x_i]$  & boldface lowercase to denote a column vector \\
-    \addlinespace
-    $\bm{X} = [x_{ij}]$  & boldface uppercase to denote a column vector \\
-    \addlinespace
-    $\mathcal{X}$  & Calligraphic uppercase to denote a set \\
-    \addlinespace
-    $\mathbf{R}$  $\mathbf{R}_{>0}$ $\mathbf{N}$ & the real numbers,the positive reals, the natural numbers. \\
-    \addlinespace
-    $[N]$ & Set of consecutive natural numbers $\{ 1, \ldots, N \}$ \\
-    \addlinespace
-    $i \succ j$ & event ``$i$ wins over $j$'' in a pairwise comparison \\
-    \addlinespace
-    $i \succeq \mathcal{A}$ & event ``$i$ is chosen among alternatives $\mathcal{A}$'' \\
-    \addlinespace
-    $\Prob{\mathcal{A}}$  & the probability of event $\mathcal{A}$ \\
-    \addlinespace
-    $\Indic{\mathcal{A}}$  & Indicator variable of event $\mathcal{A}$ \\
-    \addlinespace
-    $\Exp{x}$ & Expectation of the random variable $x$ \\
-    \addlinespace
-    $\Var{x}$ & Variance of the random variable $x$ \\
-    \addlinespace
-    $\Cov{x}{y}$ & Covariance of the random variables $x$ and $y$. \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\begingroup
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{lX}
+  Symbol        & Description \\
+  \midrule
+  $x$
+    & normal face denote scalar value \\
+  $\bm{x} = [x_i]$
+    & boldface lowercase to denote a column vector \\
+  $\bm{X} = [x_{ij}]$
+    & boldface uppercase to denote a column vector \\
+  $\mathcal{X}$
+    & Calligraphic uppercase to denote a set \\
+  $\mathbf{R}$ $\mathbf{R}_{>0}$ $\mathbf{N}$
+    & the real numbers,the positive reals, the natural numbers. \\
+  $[N]$
+    & Set of consecutive natural numbers $\{ 1, \ldots, N \}$ \\
+  $i \succ j$
+    & event ``$i$ wins over $j$'' in a pairwise comparison \\
+  $i \succeq \mathcal{A}$
+    & event ``$i$ is chosen among alternatives $\mathcal{A}$'' \\
+  $\Prob{\mathcal{A}}$
+    & the probability of event $\mathcal{A}$ \\
+  $\Indic{\mathcal{A}}$
+    & Indicator variable of event $\mathcal{A}$ \\
+  $\Exp{x}$
+    & Expectation of the random variable $x$ \\
+  $\Var{x}$
+    & Variance of the random variable $x$ \\
+  $\Cov{x}{y}$
+    & Covariance of the random variables $x$ and $y$. \\
+  $\BigO{f}$
+    & $g = \BigO{f} \iff \limsup_{x \to \infty} \Abs{g(x)} / f(x) < \infty$. \\
+  $\LittleO{f}$
+    & $g = \LittleO{f} \iff \lim_{x \to \infty} g(x) / f(x) = 0$. \\
+  $\BigOmega{f}$
+    & $g = \BigOmega{f} \iff f = \BigO{g}$. \\
+  $\LittleOmega{f}$
+    & $g = \LittleOmega{f} \iff f = \LittleO{g}$. \\
+\end{tabularx}
+\endgroup
 
-asymptotics: \BigO{f}, \LittleO{f}, \BigOmega{f}, \LittleOmega{f}.
-
-\begin{table}
-  \caption{Probability distributions.}
-  \label{fr:tab:distributions}
-  \centering
-  \begin{tabular}{lll}
-    \toprule
-    Distribution & Domain & Density function $f(x)$ \\
-    \midrule
-    \addlinespace
-    $\DNorm{\bm{\mu}, \bm{\Sigma}}$
-        & $\mathbf{R}^D$
-        & $\displaystyle \frac{1}{\sqrt{2 \pi \Abs{\bm{\Sigma}}}}
-          \exp \left[ -\frac{1}{2} (\bm{x} - \bm{\mu})^\Tr \bm{\Sigma}^{-1} (\bm{x} - \bm{\mu}) \right]$ \\
-    \addlinespace
-    $\DUnif{a, b}$
-        & $[a, b]$
-        & $\displaystyle \frac{1}{b - a}$ \\
-    \addlinespace
-    $\DBeta{\alpha, \beta}$
-        & $[0, 1]$
-        & $\displaystyle \frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1-x)^{\beta - 1}$ \\
-    \addlinespace
-    $\DExp{\lambda}$
-        & $\mathbf{R}_{>0}$
-        & $\displaystyle \lambda \exp(- \lambda x)$ \\
-    \addlinespace
-    $\DGamma{\alpha, \beta}$
-        & $\mathbf{R}_{>0}$
-        & $\displaystyle \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} \exp(- \beta x)$ \\
-    \addlinespace
-    $\DGumbel{\mu, \beta}$
-        & $\mathbf{R}$
-        & $\displaystyle \frac{1}{\beta} \exp \{ - [z + \exp(-z)]\}$, where $\displaystyle z = \frac{x - \mu}{\beta}$ \\
-    \bottomrule
-  \end{tabular}
-\end{table}
+\begingroup
+\renewcommand*{\arraystretch}{1.5}
+\begin{tabularx}{\linewidth}{llX}
+  Distribution & Domain & Density function $f(x)$ \\
+  \midrule
+  \rule{0pt}{5ex}%
+  $\DNorm{\bm{\mu}, \bm{\Sigma}}$
+    & $\mathbf{R}^D$
+    & $\displaystyle \frac{1}{\sqrt{2 \pi \Abs{\bm{\Sigma}}}}
+        \exp \left[ -\frac{1}{2} (\bm{x} - \bm{\mu})^\Tr \bm{\Sigma}^{-1} (\bm{x} - \bm{\mu}) \right]$ \\
+  \rule{0pt}{5ex}%
+  $\DUnif{a, b}$
+    & $[a, b]$
+    & $\displaystyle \frac{1}{b - a}$ \\
+  \rule{0pt}{5ex}%
+  $\DBeta{\alpha, \beta}$
+    & $[0, 1]$
+    & $\displaystyle \frac{1}{B(\alpha, \beta)} x^{\alpha - 1} (1-x)^{\beta - 1}$ \\
+  $\DExp{\lambda}$
+    & $\mathbf{R}_{>0}$
+    & $\displaystyle \lambda \exp(- \lambda x)$ \\
+  \rule{0pt}{5ex}%
+  $\DGamma{\alpha, \beta}$
+    & $\mathbf{R}_{>0}$
+    & $\displaystyle \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1} \exp(- \beta x)$ \\
+  \rule{0pt}{5ex}%
+  $\DGumbel{\mu, \beta}$
+    & $\mathbf{R}$
+    & $\displaystyle \frac{1}{\beta} \exp \{ - [z + \exp(-z)]\}$, where $\displaystyle z = \frac{x - \mu}{\beta}$ \\
+\end{tabularx}
+\endgroup
