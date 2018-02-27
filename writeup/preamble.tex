@@ -192,6 +192,9 @@
 % See: http://practicaltypography.com/one-space-between-sentences.html.
 \frenchspacing
 
+% Player kernel is not by itself on a page.
+\renewcommand{\floatpagefraction}{.8}
+
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}[chapter]
 \newtheorem{corollary}[theorem]{Corollary}
@@ -207,7 +210,7 @@
 \ifthenelse{\isempty{#1}}{\mathbf{E}\left[ #2 \right]}{\mathbf{E}_{#1}\left[ #2 \right]}}}
 \newcommand{\Cov}[2]{\ensuremath{\mathbf{Cov}\left[ #1, #2 \right]}}
 \newcommand{\Var}[1]{\ensuremath{\mathbf{Var}\left[ #1 \right]}}
-\newcommand{\Indic}[1]{\ensuremath{\mathbf{1} \left \{ #1 \right \} }}
+\newcommand{\Indic}[1]{\ensuremath{1_{\left \{ #1 \right \} }}}
 
 % Distributions.
 \newcommand{\DExp}[1]{\ensuremath{\mathrm{Exp}( #1 )}}

@@ -1,13 +1,14 @@
 \section{Related Work}
 \label{pk:sec:relwork}
 
-More than two decades after Zermelo's seminal paper \citep{zermelo1928berechnung}, his model for paired comparisons was rediscovered and popularized by \citet{bradley1952rank}.
-Nowadays, the model is usually referred to as the Bradley--Terry model.
-In the context of skill-based game modeling, the same model (associated to a simple online stochastic gradient update rule) is also known as the Elo rating system \citep{elo1978rating}.
-It is used by FIDE to rank chess players\footnote{See: \url{https://ratings.fide.com/}.} and by FIFA to rank women national football teams\footnote{See: \url{http://www.fifa.com/fifa-world-ranking/procedure/women.html}.}, among others.
+Zermelo's \citeyear{zermelo1928berechnung} paper (discussed in Section~\ref{in:sec:btmodel}) presents the first statistical model of chess game outcomes.
+His model, associated to a simple online stochastic gradient update rule, is known as the Elo rating system \citep{elo1978rating}.
+This rating system is currently used by the World Chess Federation (FIDE) to rank chess players\footnote{See: \url{https://ratings.fide.com/}.} and by the International Federation of Football Association (FIFA) to rank women national football teams\footnote{See: \url{http://www.fifa.com/fifa-world-ranking/procedure/women.html}.}, among others.
 
-The model and related inference algorithms have been extended in various ways; one direction that is of particular interest is the handling of uncertainty of the estimated skill parameters.
-\citet{glickman1999parameter} proposes an extension that simultaneously updates ratings and associated uncertainty values after each observation.
-\citet{herbrich2006trueskill} propose TrueSkill, a comprehensive Bayesian framework for estimating player skill in various types of games.
-The models and methods described in this paper are fundamentally similar to TrueSkill, as will be discussed in Section~\ref{pk:sec:methods}.
-Finally, in the context of learning users' preferences from pairwise comparisons, \citet{chu2005preference} present a Gaussian process approach that is comparable to our work.
+The model and related inference algorithms have been extended in various ways, e.g., by considering other types of outcomes \citep{rao1967ties, maher1982modelling} or by permitting parameters to evolve over time \citep{glickman1993paired, fahrmeir1994dynamic, cattelan2013dynamic}.
+One direction that is of particular interest in this chapter is the handling of uncertainty of the estimated skill parameters.
+\citet{glickman1999parameter} proposes an extension that simultaneously updates ratings and associated uncertainty values after each observation, by using a simple closed-form update.
+\citet{herbrich2006trueskill} propose TrueSkill, a comprehensive Bayesian framework for estimating player skill in various types of games based on the \emph{expectation propagation} algorithm.
+The models and methods described in this paper are similar to TrueSkill, as will be discussed in Section~\ref{pk:sec:methods}.
+
+In the context of learning users' preferences from pairwise comparisons, \citet{chu2005preference} are the first to link the Bayesian treatment of pairwise comparisons models to Gaussian process classification.

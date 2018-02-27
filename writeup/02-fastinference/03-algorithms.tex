@@ -121,11 +121,11 @@ By assumption of connectivity on the hypergraph $\mathcal{H}$, the comparison gr
 
 Now that we know that the Markov chain is asymptotically ergodic, we will show that the stationary distribution matches the true model parameters.
 Let $c^n_m$ be a random variable denoting the item chosen in the $m$-th observation over alternatives $\mathcal{A}_n$, and let
-$1\{\mathcal{X}\}$ be the indicator variable for the event $\mathcal{X}$.
+$\Indic{mathcal{X}}$ be the indicator variable for the event $\mathcal{X}$.
 By the law of large numbers, for any item $i \in \mathcal{A}_n$,
 \begin{align}
 \label{fi:eq:lln}
-\lim_{M_n \to \infty} \frac{1}{M_n} \sum_{m = 1}^{M_n} 1\{c^n_m = i\} = \frac{\gamma'_i}{\sum_{k \in A_n} \gamma'_k}.
+\lim_{M_n \to \infty} \frac{1}{M_n} \sum_{m = 1}^{M_n} \Indic{c^n_m = i} = \frac{\gamma'_i}{\sum_{k \in A_n} \gamma'_k}.
 \end{align}
 Now consider two items $i$ and $j$.
 If they have never been compared, $\lambda_{ij} = \lambda_{ji} = 0$.
@@ -133,8 +133,8 @@ Otherwise, suppose that they have been compared in alternative sets whose indice
 By construction of the transition rates in LSR, we have that
 \begin{align*}
 \frac{\lambda_{ij}}{\lambda_{ji}}
-= \frac{\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} 1\{c^n_m = j\} \ N / \Abs{\mathcal{A}_n}}
-       {\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} 1\{c^n_m = i\} \ N / \Abs{\mathcal{A}_n}}.
+= \frac{\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} \Indic{c^n_m = j} \ N / \Abs{\mathcal{A}_n}}
+       {\sum_{n \in \mathcal{B}} \sum_{m = 1}^{M_n} \Indic{c^n_m = i} \ N / \Abs{\mathcal{A}_n}}.
 \end{align*}
 From \eqref{fi:eq:lln} it follows that
 \begin{align*}
