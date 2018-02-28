@@ -16,6 +16,7 @@
 % space before each new paragraph according to the template guidelines.
 %(needs to be after titlepage and frontmatter to keep the table of contents lists short)
 \setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -35,13 +36,15 @@
 \appendix
 \subimport{0A-appendix/}{main}
 
+\backmatter
+
 % Bibliography.
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}
 %\nocite{*}
 \bibliography{thesis}
-\addcontentsline{toc}{chapter}{Bibliography}
 
 % Curriculum Vitae.
-\backmatter
 \cleardoublepage
 \thispagestyle{empty}
 \phantomsection

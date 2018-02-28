@@ -1,6 +1,6 @@
 \cleardoublepage
 \chapter*{Mathematical Notation}
-%\markboth{Abstract}{Abstract}  % TODO: Do we need this if the abstract takes several pages?
+\markboth{Mathematical Notation}{Mathematical Notation}
 \addcontentsline{toc}{chapter}{Mathematical Notation} % adds an entry to the table of contents
 
 \begingroup
@@ -9,39 +9,39 @@
   Symbol        & Description \\
   \midrule
   $x$
-    & normal face denote scalar value \\
+    & Plain lowercase letters denote scalar values. \\
   $\bm{x} = [x_i]$
-    & boldface lowercase to denote a column vector \\
+    & Boldface lowercase letter denote column vectors. \\
   $\bm{X} = [x_{ij}]$
-    & boldface uppercase to denote a column vector \\
+    & Boldface uppercase letters denote matrices. \\
   $\mathcal{X}$
-    & Calligraphic uppercase to denote a set \\
-  $\mathbf{R}$ $\mathbf{R}_{>0}$ $\mathbf{N}$
-    & the real numbers,the positive reals, the natural numbers. \\
+    & Calligraphic uppercase letters denote sets. \\
+  $\mathbf{R}, \mathbf{R}_{>0}, \mathbf{N}$
+    & Number types: real, positive real and natural numbers, respectively. \\
   $[N]$
-    & Set of consecutive natural numbers $\{ 1, \ldots, N \}$ \\
+    & Set of consecutive natural numbers $\{ 1, \ldots, N \}$. \\
   $i \succ j$
-    & event ``$i$ wins over $j$'' in a pairwise comparison \\
+    & Pairwise comparison outcome ``$i$ wins over $j$''. \\
   $i \succeq \mathcal{A}$
-    & event ``$i$ is chosen among alternatives $\mathcal{A}$'' \\
+    & Multiway comparison outcome ``$i$ is chosen among alternatives $\mathcal{A}$''. \\
   $\Prob{\mathcal{A}}$
-    & the probability of event $\mathcal{A}$ \\
+    & Probability of the event $\mathcal{A}$. \\
   $\Indic{\mathcal{A}}$
-    & Indicator variable of event $\mathcal{A}$ \\
+    & Indicator variable of the event $\mathcal{A}$. \\
   $\Exp{x}$
-    & Expectation of the random variable $x$ \\
+    & Expectation of the random variable $x$. \\
   $\Var{x}$
-    & Variance of the random variable $x$ \\
+    & Variance of the random variable $x$. \\
   $\Cov{x}{y}$
     & Covariance of the random variables $x$ and $y$. \\
-  $\BigO{f}$
-    & $g = \BigO{f} \iff \limsup_{x \to \infty} \Abs{g(x)} / f(x) < \infty$. \\
-  $\LittleO{f}$
-    & $g = \LittleO{f} \iff \lim_{x \to \infty} g(x) / f(x) = 0$. \\
-  $\BigOmega{f}$
-    & $g = \BigOmega{f} \iff f = \BigO{g}$. \\
-  $\LittleOmega{f}$
-    & $g = \LittleOmega{f} \iff f = \LittleO{g}$. \\
+  $\BigO{f(x)}$
+    & $g(x) = \BigO{f(x)} \iff \limsup_{x \to \infty} \Abs{g(x)} / f(x) < \infty$. \\
+  $\LittleO{f(x)}$
+    & $g(x) = \LittleO{f(x)} \iff \lim_{x \to \infty} g(x) / f(x) = 0$. \\
+  $\BigOmega{f(x)}$
+    & $g(x) = \BigOmega{f(x)} \iff f(x) = \BigO{g(x)}$. \\
+  $\LittleOmega{f(x)}$
+    & $g(x) = \LittleOmega{f(x)} \iff f(x) = \LittleO{g(x)}$. \\
 \end{tabularx}
 \endgroup
 
