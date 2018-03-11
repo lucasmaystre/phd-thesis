@@ -1,0 +1,24 @@
+\section{Inference Algorithms}
+
+For each type of data, \texttt{choix} exposes several different algorithms for parameter inference.
+This makes it possible to compare algorithms in terms of, e.g., numerical stability and running time, and to choose the one that works best in the particular regime of interest.
+
+\begin{description}
+\item[Luce Spectral Ranking] The library provides a reference implementation of the two algorithms developed in Chapter~\ref{ch:fastinference}: LSR and I-LSR.
+Rank Centrality \citep{negahban2012iterative} is also implemented.
+
+\item[Minorization-Maximization] The classic MM algorithm finds the MLE using a simple iterative procedure.
+This algorithm is known since the seminal work of \citet{zermelo1928berechnung}.
+
+\item[Convex optimization] The choice model's likelihood function is convex when using the parametrization in $\bm{\theta}$, and off-the-shelf convex optimizers can be used for maximum-likelihood inference.
+\texttt{choix} offloads this task to the \texttt{scipy} library\footnote{%
+See: \url{https://www.scipy.org/scipylib/index.html}.
+}.
+
+\item[Approximate Bayesian inference] The expectation-propagation algorithm provides an effective way for computing an approximate posterior distribution of the parameters \citep{minka2001family, chu2005gaussian}.
+It is useful in cases where a measure of the uncertainty of the parameters' values is needed (e.g., in order to implement some of the Bayesian active learning baselines of Chapter~\ref{ch:robustsort}).
+\end{description}
+
+It is interesting to note that there is not one algorithm that consistently outperforms all others in all regimes.
+For example, algorithms based on the convex formulation of the model are numerically more stable when the range of the parameters $\bm{\theta}$ is large.
+However, when the range is small, they can be orders of magnitude slower than, e.g., LSR.

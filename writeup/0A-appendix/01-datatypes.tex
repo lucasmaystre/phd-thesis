@@ -1,0 +1,23 @@
+\section{Types of Data}
+
+The library handles four different types of data.
+All are special cases of Luce's general choice model, defined in Section~\ref{in:sec:choice}.
+The specialization enables
+\begin{enuminline}
+\item to write programs more concisely,
+\item to represent the data using less memory, and
+\item to perform computations more efficiently.
+\end{enuminline}
+
+\begin{description}
+\item[Pairwise comparisons] The specialization of Luce's model to the case of pairwise comparisons is usually referred to as the Bradley--Terry model.
+
+\item[Partial rankings] If the data consists of rankings over (a subset of) the items, the model variant is referred to as the Plackett--Luce model.
+A $K$-way ranking is effectively equivalent to $K-1$ successive choices over the remaining alternatives.
+
+\item[Top-1 lists] Also referred to in this thesis as \emph{multiway choices}, it corresponds to choosing one item out of several alternatives.
+This type of observation subsumes all others.
+
+\item[Choices in a network] When choices arise in a network, only the marginal incoming and outgoing traffic at every node of the network is necessary to infer model parameters (see Chapter~\ref{ch:choicerank}).
+Functions handling networked choice data thus dispense us from having to specify alternatives available at every choice.
+\end{description}
