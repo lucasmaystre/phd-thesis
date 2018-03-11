@@ -5,13 +5,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
 \frontmatter
-\input{front/titlepage}
-\include{front/dedication}
-\input{front/acknowledgements}
+\include{front/titlepage}
+%\include{front/dedication}
+%\include{front/acknowledgements}
 \include{front/abstracts}
-\include{front/notation}
-
 \tableofcontents
+\include{front/notation}
 
 % space before each new paragraph according to the template guidelines.
 %(needs to be after titlepage and frontmatter to keep the table of contents lists short)
@@ -48,6 +47,7 @@
 % Curriculum Vitae.
 \cleardoublepage
 \thispagestyle{empty}
+\pagenumbering{gobble}
 \phantomsection
 \addcontentsline{toc}{chapter}{Curriculum Vitae}
 \includepdf[pagecommand=\thispagestyle{addpagenumbersforpdfimports},pages=-]{cv.pdf}
