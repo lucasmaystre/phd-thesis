@@ -1,0 +1,68 @@
+\chapter{Conclusion}
+\label{ch:conclusion}
+
+The Internet enables the collection of comparison data at an unprecedented scale, opening up many new opportunities for businesses and researchers.
+But it also raises substantial challenges.
+Often, the complexity of the statistical models (as characterized, e.g., by the number of items) grows concurrently to the amount of data.
+This calls for new, efficient methods for collecting and analyzing comparisons.
+In this thesis, we propose several solutions that highlight different aspects of efficiency.
+
+\begin{itemize}
+\item In Chapter~\ref{ch:fastinference}, we address the problem of parameter inference for Luce's choice model.
+By expressing stationary points of the likelihood function as the stationary distribution of a Markov chain, we link recently proposed spectral estimators to maximum-likelihood methods.
+This link enables the development of new inference algorithms that are statistically and computationally efficient.
+
+\item In Chapter~\ref{ch:robustsort}, we consider the active learning setting.
+We study theoretically and empirically the performance of Quicksort when pairwise comparison outcomes follow the Bradley--Terry model.
+In scenarios where it is possible to adaptively select pairs of items to compare, we show that sorting-based active learning strategies lead to significant gains in sample efficiency.
+Compared to competing active learning methods, ours is computationally cheaper.
+
+\item In Chapter~\ref{ch:choicerank}, we focus on the case of choices in networks.
+In this case, we achieve data efficiency in a different way: we find that it is not necessary to observe choices among well-defined sets of alternatives in order to estimate model parameters.
+Marginal information about the incoming and outgoing traffic at each node is sufficient.
+The network structure also enables a fast algorithm that scales to very large graphs.
+
+\item Finally, in Chapter~\ref{ch:playerkern}, we tackle a concrete problem in sports.
+Based on past outcomes of football matches, we seek to predict the outcome of future matches between national teams.
+We devise a method that uses all the available data efficiently: by considering also the outcome of matches between clubs, we obtain predictions that outperform competing models.
+We do so by implicitly project the football matches in the space of players.
+\end{itemize}
+
+The approach we take in most of this thesis consists of distilling challenges faced in modern applications of choice models into simpler and more fundamental problems.
+We then propose methods to address these problems.
+Throughout the thesis, we have illustrated these methods with real use-cases; however, there remain important classes of practical applications for which our methods are not applicable directly.
+We discuss three directions in which our methods could be extended.
+
+\begin{description}
+\item[Side information] With the exception of Chapter~\ref{ch:playerkern}, we have assumed that the item strengths $\{ \gamma_i : i \in [N] \}$ are free parameters.
+However, in some applications, we might have access to features that relate items to each other.
+We distinguish two cases.
+First, suppose that item $i$ is described by a real-valued feature vector $\bm{x}_i \in \mathbf{R}^D$, where typically $D \ll N$.
+Then, by setting $\theta_i = \bm{x}_i^\Tr \bm{w}$ for some latent parameter vector $\bm{w} \in \mathbf{R}^D$, we obtain the multinomial logit model \citep{mcfadden1973conditional, train2009discrete}.
+Inference in this model is well-studied, but the question of effective and efficient active learning remains widely open.
+Second, suppose that item $i$ is described by a binary vector $\bm{x}_i \in \{0, 1\}^D$ describing the presence or absence of certain features.
+Then, we can model comparison outcomes using the elimination-by-aspects (EBA) model \citep{tversky1972elimination}, a model closely related to that of Luce.
+Preliminary work shows that the algorithms developed in Chapter~\ref{ch:fastinference} could be extended to the EBA model in the case of pairwise comparisons.
+
+\item[Context of comparisons] Sometimes, the context in which choices are made is important.
+For example, we might prefer to listen to a different type of music depending on whether we are spending a quiet moment or doing sports, or whether it is summer or Christmas time, etc.
+In cases where the context is explicit, we fall back to the problem of integrating side information.
+However, if the context is not explicitly observed, the problem becomes more difficult.
+In \citet{ko2016collaborative}, we study a setting in which we observe sequences of choices.
+We propose a model where the context at time $t$ is encoded by previous choices made by a user in $(-\infty, t)$, and where the effective utility $\theta_i^{(t)}$ of item $i$ at time $t$ varies accordingly.
+In general, integrating latent context into choice models is an interesting avenue for future research.
+
+\item[Personalization] In applications using recommender systems, the task is often to learn a \emph{distinct} preference profile for each user.
+As an example, online service providers use these systems in order to taylor their service to the specific tastes of a user.
+An obvious but inefficient way to achieve personalization is to learn a distinct choice model for every user.
+As many users share similar preferences, it is sensible to take advantage of similar users' choices to learn a given user's preferences.
+One approach is to postulate that there is small number of (global) Luce's models, and that a individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2014what}.
+The inference problem then consists of jointly learning the global models and the user-specific mixture weights.
+To this end, the algorithms developed in Chapter~\ref{ch:fastinference} could be used to carry out the \emph{M} step in the \emph{EM} algorithm of \citet{gormley2008exploring}.
+\end{description}
+
+Finally, a potential weakness of models based on Luce's axiom (as well as those based on Thurstone's ideas, see Section~\ref{in:sec:thurstone}) is that they are sensitive to outliers: the probability that the outcome of a comparison between $i$ and $j$ is inconsistent decreases \emph{exponentially} fast with $\Abs{\theta_i - \theta_j}$.
+Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) might affect the model disproportionately.
+The study of robust alternatives to Luce's model is an important direction for future work.
+On the one hand, model inference will likely require the development of new tools, beyond those presented in this thesis.
+On the other hand, there is hope that the sorting-based active learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.
