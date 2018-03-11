@@ -56,7 +56,7 @@ In general, integrating latent context into choice models is an interesting aven
 As an example, online service providers use these systems in order to taylor their service to the specific tastes of a user.
 An obvious but inefficient way to achieve personalization is to learn a distinct choice model for every user.
 As many users share similar preferences, it is sensible to take advantage of similar users' choices to learn a given user's preferences.
-One approach is to postulate that there is small number of (global) Luce's models, and that a individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2014what}.
+One approach is to postulate that there is small number of (global) Luce's models, and that a individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2015ranked}.
 The inference problem then consists of jointly learning the global models and the user-specific mixture weights.
 To this end, the algorithms developed in Chapter~\ref{ch:fastinference} could be used to carry out the \emph{M} step in the \emph{EM} algorithm of \citet{gormley2008exploring}.
 \end{description}
