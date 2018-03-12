@@ -43,7 +43,7 @@ Its value may change from line to line.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sufficient Statistic}
 
-We begin by observing that $\BigO{N}$ values summarizing the aggregate traffic at each node is a sufficient statistic of the transition counts.
+We begin by showing that $\BigO{N}$ values summarizing the aggregate traffic at each node are a sufficient statistic of the transition counts.
 Let $c_{ij}$ denote the number of transitions that occurred along edge $(i, j) \in \mathcal{E}$.
 Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we can write the log-likelihood of $\bm{\gamma}$ given data $\mathcal{D} = \{ c_{ij} : (i, j) \in \mathcal{E} \}$ as
 \begin{align}
@@ -91,14 +91,14 @@ In several applications of practical interest, tracking users is undesirable, di
 \end{enuminline}
 
 Note that if we make the additional assumption that the flow in the network is conserved, then $c^-_i = c^+_i$.
-If users' typical trajectories consist of many hops, it is reasonable to approximate $c^-_i$ or $c^+_i$ using that assumption, should one of the two quantities be missing.
+If users' typical trajectories are made of many hops, it is reasonable to approximate $c^-_i$ or $c^+_i$ using that assumption, should one of the two quantities be missing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Steady-State Inversion Problem}
 % Also works if all the Markov trajectories are loops.
 
 In recent work, \citet{kumar2015inverting} define the problem of \emph{steady-state inversion} as follows:
-Given a strongly-connected directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with edge weights $\{ w_{ij} \}$ and a target distribution over the nodes $\bm{\pi}$, find a Markov chain on $\mathcal{G}$ with stationary distribution $\bm{\pi}$.
+Given a strongly-connected directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ with edge weights $\{ w_{ij} \}$ and a target distribution over the nodes $\bm{\pi}$, find the transition matrix of a Markov chain on $\mathcal{G}$ with stationary distribution $\bm{\pi}$.
 As there are $M = \BigO{N^2}$ degrees of freedom (the transition probabilities) for $N$ constraints (the stationary distribution), the problem is in most cases underdetermined.
 Following Luce's ideas, the transition probabilities are constrained to be proportional to a latent score of the destination node as per \eqref{cr:eq:singlelik}, thus reducing the number of parameters from $M$ to $N$.
 Denote by $\bm{P}(\bm{s})$ the Markov-chain transition matrix parametrized with scores $\bm{s}$.
@@ -123,7 +123,7 @@ When $T \to \infty$, the optimality condition $\nabla \hat{\ell} = \bm{0}$ impli
 &\frac{\partial \hat{\ell}(\bm{\gamma})}{\partial \gamma_i} \bigg|_{\bm{\gamma} = \bm{\gamma}^\star}
     = \frac{\pi_i}{\gamma^\star_i} - \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} \pi_j}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma^\star_k}
     = 0 \nonumber \\
-&\qquad \iff \pi_i = \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} \gamma^\star_i}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma^\star_k} \pi_j \label{cr:eq:optimality}
+&\qquad \iff \pi_i = \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} \gamma^\star_i}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma^\star_k} \pi_j. \label{cr:eq:optimality}
 \end{align}
 Comparing~\eqref{cr:eq:optimality} to~\eqref{cr:eq:balance}, it is clear that $\bm{\gamma}^\star$ is a solution of the steady-state inversion problem.
 As such, the network choice model presented in this chapter can be viewed as a principled extension of the steady-state inversion problem to the finite-data case.
@@ -133,7 +133,7 @@ As such, the network choice model presented in this chapter can be viewed as a p
 \subsection{MLE}
 \label{cr:sec:maxlik}
 
-The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave using the simple reparametrization $\gamma_i = e^{\theta_i}$.
+The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave using the standard reparametrization $\gamma_i = e^{\theta_i}$.
 Therefore, any local minimum of the likelihood is a global minimum (c.f. Section~\ref{fi:sec:mle}).
 Unfortunately, it turns out that the conditions guaranteeing that the ML estimate is well-defined (i.e., that it exists and is unique) are restrictive and impractical.
 
@@ -186,7 +186,7 @@ Therefore, the log-likelihood can be bounded as
 and $\lim_{s \to \infty} \ell(\bm{\theta}) = -\infty$.
 Conversely, suppose that the comparison graph is not strongly connected and partition the vertices into two non-empty subsets $\mathcal{S}$ and $\mathcal{T}$ such that there is no edge from $\mathcal{S}$ to $\mathcal{T}$.
 Let $c > 0$ be any positive constant, and take $\tilde{\theta}_i = \theta_i + c$ if $i \in \mathcal{S}$ and $\tilde{\theta}_i = \theta_i$ if $i \in \mathcal{T}$ (renormalize such that $\sum_i \tilde{\theta}_i = 0$).
-Clearly, $\ell(\tilde{\bm{\theta}}) \ge \ell(\bm{\theta})$, and by repeating this procedure $\lVert \bm{\theta} \rVert$ may be driven to infinity without decreasing the likelihood.
+Clearly, $\ell(\tilde{\bm{\theta}}) \ge \ell(\bm{\theta})$, and, by repeating this procedure, $\Norm{\bm{\theta}}$ may be driven to infinity without decreasing the likelihood.
 
 Second, we shall prove that if the comparison graph is strongly connected, the log-likelihood is strictly concave (in $\bm{\theta}$).
 In particular, for any $p \in (0,1)$,

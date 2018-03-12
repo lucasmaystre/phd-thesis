@@ -6,13 +6,13 @@ A variant of the network choice model was recently introduced by \citet{kumar201
 Their generative model of traffic and the parametrization of transition probabilities based on Luce's axiom form the basis of our work.
 \citeauthor{kumar2015inverting} define the \emph{steady-state inversion} problem as follows:
 Given a directed graph $\mathcal{G}$ and a target stationary distribution, find transition probabilities that lead to the desired stationary distribution.
-This problem formulation assumes that $\mathcal{G}$ satisfies restrictive structural properties (strong-connectedness, aperiodicity) and is valid only asymptotically, when the sequences of choices made by users are very long.
+This problem formulation assumes that $\mathcal{G}$ satisfies restrictive structural properties (strong-connectedness, aperiodicity) and is valid only asymptotically, when each user's sequence of choices is very long.
 Our formulation is, in contrast, more general.
 In particular, we eliminate any assumptions about the structure of $\mathcal{G}$ and cope with finite data in a principled way---in fact, our derivations are valid for choice sequences of any length.
 One of our contributions is to explain the steady-state inversion problem in terms of (asymptotic) maximum-likelihood inference in the network choice model.
 Furthermore, the statistical viewpoint that we develop also leads to
 \begin{enuminline}
-\item a robust regularization scheme, and
+\item a robust regularization scheme that lets us handle graphs of arbitrary structure, and
 \item a simple and efficient EM-type inference algorithm.
 \end{enuminline}
 These important extensions make the model easier to apply to real-world data.
@@ -24,8 +24,8 @@ This method is easily generalized to other models that are based on Luce's axiom
 \citet{caron2012efficient} observe that these MM algorithms can be further recast as expectation-maximization (EM) algorithms by introducing suitable latent variables.
 They use this observation to derive Gibbs samplers for a wide family of models.
 We take advantage of this line of work in Section~\ref{cr:sec:inference} when developing an inference algorithm for the network choice model.
-In recent years, several authors have also analyzed the sample complexity of the ML estimate in Luce's choice model \citep{hajek2014minimax, vojnovic2016parameter} and investigated alternative spectral inference methods \citep{negahban2012iterative, azari2013generalized}.
-Some of these results could be applied to our setting, but in general they require observing choices among well-identified sets of alternatives\footnote{%
+In recent years, several authors also analyzed the sample complexity of the ML estimate in Luce's choice model \citep{hajek2014minimax, vojnovic2016parameter} and investigated alternative spectral inference methods \citep{negahban2012iterative, azari2013generalized}.
+Some of these results could be applied to our setting, but in general they require observing distinct choices among well-identified sets of alternatives\footnote{%
 This is also the case for the spectral inference algorithm developed in Chapter~\ref{ch:fastinference} of this thesis, which cannot be applied in the setting studied in this chapter.
 }.
 
@@ -35,7 +35,7 @@ For brevity, we focus mostly on literature related to hyperlink graphs.
 A method that has undoubtedly had a tremendous impact in this context is PageRank \citep{brin1998anatomy}.
 PageRank computes a set of scores that are proportional to the amount of time a surfer, who clicks on links randomly and uniformly, spends at each node.
 These scores are based only on the structure of the graph.
-The network choice model presented in this chapter appears similar at first, but tackles a different problem.
+The network choice model presented in this chapter appears to be similar at first, but tackles a different problem.
 In addition to the structure of the graph, it uses the traffic at each page, and computes a set of scores that reflect the (non-uniform) probability of clicking on each link.
 Nevertheless, there are striking similarities in the implementation of the respective inference algorithms (see Section~\ref{cr:sec:experiments}).
 The HOTness method proposed by \citet{tomlin2003new} is somewhat related, but tries to tackle a harder problem.

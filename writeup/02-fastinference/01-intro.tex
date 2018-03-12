@@ -4,7 +4,7 @@
 
 Markov chains have been used in recent work to aggregate inconsistent outcomes of pairwise comparisons and (partial) rankings \citep{dwork2001rank, negahban2012iterative, azari2013generalized}.
 The idea is to build a Markov chain that is biased towards items that have won often, and to reduce the problem of ranking items to that of finding the \emph{stationary distribution} of the chain (the ranking is then induced by the items' stationary probabilities).
-In the following, we highlight a connection between the MLE of models based on Luce's choice axiom and the stationary distribution of a Markov chain parametrized by the observed choices.
+In this chapter, we highlight a connection between the MLE of models based on Luce's choice axiom and the stationary distribution of a Markov chain parametrized by the observed choices.
 By formalizing this link, we unify previous algorithms and explicate them from an ML inference perspective.
 Beyond this, the link suggests two new algorithms for parameter inference.
 First, we develop a simple, consistent and computationally efficient spectral algorithm that is applicable to a wide range of models derived from Luce's choice axiom.
@@ -12,7 +12,7 @@ The exact formulation of the Markov chain used in the algorithm is distinct from
 Second, we observe that with a small adjustment, the algorithm can be used iteratively, and it then converges to the MLE.
 An evaluation on five real-world datasets reveals that it runs consistently faster than competing approaches and has a more predictable performance that does not depend on the structure of the data.
 The key step, finding a stationary distribution, can be offloaded to commonly available linear-algebra primitives, which makes our algorithms  scale well.
-Our algorithms are intuitively pleasing, simple to understand and implement, and they outperform the state of the art, hence we believe that they are highly useful to practitioners.
+The method we propose is intuitively pleasing, simple to understand and implement, and it outperforms the state of the art, hence we believe that it is highly useful to practitioners.
 
 \paragraph{Outline of the Chapter}
 We begin by introducing some notations and presenting a few useful facts about the MLE and about Markov chains.
@@ -38,24 +38,24 @@ In order to ensure that the parameters are likelihood-identifiable, we assume wi
 Next, we introduce a new object.
 
 \begin{definition}[comparison graph]
-The \emph{comparison graph} $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ is a directed graph with $\mathcal{V} = [N]$ and $(j, i) \in \mathcal{E}$ if and only if $i$ wins at least once over $j$ in $\mathcal{D}$.
+The \emph{comparison graph} $\mathcal{G}_{\mathcal{D}} = (\mathcal{V}, \mathcal{E})$ is a directed graph with $\mathcal{V} = [N]$ and $(j, i) \in \mathcal{E}$ if and only if $i$ wins at least once over $j$ in $\mathcal{D}$.
 \end{definition}
 
-The existence and uniqueness of the MLE is completely determined by the connectivity of $\mathcal{G}$, as the following well-known theorem shows.
+The existence and uniqueness of the MLE is completely determined by the connectivity of $\mathcal{G}_{\mathcal{D}}$, as the following well-known theorem shows.
 
 \begin{theorem}[\citealp{zermelo1928berechnung, ford1957solution, hunter2004mm}]
 \label{fi:thm:mlboth}
-The likelihood function~\eqref{fi:eq:loglik} admits a unique maximizer $\bm{\gamma}^\star \in \mathbf{R}^N_{>0}$ such that $\sum_i \gamma^\star_i = 1$ if and only if $\mathcal{G}$ is strongly connected.
+The likelihood function~\eqref{fi:eq:loglik} admits a unique maximizer $\bm{\gamma}^\star \in \mathbf{R}^N_{>0}$ such that $\sum_i \gamma^\star_i = 1$ if and only if $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
 \end{theorem}
 
-Throughout this chapter, we will assume that $\mathcal{G}$ is strongly connected.
+Throughout this chapter, we will assume that $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
 In practice, if this assumption does not hold, we can consider each strongly-connected component separately.
 Finally, note that even though $\ell(\bm{\gamma})$ admits a unique maximizer, it is not concave.
 However, reparametrizing the model using $\theta_i \doteq \log \gamma_i$, the log-likelihood becomes
 \begin{align*}
 \ell(\bm{\theta}) = \sum_{m = 1}^M \bigg[ \theta_m - \log{\sum_{j \in \mathcal{A}_m} \exp \theta_j} \bigg],
 \end{align*}
-which is strictly concave in $\bm{\theta}$ (when $\mathcal{G}$ is strongly connected).
+which is strictly concave in $\bm{\theta}$ (when $\mathcal{G}_{\mathcal{D}}$ is strongly connected).
 Furthermore, for all $i \in [N]$,
 \begin{align*}
 \frac{\partial \ell}{\partial \gamma_i}
@@ -72,7 +72,7 @@ As the strictly concave function $\ell({\bm{\theta}})$ has a single stationary p
 We represent a finite, continuous-time Markov chain on $N$ states by a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, where $\mathcal{V} = [N]$ and $\mathcal{E}$ is the set of transitions with positive rate\footnote{%
 Our exposition of Markov chains is succinct, and the interested reader is encouraged to consult \citet{levin2008markov} for a more thorough exposition.}.
 If $\mathcal{G}$ is strongly connected, the Markov chain is said to be ergodic and admits a unique \emph{stationary distribution} $\bm{\pi} \in \mathbf{R}^N_{>0}$, $\sum_i \pi_i = 1$.
-The \emph{global balance equations} relate the transition rates $\lambda_{ij}$ to the stationary distribution as follows:
+The \emph{global balance equations} relate the transition rates $\{ \lambda_{ij} \}$ to the stationary distribution as follows:
 \begin{align}
 \label{fi:eq:balance}
 \sum_{j \ne i} \pi_i \lambda_{ij} = \sum_{j \ne i} \pi_j \lambda_{ji} \quad \forall i.
@@ -95,3 +95,5 @@ In this case, finding the steady-state distribution is equivalent to finding the
 This is also a well-studied linear algebra problem for which plenty of efficient, off-the-shelf algorithms exist.
 For example, power iteration methods can find the eigenvector in a few (sparse) matrix multiplications.
 Beyond these well-known algorithms, recently-proposed randomized approaches such as that of \citet{halko2011finding} make it possible to scale to very large problem sizes ($N \sim 10^6$ or more).
+
+Both the continuous-time and the discrete-time perspectives yield exactly the same resulting stationary distribution, and the algorithms presented in this paper are oblivious to this choice.

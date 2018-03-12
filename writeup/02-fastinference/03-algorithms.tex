@@ -4,7 +4,7 @@
 
 We begin by expressing the MLE under the choice model as the stationary distribution of a Markov chain.
 We then take advantage of this formulation to propose novel algorithms for model inference.
-Although our derivation is made in the general choice model, we will also discuss implications for the special cases of pairwise data in Section~\ref{fi:sec:pairwise}, $K$-way ranking data in Section~\ref{fi:sec:partial}, and pairwise comparisons with ties in Section~\ref{fi:sec:ties}.
+Although our derivation is made in the general choice model, we also discuss implications for the special cases of pairwise data in Section~\ref{fi:sec:pairwise}, $K$-way ranking data in Section~\ref{fi:sec:partial}, and pairwise comparisons with ties in Section~\ref{fi:sec:ties}.
 
 \subsection{MLE as a Stationary Distribution}
 
@@ -83,7 +83,7 @@ Algorithm~\ref{fi:alg:lsr} summarizes this procedure, called \emph{Luce Spectral
 If we consider a growing number of observations, LSR converges to the true model parameters $\bm{\gamma}'$, even in the restrictive case where the sets of alternatives are fixed.
 
 \begin{algorithm}[t]
-  \caption{Luce Spectral Ranking}
+  \caption{Luce Spectral Ranking.}
   \label{fi:alg:lsr}
   \begin{algorithmic}[1]
     \Require observations $\mathcal{D}$
@@ -107,7 +107,7 @@ Then $\bar{\bm{\gamma}} \to \bm{\gamma}'$ as $M_n \to \infty \ \forall n$.
 \begin{proof}
 Let $M \to \infty$ be a shorthand for $M_n \to \infty \ \forall n$.
 The condition on $\mathcal{U}$ is equivalent to stating that the hypergraph $H = (\mathcal{V}, \mathcal{U})$, with $\mathcal{V} = [N]$, is connected.
-It implies that, asymptotically, the comparison graph $\mathcal{G}$ is strongly connected.
+It implies that, asymptotically, the comparison graph $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
 Indeed, for a given set of alternatives $\mathcal{A}_n$, let $i, j \in \mathcal{A}_n$.
 The probability that $(j, i) \in \mathcal{E}$ is
 \begin{align*}
@@ -116,12 +116,12 @@ The probability that $(j, i) \in \mathcal{E}$ is
 \xrightarrow{M_n \to \infty} 1,
 \end{align*}
 where we use the fact that $\gamma'_i > 0$ for all $i$.
-Therefore, asymptotically, every alternative set $\mathcal{A}_n$ forms a clique in $\mathcal{G}$.
-By assumption of connectivity on the hypergraph $\mathcal{H}$, the comparison graph $\mathcal{G}$ is strongly connected.
+Therefore, asymptotically, every alternative set $\mathcal{A}_n$ forms a clique in $\mathcal{G}_{\mathcal{D}}$.
+By assumption of connectivity on the hypergraph $\mathcal{H}$, the comparison graph is strongly connected.
 
 Now that we know that the Markov chain is asymptotically ergodic, we will show that the stationary distribution matches the true model parameters.
 Let $c^n_m$ be a random variable denoting the item chosen in the $m$-th observation over alternatives $\mathcal{A}_n$, and let
-$\Indic{mathcal{X}}$ be the indicator variable for the event $\mathcal{X}$.
+$\Indic{\mathcal{X}}$ be the indicator variable for the event $\mathcal{X}$.
 By the law of large numbers, for any item $i \in \mathcal{A}_n$,
 \begin{align}
 \label{fi:eq:lln}
@@ -129,7 +129,7 @@ By the law of large numbers, for any item $i \in \mathcal{A}_n$,
 \end{align}
 Now consider two items $i$ and $j$.
 If they have never been compared, $\lambda_{ij} = \lambda_{ji} = 0$.
-Otherwise, suppose that they have been compared in alternative sets whose indices are in $\mathcal{B} = \{ n : i, j \in \mathcal{A}_n \}$
+Otherwise, suppose that they have been compared in alternative sets whose indices are in $\mathcal{B} = \{ n : i, j \in \mathcal{A}_n \}$.
 By construction of the transition rates in LSR, we have that
 \begin{align*}
 \frac{\lambda_{ij}}{\lambda_{ji}}
@@ -148,7 +148,7 @@ Therefore, when $M \to \infty$,
 \sum_{j \ne i} \gamma'_i \lambda_{ij} = \sum_{j \ne i} \gamma'_i \left( \frac{\gamma'_j}{\gamma'_i} \lambda_{ji} \right)
                                     = \sum_{j \ne i} \gamma'_j \lambda_{ji}  \quad \forall i.
 \end{align*}
-It is easy to recognize the global balance equations, and it follows that $\bm{\gamma}'$ is the stationary distribution of the asymptotical Markov chain.
+We recognize the global balance equations \eqref{fi:eq:balance}, and it follows that $\bm{\gamma}'$ is the stationary distribution of the asymptotical Markov chain.
 \end{proof}
 
 Starting from the LSR estimate, we can iteratively refine the transition rates of the Markov chain and obtain a sequence of estimates.
@@ -160,7 +160,7 @@ We call this procedure I-LSR and describe it in Algorithm~\ref{fi:alg:ilsr}.
 %This is in contrast to the MM algorithm \citep{hunter2004mm}, which is not consistent.
 
 \begin{algorithm}[t]
-  \caption{Iterative Luce Spectral Ranking}
+  \caption{Iterative Luce Spectral Ranking.}
   \label{fi:alg:ilsr}
   \begin{algorithmic}[1]
     \Require observations $\mathcal{D}$
@@ -196,10 +196,10 @@ In practice, whether $D$ or $S$ turns out to be dominant in the running time is 
 A widely-used special case of Luce's choice model occurs when all sets of alternatives contain exactly two items, i.e., when the data consists of pairwise comparisons.
 This model was proposed by \citet{zermelo1928berechnung}, and later by \citet{bradley1952rank}.
 As the stationary distribution is invariant to changes in the time-scale, we can rescale the transition rates and set $\lambda_{ji} \doteq |\mathcal{D}_{i \succ j}|$ when using LSR on pairwise data.
-Let $\mathcal{S}$ be the set containing the pairs of items that have been compared at least once.
-In the case where each pair $(i, j) \in \mathcal{S}$ has been compared exactly $C$ times, LSR is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
+Let $\mathcal{S}$ be the set containing the pairs of items that are compared at least once.
+In the case where each pair $(i, j) \in \mathcal{S}$ are compared exactly $C$ times, LSR is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
 In fact, our derivation justifies Rank Centrality as an approximate ML inference algorithm for the Bradley--Terry model.
-Furthermore, we provide a principled extension of Rank Centrality to the case where the number of comparisons observed is unbalanced.
+Furthermore, we provide a principled extension of Rank Centrality to the case where the number of observed comparisons is unbalanced.
 Rank Centrality considers transition rates proportional to the \emph{ratio} of wins, whereas \eqref{fi:eq:master} justifies making transition rates proportional to the \emph{count} of wins.
 
 \citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that it is minimax-optimal.
@@ -209,8 +209,8 @@ Because the two estimators are equivalent in the setting of balanced pairwise co
 \label{fi:sec:partial}
 
 Another case of interest is when observations do not consist of only a single choice, but of a ranking over the alternatives.
-We now suppose $M$ observations consisting of $K$-way rankings, $2 \le K \le N$.
-For conciseness, we suppose that $K$ is the same for all observations.
+We now suppose that we have a dataset of $M$ observations consisting of $K$-way rankings, $2 \le K \le N$.
+For conciseness and without loss of generality, we suppose that $K$ is the same for all observations.
 Let one such observation be $i(1) \succ \cdots \succ i(K)$, where $i(r)$ is the item with $r$-th rank.
 The Plackett--Luce model (c.f. Section~\ref{in:sec:choice}) posits
 \begin{align*}

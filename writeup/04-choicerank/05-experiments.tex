@@ -18,7 +18,7 @@ We evaluate the network choice model on three datasets that are representative o
 %The second dataset consists of the records of all trips made using New York City's bicycle-sharing service during the year 2015, i.e., mobility traces in a large city.
 Each dataset can be represented as a set of transition counts $\{ c_{ij} \}$ on a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$.
 We aggregate the transition counts into marginal traffic data $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ and fit a network choice model by using ChoiceRank (for simplicity, we set $w_{ij} \equiv 1$ for all datasets).
-We set $\alpha = 2.0$ and $\beta = 1.0$ (these small values simply guarantee the convergence of the algorithm) and declare convergence when $\Norm{\bm{\gamma}^{(t)} - \bm{\gamma}^{(t-1)}} / N < 10^{-8}$.
+We set $\alpha = 2.0$ and $\beta = 1.0$ (these small values simply guarantee the convergence of the algorithm for any network structure) and declare convergence when $\Norm{\bm{\gamma}^{(t)} - \bm{\gamma}^{(t-1)}} / N < 10^{-8}$.
 Given $\bm{\gamma}$, we estimate transition probabilities using $p_{ij} \propto \gamma_j$ as given by \eqref{cr:eq:singlelik}.
 To the best of our knowledge, there is no other published method tackling the problem of estimating transition probabilities from marginal traffic data.
 Therefore, we compare our method to three baselines based on simple heuristics.
@@ -56,7 +56,7 @@ We also consider a second clickstream dataset from a Hungarian online news porta
 The data consists of $\num{7029013}$ transitions on a graph containing $N = 41001$ nodes and $M = \num{974560}$ edges.
 ChoiceRank converges after \num{625} iterations.
 
-The four leftmost plots of Figure~\ref{cr:fig:perf-combined} show the error distributions.
+The four topmost plots of Figure~\ref{cr:fig:perf-combined} show the error distributions.
 ChoiceRank significantly improves on the baselines, both in terms of KL-divergence and rank displacement.
 These results give compelling evidence that transitions do not occur proportionally with the target's page traffic: in terms of KL-divergence, ChoiceRank improves on Traffic by a factor $3\times$ and $2\times$, respectively.
 PageRank scores, while reflecting some notion of importance of a page, are not designed to estimate transitions, and understandably the corresponding baseline performs poorly.
@@ -96,7 +96,7 @@ The resulting data consists of \num{3.4} million rides on a graph containing $N 
 ChoiceRank converges after $\num{7508}$ iterations.
 We compute the error distribution in the same way as for the clickstream datasets.
 
-The two rightmost plots of Figure~\ref{cr:fig:perf-combined} display the results.
+The two bottommost plots of Figure~\ref{cr:fig:perf-combined} display the results.
 The observations made on the clickstream datasets carry over to this mobility dataset, albeit to a lesser degree.
 A significant difference between clicking a link and taking a bicycle trip is that in the latter case, there is a non-uniform ``cost'' of a transition due to the distance between source and target.
 In future work, one might consider experimenting with edge weights $\{ w_{ij} \}$ that capture this.
@@ -131,4 +131,4 @@ It is worth noting that despite tackling different problems, the ChoiceRank algo
 For comparison, using the COST code \citep{mcsherry2015scalability} we run \num{20} iterations of PageRank on the same hardware and data.
 PageRank uses slightly less memory (about \num{50} GB, or one less floating-point number per node) and takes about half of the time per iteration (a little over \num{20} minutes).
 This is consistent with the fact that ChoiceRank requires two passes over the edges per iteration, whereas PageRank requires one.
-The similarities between the two algorithms lead us to believe that in general, ChoiceRank can benefit from any new system optimizations developed for PageRank.
+The similarities between the two algorithms lead us to believe that ChoiceRank can benefit from any new system optimization developed for PageRank.

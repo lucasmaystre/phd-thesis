@@ -76,7 +76,7 @@ Unlike the maximization of the log-posterior, the surrogate optimization problem
     \quad \text{where }
     \mu_j^{(t)} = \frac{c^+_j}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma_k^{(t)}}.
 \end{align}
-The iterates provably converge to the maximizer of the log-posterior~\eqref{cr:eq:logpost}, as shown by the following theorem.
+The sequence of iterates provably converges to the maximizer of the log-posterior~\eqref{cr:eq:logpost}, as shown by the following theorem.
 
 \begin{theorem}
 \label{cr:thm:mmconv}
@@ -109,7 +109,7 @@ Furthermore, the algorithm can be conveniently expressed in the well-known verte
 This makes it easy to implement ChoiceRank inside scalable, optimized graph-processing systems such as Apache Spark \citep{gonzalez2014graphx}.
 
 \begin{algorithm}
-  \caption{ChoiceRank}
+  \caption{ChoiceRank.}
   \label{cr:alg:choicerank}
   \begin{algorithmic}[1]
     \Require graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, counts $\{ (c^-_i, c^+_i) \}$, edge weights $\{ w_{ij} \}$

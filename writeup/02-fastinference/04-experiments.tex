@@ -38,7 +38,7 @@ Figure~\ref{fi:fig:efficiency} plots $E_{\text{RMS}}$ for increasing sizes of pa
 We observe that breaking the rankings into pairwise comparisons (*-F estimators) incurs a significant efficiency loss over using the $K$-way rankings directly (LSR and ML).
 We conclude that by correctly weighting pairwise rates in the Markov chain, LSR distinctly outperforms the rank-breaking approach as $K$ increases.
 We also observe that the MLE is always more efficient.
-Spectral estimators such as LSR provide a quick, asymptotically consistent estimate of parameters, but this observation justifies calling them \emph{approximate} inference algorithms.
+Spectral estimators such as LSR provide a computationally inexpensive, asymptotically consistent estimate of parameters, but this observation justifies calling them \emph{approximate} inference algorithms.
 
 
 \begin{figure}
@@ -66,19 +66,19 @@ datasets contain pairwise comparisons.
 Among those, the chess dataset is particular in that it features 45\% of ties;
 in this case we use the model proposed by \citet{rao1967ties}.
 We preprocess each dataset by discarding items that are not part of the largest strongly connected component in the comparison graph, in order to ensure that the MLE is well-defined.
-For each dataset, the number of items $N$, the number of rankings $M$, as well as the size $K$ of a partial ranking are given in Table~\ref{fi:tab:approxalg}.
+For each  dataset, the number of items $N$, the number of rankings $M$, as well as the size $K$ of a partial ranking after preprocessing are given in Table~\ref{fi:tab:approxalg}.
 
 \paragraph{Experimental Procedure}
-All experiments were run on a machine with a quad-core 2.0 GHz Haswell processor and 16 GB of RAM, running Mac OS X 10.9.
+All experiments are run on a machine with a quad-core 2.0 GHz Haswell processor and 16 GB of RAM, running Mac OS X 10.9.
 For LSR and I-LSR, we use a slightly adapted version the Python code presented in Listing~\ref{fi:lst:implementation}, which calls a dense LU factorization routine.
-We implemented the Rank Centrality (RC), GMM-F and MM \citep{hunter2004mm} algorithms in Python as well.
-For the Newton-Raphson algorithm, we implemented the choice model on top of the popular \texttt{statsmodels} Python library\footnote{%
+We implement the Rank Centrality (RC), GMM-F and MM \citep{hunter2004mm} algorithms in Python as well.
+For the Newton-Raphson algorithm, we implement the choice model on top of the popular \texttt{statsmodels} Python library\footnote{%
 See: \url{http://statsmodels.sourceforge.net/}
 } that provides a Newton-Raphson solver.
 We have compared our implementation of the MM algorithm to that of \citeauthor{hunter2004mm} written in Matlab\footnote{%
 See: \url{http://sites.stat.psu.edu/~dhunter/code/btmatlab/}
 }, and observed that ours has comparable running time.
-For the chess dataset, we use the Rao--Kupper model with $\alpha = \sqrt{2}$.
+For the chess dataset, we use the Rao--Kupper model with $\alpha = \sqrt{2}$ for simplicity.
 Note that this parameter could also be estimated from the data, however in our experiments we focus on the performance of algorithms for estimating $\bm{\gamma}$.
 
 \begin{lstlisting}[
@@ -116,7 +116,7 @@ In Table~\ref{fi:tab:approxalg}, we report the root-mean-square deviation to the
 
 \sisetup{group-minimum-digits=4,detect-weight=true}
 \begin{table}[ht]
-  \caption{Performance of approximate ML inference algorithms}
+  \caption{Performance of approximate ML inference algorithms.}
   \label{fi:tab:approxalg}
   \centering
   \small{
@@ -185,9 +185,9 @@ For the YouTube dataset, I-LSR yields an increase in speed of over $50$ times.
 
 The slow convergence of minorization-maximization algorithms is known \citep{hunter2004mm}, yet the scale of the issue and its apparent unpredictability is surprising.
 In Hunter's MM algorithm, updating a given $\gamma_i$ involves only parameters of items to which $i$ has been compared.
-Therefore, we speculate that the convergence rate of MM is dependent on the expansion properties of the comparison graph $\mathcal{G}$.
+Therefore, we speculate that the convergence rate of MM is dependent on the expansion properties of the comparison graph $\mathcal{G}_{\mathcal{D}}$.
 As an illustration, we consider the sushi dataset.
-To quantify the expansion properties, we look at the spectral gap $\xi$ of a simple random walk on $\mathcal{G}$;
+To quantify the expansion properties, we look at the spectral gap $\xi$ of a simple random walk on $\mathcal{G}_{\mathcal{D}}$;
 intuitively, the larger the spectral gap is, the better the expansion properties are \citep{levin2008markov}.
 The original comparison graph is almost complete, and $\xi = 0.899$.
 By breaking each \num{10}-way ranking into \num{5} independent pairwise comparisons, we effectively sparsify the comparison graph.

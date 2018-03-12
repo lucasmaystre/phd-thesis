@@ -15,7 +15,7 @@ In particular, we show that it is comparable to existing AL strategies at a minu
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Competing Sampling Strategies}
 
-To assess the relative merits of our sorting-based strategy, we consider three strategies that we believe are representative of the state of the art in active preference learning.
+To assess the relative merits of our sorting-based strategy, we consider three strategies that are representative of the state of the art in active preference learning.
 
 \paragraph{Uncertainty Sampling}
 Developed in the context of classification tasks, this popular active-learning heuristic suggests to greedily sample the point that lies closest to the decision boundary \citep{settles2012active}.
@@ -29,7 +29,7 @@ The parameters themselves need to be estimated, e.g., using (penalized) ML infer
 
 \paragraph{Bayesian Methods}
 If we have access to a full posterior distribution $q^t(\bm{\theta})$ instead of a point estimate $\bm{\theta}^t$, we can take advantage of the extra information on the uncertainty of the parameters to improve the selection strategy.
-A principled approach to AL consists of sampling the point that maximizes the expected information gain \citep{mackay1992bayesian}.
+A principled approach to AL consists of sampling the point that maximizes the expected information gain \citep{mackay1992bayesian, chu2005extensions}.
 That is, the pair of items at iteration $t+1$ is selected in
 \begin{align}
 \label{rs:eq:entreduc}
@@ -55,7 +55,7 @@ In the noiseless setting, Mergesort is known to use on average $\approx \num{39}
 \subsection{Running Time}
 
 In this section, we briefly discuss the running time of the methods.
-We implement ML and Bayesian approximate inference algorithms for the BT model as a Python library\footnote{See: \url{http://lucas.maystre.ch/choix}.}.
+We implement ML and Bayesian approximate inference algorithms for the BT model as a Python library (see Appendix~\ref{ch:choix}).
 For approximate Bayesian inference, we use a variant of the expectation-propagation algorithm outlined by \citet{chu2005extensions}.
 All experiments are performed on a server with a \num{12}-core Xeon X5670 processor running at \num{2.93}~GHz.
 Numerical computations take advantage of the Intel Math Kernel Library.
@@ -72,23 +72,23 @@ In fact, their running time is negligible in comparison to the other strategies,
 \begin{table}[t]
   \caption{
 Time (in seconds) to select the $(N\!+\!1)$-st pair.
-Values indicated by $\varepsilon$ are below $10^{-5}$.
 See text for details.
 }
   \label{rs:tab:runningtime}
   \centering
-  \begin{tabular}{l ccc}
+  \sisetup{table-format = <2.3}
+  \begin{tabular}{l SSS}
     \toprule
                   & \multicolumn{3}{c}{$T$ [s]} \\
                     \cmidrule(l){2-4}
-    Strategy      & $N = 10^2$      & $N = 10^3$       & $N = 10^4$ \\
+    Strategy      & {$N = 10^2$} & {$N = 10^3$} & {$N = 10^4$} \\
     \midrule
-    uncertainty   & \num{0.05}      & \num{0.5}        & \num{11}      \\
-    entropy       & \num{0.3}       & \num{40}         & ---           \\
-    KL-divergence & \num{0.9}       & \num{71}         & ---           \\
-    Mergesort     & $\varepsilon$   & $\varepsilon$    & $\varepsilon$ \\
-    Quicksort     & $\varepsilon$   & $\varepsilon$    & $\varepsilon$ \\
-    random        & $\varepsilon$   & $\varepsilon$    & $\varepsilon$ \\
+    uncertainty   &        0.05  &        0.5   &       11     \\
+    entropy       &        0.3   &       40     &       {---}  \\
+    KL-divergence &        0.9   &       71     &       {---}  \\
+    Mergesort     &      < 0.001 &      < 0.001 &      < 0.001 \\
+    Quicksort     &      < 0.001 &      < 0.001 &      < 0.001 \\
+    random        &      < 0.001 &      < 0.001 &      < 0.001 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -99,13 +99,14 @@ See text for details.
 
 We now investigate three datasets and measure the displacement of rankings estimated from adaptively-chosen samples, as a function of the budget $M$.
 Note that in order to use uncertainty sampling and Bayesian methods, it is necessary to choose a regularization strength or prior variance in the inference step.
-Different values can result in drastically different outcomes (in particular for uncertainty sampling) and, in practice, choosing a good value can be a significant challenge\footnote{Observe that our sorting-based approach is entirely parameter-free and is therefore not affected by this issue.}.
+Different values can result in drastically different outcomes (in particular for uncertainty sampling) and, in practice, choosing a good value can be a significant challenge.
 In the following, we report results for the values that worked best \emph{a posteriori}.
+Observe that, in contrast, our sorting-based approach is entirely parameter-free.
 
 
 \paragraph{Synthetic Dataset}
 
-We generate $N$ i.i.d. parameters $\theta_1, \ldots, \theta_n$ uniformly in $[0, (N\!+\!1) / \lambda]$ and draw samples from $\BT(\bm{\theta})$.
+We generate $N$ i.i.d. parameters $\theta_1, \ldots, \theta_N$ uniformly in $[0, (N\!+\!1) / \lambda]$ and draw samples from $\BT(\bm{\theta})$.
 The ground-truth ranking is the one induced by the parameters.
 Figure~\ref{rs:fig:synthetic} presents results for $N = \num{200}$ and $\lambda = \num{5}$.
 In comparison to random sampling, AL is very effective and results in significantly better ranking estimates for any given number of comparisons.
@@ -131,10 +132,9 @@ Compared to random sampling, AL results in significantly better rankings for a g
 \centering
 \includegraphics{rs-sushi}
 \caption{
-Results on two real-world datasets.
+Experimental results on the sushi dataset.
 Every experiment is repeated \num{10} times, and we report the mean and the standard deviation.
-Left: on the sushi dataset, sorting-based and Bayesian AL strategies have near-identical performance starting from $M \approx \num{1000}$.
-Right: on the GIFGIF dataset, most AL strategies are computationally too expensive---except for sorting-based methods.
+Sorting-based and Bayesian AL strategies have near-identical performance starting from $M \approx \num{1000}$.
 }
 \label{rs:fig:sushi}
 \end{figure}
@@ -166,10 +166,9 @@ A detailed analysis reveals that uncertainty sampling increasingly focuses on a 
 \centering
 \includegraphics{rs-gifgif}
 \caption{
-Results on two real-world datasets.
+Experimental results on the GIFGIF dataset.
 Every experiment is repeated \num{10} times, and we report the mean and the standard deviation.
-Left: on the sushi dataset, sorting-based and Bayesian AL strategies have near-identical performance starting from $M \approx \num{1000}$.
-Right: on the GIFGIF dataset, most AL strategies are computationally too expensive---except for sorting-based methods.
+Most AL strategies are computationally too expensive---except for sorting-based methods.
 }
 \label{rs:fig:gifgif}
 \end{figure}

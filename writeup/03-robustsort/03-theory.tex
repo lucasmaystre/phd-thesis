@@ -7,7 +7,7 @@ Then, starting in Section~\ref{rs:sec:poisson}, we focus on comparison outcomes 
 For clarity, longer proofs are deferred to Section~\ref{rs:sec:proofs}.
 
 \begin{algorithm}[t]
-   \caption{Quicksort}
+   \caption{Quicksort.}
    \label{rs:alg:quicksort}
 \begin{algorithmic}[1]
    \Require set of items $\mathcal{V} \subseteq [N]$
@@ -59,7 +59,7 @@ We follow a standard analysis of Quicksort \citep[see, e.g.,][Section 3.3.3]{dub
 With high probability, we choose a ``good'' pivot (i.e., one that results in a balanced partition) a constant fraction of the time.
 In this case, the depth of the call tree is \BigO{\log N}.
 As there are at most $N$ comparisons at each level of the call tree, we conclude that Quicksort uses \BigO{N \log N} comparisons in total.
-With respect to the standard proof, we need some additional work to formalize the notion of ``good'' pivot to the setting where comparison outcomes are not consistent with a linear order.
+With respect to the standard proof, ours requires additional work to formalize the notion of ``good'' pivot to the setting where comparison outcomes are not consistent with a linear order.
 \end{proof}
 
 Lemma~\ref{rs:lem:samplecomp} complements Theorem~$3$ in \citet{ailon2010preference}, which states that Quicksort samples \BigO{N \log N} in expectation.
@@ -73,8 +73,8 @@ For this purpose, the next Lemma bounds the displacement of Quicksort's output a
 
 \begin{lemma}
 \label{rs:lem:dispbound}
-Let $\mathcal{E}$ be the set of pairs sampled by Quicksort and whose outcome is inconsistent with \Id.
-Let $\sigma$ be the output.
+Let $\mathcal{E}$ be the set of pairs sampled by Quicksort whose outcome is inconsistent with \Id.
+Let $\sigma$ be the output of Quicksort.
 Then,
 \begin{align*}
 \Disp{\sigma} \le 2 \sum_{\mathclap{(i, j) \in \mathcal{E}}}\; \Abs{i - j}
@@ -119,7 +119,7 @@ The average distance between two items separated by $k$ positions in the orderin
 %More generally, the distance \Abs{\theta_{k+i} - \theta_i} has distribution $\DGamma{k, \lambda}$.
 Although the distance between adjacent items is constant in expectation, we allow some parameters to be arbitrarily close\footnote{
 In particular, the expected minimum distance between two items (i.e., the $\min$ of $N$ exponential r.v.s) decreases as $(N\lambda)^{-1}$ as $N$ increases.}.
-The parameter $\lambda$ controls the expected level of noise; a large $\lambda$ is likely to result in a larger number of inconsistent outcomes.
+The parameter $\lambda$ indirectly controls the expected level of noise; a large $\lambda$ is likely to result in a larger number of inconsistent outcomes.
 Although the precise choice of this Poisson model is driven by tractability concerns, in Section~\ref{rs:sec:iidunif} we argue that it is essentially equivalent to choosing the parameters independently and uniformly at random in the interval $[0, (N+1) / \lambda]$, when $\lambda$ is fixed and $N$ is large.
 We are now ready to state our main result.
 
@@ -180,7 +180,7 @@ with high probability.
 \end{proposition}
 
 \begin{proof}
-The distance between the two closest items is $d_{\min} = \min_i \Abs{\theta_{i+i} - \theta{i}} = \min_n x_n$, i.e., the minimum of $N-1$ independent exponential random variables of rate $\lambda$.
+The distance between the two closest items is $d_{\min} = \min_i \Abs{\theta_{i+1} - \theta_{i}} = \min_n x_n$, i.e., the minimum of $N-1$ independent exponential random variables of rate $\lambda$.
 Therefore, $d_{\min} \sim \DExp{(N-1)\lambda}$, and for $N \ge 2$ with probability at least $1 - e^{-1/2} \approx 0.39$ we have $d_{\min} \le (\lambda N)^{-1}$.
 Let $z_k$ be the indicator random variable for the event ``the outcome of the $k$-th comparison is incorrect''.
 Assuming that $d_{\min} \le (\lambda N)^{-1}$ and that $\lambda N \ge 1/2$,
@@ -204,7 +204,7 @@ As $\Prob{e_{ij}} = 1 - \Prob{\sum_{k = 1}^K z_k \le K/2}$, it follows that, if 
 As finding the \emph{exact} ranking appears to be difficult, we will instead focus on finding a ranking that matches the ground truth everywhere, except at a vanishing fraction of the items.
 
 \begin{algorithm}[t]
-   \caption{Multisort}
+   \caption{Multisort.}
    \label{rs:alg:multisort}
 \begin{algorithmic}[1]
    \Require set of items $\mathcal{V} \subseteq [N]$, number of iterations $K$
@@ -248,11 +248,11 @@ with high probability.
 \end{proof}
 
 Theorem~\ref{rs:thm:multidisp} states that all but a vanishing fraction of items are correctly ranked using \BigO{\lambda^2 N \log^6 N} comparisons.
-This result should be compared to the \BigOmega{N^2} comparisons needed if samples are selected uniformly at random.
+This result should be compared to that of \citet{rajkumar2014statistical} obtained in the passive setting, which suggests that \BigOmega{N^2} comparisons are needed if samples are selected uniformly at random.
 
 \paragraph{Empirical Validation}
 
-In Figure~\ref{rs:fig:bounds}, we illustrate the results of Theorems~\ref{rs:thm:quickdisp} and~\ref{rs:thm:multidisp} by running simulations for increasing $N$ and different values of $\lambda$.
+In Figure~\ref{rs:fig:bounds}, we illustrate Theorems~\ref{rs:thm:quickdisp} and~\ref{rs:thm:multidisp} by running simulations for increasing $N$ and different values of $\lambda$.
 The bound on \Disp{\sigma} is tight in $N$, but the dependence on $\lambda$ appears to be linear rather than quadratic.
 The bound on $\max_i \Abs{\sigma(i) - i}$ appears to be tight in $N$ and $\lambda$.
 Finally, we compare the Copeland aggregation of $K$ outputs of Quicksort with the ranking induced by the maximum-likelihood estimate (MLE), inferred from the outcomes of all the pairwise comparisons sampled by the $K$ runs.
@@ -286,10 +286,10 @@ From some elementary results on the joint distribution of order statistics \cite
 \begin{align*}
 \Abs{\theta_{i+k} - \theta_{i}} \sim (N+1) / \lambda \cdot \DBeta{k, N - k + 1},
 \end{align*}
-i.e., a Beta random variable rescaled between $0$ and $(N+1) / \lambda$.
+i.e., $\Abs{\theta_{i+k} - \theta_{i}}$ is distributed as a Beta random variable rescaled between $0$ and $(N+1) / \lambda$.
 Letting $f_{k,N}(x)$ be the probability density of $\Abs{\theta_{i+k} - \theta_{i}}$, we have, for any fixed $k$ and $\lambda$,
 \begin{align*}
 f_{k,N}(x) \propto x^{k-1} \left[ 1 - \frac{\lambda x}{N + 1} \right]^{N - k} \xrightarrow{N \to \infty} x^{k-1} e^{-\lambda x}.
 \end{align*}
 We recognize the functional form of the density of a \DGamma{k, \lambda} distribution.
-Hence, the Poisson model and the i.i.d. uniform model are essentially equivalent for fixed $\lambda$ and large $N$, and we can expect the results developed in Section~\ref{rs:sec:poisson} to hold under this distribution as well.
+Hence, the Poisson model and the i.i.d. uniform model are essentially equivalent for fixed $\lambda$ and large $N$, and we can expect the results developed in Section~\ref{rs:sec:poisson} to hold in the i.i.d. uniform case as well.
