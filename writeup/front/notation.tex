@@ -4,7 +4,9 @@
 \addcontentsline{toc}{chapter}{Mathematical Notation} % adds an entry to the table of contents
 
 \begingroup
+\setlength{\parindent}{0cm}
 \renewcommand*{\arraystretch}{1.5}
+
 \begin{tabularx}{\linewidth}{lX}
   Symbol        & Description \\
   \midrule
@@ -43,10 +45,7 @@
   $\LittleOmega{f(x)}$
     & $g(x) = \LittleOmega{f(x)} \iff f(x) = \LittleO{g(x)}$. \\
 \end{tabularx}
-\endgroup
 
-\begingroup
-\renewcommand*{\arraystretch}{1.5}
 \begin{tabularx}{\linewidth}{llX}
   Distribution & Domain & Density function $f(x)$ \\
   \midrule
@@ -75,4 +74,5 @@
     & $\mathbf{R}$
     & $\displaystyle \frac{1}{\beta} \exp \{ - [z + \exp(-z)]\}$, where $\displaystyle z = \frac{x - \mu}{\beta}$ \\
 \end{tabularx}
+
 \endgroup
