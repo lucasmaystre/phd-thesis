@@ -52,8 +52,8 @@ The graph contains $N = \num{2316032}$ nodes and $M = \num{13181698}$ edges, and
 On this dataset, ChoiceRank converges after \num{795} iterations.
 
 \paragraph{Kosarak}
-We also consider a second clickstream dataset from a Hungarian online news portal\footnote{The data is publicly available at \url{http://fimi.ua.ac.be/data/}.}.
-The data consists of $\num{7029013}$ transitions on a graph containing $N = 41001$ nodes and $M = \num{974560}$ edges.
+We also consider a second clickstream dataset from a Hungarian online news portal\footnote{The data are publicly available at \url{http://fimi.ua.ac.be/data/}.}.
+The data consist of $\num{7029013}$ transitions on a graph containing $N = 41001$ nodes and $M = \num{974560}$ edges.
 ChoiceRank converges after \num{625} iterations.
 
 The four topmost plots of Figure~\ref{cr:fig:perf-combined} show the error distributions.
@@ -88,11 +88,10 @@ ChoiceRank performs comparatively better in the case where a node's out-degree i
 \subsubsection{NYC Bicycle-Sharing Data}
 
 Next, we consider trip data from Citi Bike, New York City's bicycle-sharing system\footnote{The data is available at \url{https://www.citibikenyc.com/system-data}.}.
-%Markov models have been used with success in the context of mobility prediction \citep{ashbrook2003using, kafsi2015traveling}. TODO
 For each ride on the system made during the year 2015, we extract the pick-up and drop-off stations and the duration of the ride.
 Because we want to focus on direct trips, we exclude rides that last more than one hour.
 We also exclude source-destinations pairs which have less than 1 ride per day on average (a majority of source-destination pairs appears at least once in the dataset).
-The resulting data consists of \num{3.4} million rides on a graph containing $N = \num{497}$ nodes and $M = \num{5209}$ edges.
+The resulting data consist of \num{3.4} million rides on a graph containing $N = \num{497}$ nodes and $M = \num{5209}$ edges.
 ChoiceRank converges after $\num{7508}$ iterations.
 We compute the error distribution in the same way as for the clickstream datasets.
 
@@ -114,7 +113,7 @@ For this reason, our implementation preprocesses the list of edges and reorders 
 This results in better cache locality and yields a significant speedup.
 
 We test our implementation on a hyperlink graph extracted from the 2012 Common Crawl Web corpus\footnote{
-The data is available at \url{http://webdatacommons.org/hyperlinkgraph/}.} that contains over \num{3.5} billion nodes and \num{128} billion edges \citep{meusel2014graph}.
+The data are available at \url{http://webdatacommons.org/hyperlinkgraph/}.} that contains over \num{3.5} billion nodes and \num{128} billion edges \citep{meusel2014graph}.
 The edge list alone requires about $1$ TB of uncompressed storage.
 There is no publicly available information on the traffic at each page, therefore we generate a value $c_i$ for every node $i$ randomly and uniformly between \num{100} and \num{500}, and set both $c^-_i$ and $c^+_i$ to $c_i$.
 As such, this experiment does not attempt to measure the validity of the model (unlike the experiments of Section~\ref{cr:sec:accuracy}).

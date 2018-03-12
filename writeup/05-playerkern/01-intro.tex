@@ -1,11 +1,6 @@
 \section{Introduction}
 \label{pk:sec:intro}
 
-% Outline:
-% - general intro statistical models of game outcomes
-% - summarize our approach: skill-based, player kernel, bayesian
-% - outline the paper
-
 Statistical models of game outcomes have a rich and diverse history, beginning with Zermelo almost a century ago (c.f. Section~\ref{in:sec:btmodel}).
 In this chapter, we revisit his ideas and highlight their connections to modern machine-learning techniques.
 In particular, we show how the Bradley--Terry model can be cast as a Gaussian-process classification model.
@@ -22,7 +17,7 @@ We identify two key challenges,
 \end{enuminline}
 Taking inspiration from the observation that national teams' players frequently face each other in competitions between clubs (see Figure~\ref{pk:fig:sankey}), we show that these two difficulties can be addressed by the introduction of a \emph{player kernel}.
 This kernel relates any two matches through the players lined up on the field, and makes it possible to seamlessly use matches between clubs to improve a predictive model ultimately used for matches between national teams.
-This is beneficial because, in contrast to national teams, clubs play much more frequently, hence more data is available to train the model.
+This is beneficial because, in contrast to national teams, clubs play much more frequently, hence more data are available to train the model.
 This also implicitly addresses the staleness problem, as a team is defined by the set of players present at a given match.
 
 \begin{figure}

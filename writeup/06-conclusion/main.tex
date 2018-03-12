@@ -48,12 +48,12 @@ Preliminary work shows that the algorithms developed in Chapter~\ref{ch:fastinfe
 For example, we might prefer to listen to a different type of music depending on whether we are spending a quiet moment or doing sports, or whether it is summer or Christmas time, etc.
 In cases where the context is explicit, we fall back to the problem of integrating side information.
 However, if the context is not explicitly observed, the problem becomes more difficult.
-We make a step towards adressing this problem in \citet{ko2016collaborative}, where we study a setting in which we observe sequences of choices.
+We make a step towards addressing this problem in \citet{ko2016collaborative}, where we study a setting in which we observe sequences of choices.
 We propose a model where the context at time $t$ is encoded by previous choices made by a user in $(-\infty, t)$, and where the effective utility $\theta_i^{(t)}$ of item $i$ at time $t$ varies accordingly.
 In general, integrating latent context into choice models remains an interesting avenue for future research.
 
 \item[Personalization] In applications using recommender systems, the task is often to learn a \emph{distinct} preference profile for each user.
-As an example, online service providers use these systems in order to taylor their service to the specific tastes of a user.
+As an example, online service providers use these systems in order to tailor their service to the specific tastes of a user.
 An obvious but inefficient way to achieve personalization is to learn a distinct choice model for every user.
 As many users share similar preferences, it is sensible to take advantage of similar users' choices to learn a given user's preferences.
 One approach is to postulate that there are a small number of (global) instances of Luce's model, and that individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2015ranked}.

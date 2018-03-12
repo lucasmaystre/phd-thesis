@@ -14,17 +14,17 @@ We do so by casting the inference problem as that of finding the stationary dist
 Finding the stationary distribution of a Markov chain is a well-studied problem, and fast solvers are commonly available.
 We first show how the Markov chain can be derived from the likelihood function, a key insight that enables the generalization of \citeauthor{negahban2012iterative}'s ideas to other models based on Luce's choice axiom.
 The first algorithm, LSR, finds a \emph{spectral} estimate of model parameters by solving a homogeneous Markov chain: it is computationally very efficient and the estimate turns out to be more accurate than those obtained using competing methods with a similar running time.
-The second algorithm, I-LSR, finds the maximum-likielihood estimate (MLE) by solving a non-homogeneous Markov chain.
-The MLE is statisticially more efficient than the spectral estimate but is also computationally more expensive.
+The second algorithm, I-LSR, finds the maximum-likelihood estimate (MLE) by solving a non-homogeneous Markov chain.
+The MLE is statistically more efficient than the spectral estimate but is also computationally more expensive.
 Even then, I-LSR turns out to be significantly faster than other commonly used algorithms for finding the MLE.
 
 In Chapter~\ref{ch:robustsort}, we shift our attention to the task of ``intelligently'' collecting pairwise comparison outcomes, based on the observed outcomes of previous comparisons.
 Supposing that we can adaptively choose which pair of items to query at every point in time, we seek to maximize the information obtained about the model (in particular, about the ranking of the $N$ items) in addition to minimizing the number of queries.
 In the machine-learning literature, this is known as the \emph{active-learning} problem \citep{settles2012active}.
-We start by analyzing QuickSort \citep{hoare1962quicksort}, a popular sorting algorithm that computes a ranking when comparisons are always consistent with the true order.
-Under natural assumptions on the distribution of Bradley--Terry model parameters (that characterize the difficulty of rankings), we show that QuickSort is remarkably resilient to inconsistent comparison outcomes.
+We start by analyzing Quicksort \citep{hoare1962quicksort}, a popular sorting algorithm that computes a ranking when comparisons are always consistent with the true order.
+Under natural assumptions on the distribution of Bradley--Terry model parameters (that characterize the difficulty of rankings), we show that Quicksort is remarkably resilient to inconsistent comparison outcomes.
 This leads to a practical and data-efficient sampling strategy that repeatedly runs a sorting algorithm until a given comparison budget is exhausted.
-With respect to competing active-learning strategies, our method achieves similar data-efficency but is significantly less computationally expensive.
+With respect to competing active-learning strategies, our method achieves similar data-efficiency but is significantly less computationally expensive.
 
 In Chapter~\ref{ch:choicerank} we consider a setting in which choices happen in a network, inspired by the work of \citet{kumar2015inverting}.
 We want to understand how users navigate in a network (e.g., which links they click on the Web), assuming that we have access to the aggregate traffic at each node in the network but not to the individual choices (i.e., the actual transitions).
@@ -34,7 +34,7 @@ Next, we develop an inference algorithm that
 \item is robust to various ill-posed scenarios and
 \item can be implemented efficiently.
 \end{enuminline}
-For example, the algorithm sucessfully scales to a snapshot of the WWW hyperlink graph containing billions of nodes.
+For example, the algorithm successfully scales to a snapshot of the WWW hyperlink graph containing billions of nodes.
 Finally, using real-world clickstream data, we demonstrate that our method is able to estimate transition probabilities well, despite the strong assumptions implied by Luce's axiom.
 
 Lastly, in Chapter~\ref{ch:playerkern}, we leave the realm of human opinions and switch over to an application in sports.

@@ -93,9 +93,10 @@ Note that the parameters $\bm{\gamma}$ are identifiable only up to a multiplicat
 for this reason, it is often assumed that $\sum_i \gamma_i = 1$.
 Zermelo suggested finding the parameters $\bm{\gamma}$ by maximizing their likelihood given the observed data, an idea that was very advanced at the time.
 He formulated a necessary and sufficient condition\footnote{%
-The maximum-likelihood estimate exists if and only if there is no way to partition all players into two disjoint non-empty subsets $A, B \subset [N]$, such that there is no player in $A$ that has won a match against a player in $B$.}
+The maximum-likelihood estimate exists if and only if there is no way to partition all players into two disjoint non-empty subsets $A, B \subset [N]$, such that there is no player in $A$ that has won a match against a player in $B$.
+See also Theorem~\ref{fi:thm:mlboth}.}
 for the existence of a unique maximum-likelihood estimate, developed an iterative algorithm\footnote{%
-Interestingly, the same algorithm was later rediscovered multiple times in different contexts \citep{bradley1952rank, ford1957solution, dykstra1960rank, hunter2004mm, caron2012efficient}.}
+Interestingly, the same algorithm was later rediscovered multiple times in different contexts \citep{bradley1952rank, ford1957solution, dykstra1960rank, hastie1998classification, hunter2004mm, caron2012efficient}.}
 to find it and proved the algorithm's convergence.
 Overall, his treatment of the model is very thorough and complete; unfortunately it appears to have been largely ignored for about 50 years \citep{david1988method}.
 See \citet{glickman2013introductory} for a compelling introduction to Zermelo's paper.
@@ -193,7 +194,7 @@ which concludes the proof.
 Independence of irrelevant alternatives is a powerful property, as it leads to a choice model that represents \emph{combinatorially} many choice probabilities by using only $N$ parameters.
 This makes tractable the problem of learning the choice probabilities from a possibly small number of observations, but it inevitably restricts the expressivity of the model.
 In cases where some alternatives are very similar, IIA can turn out to be unrealistic, as shown by \citet{debreu1960review} in a simple example.
-In the context of modern applications with a large number of items, which is the focus of this thesis, we believe that this tradeoff is acceptable (and perhaps even necessary).
+In the context of modern applications with a large number of items, which is the focus of this thesis, we believe that this trade-off is acceptable (and perhaps even necessary).
 
 \paragraph{Extension to Rankings}
 Numerous extensions of Luce's choice model have been proposed in the literature, enabling the analysis of observations beyond those of the type ``one out of $K$''.
