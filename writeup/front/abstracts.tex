@@ -6,7 +6,7 @@
 
 Humans are comparison machines: comparing and choosing an item among a set of alternatives (such as objects or concepts) is arguably one of the most natural ways for us to express our preferences and opinions.
 In many applications, the analysis of data consisting of comparisons enables finding valuable information.
-Human preferences, however, shift, observations are tainted by noise and, as a consequence, datasets often contain inconsistent comparison outcomes.
+But datasets often contain inconsistent comparison outcomes, because human preferences shift and observations are tainted by noise.
 A principled approach to dealing with intransitive data is to posit a probabilistic model of comparisons.
 In this thesis, we revisit Luce's choice model, the study of which began almost a century ago, in the context of large-scale online data collection.
 We set out to learn a ranking over a set of items from comparisons in a \emph{computationally}, \emph{statistically} and \emph{data efficient} way.
@@ -47,36 +47,36 @@ comparisons, choices, rankings, probabilistic models, statistical inference, alg
 
 Nous, humains, sommes des machines à comparer.
 Faire une comparaison et choisir un objet ou un concept parmi un ensemble d'alternatives est sans doute l'une des façons les plus naturelles d'exprimer nos préférences et nos opinions.
-Dans le cadre de beaucoup d'applications pratiques, l'analyse de données sous forme de comparaisons permettent de trouver des informations précieuses.
-Toutefois, nos préférences changent, les comparaisons observées sont contaminées par du bruit et, en conséquence, les jeux de données recueillis contiennent souvent des résultats de comparaison en contradiction les uns avec les autres.
+Dans le cadre de beaucoup d'applications pratiques, l'analyse de données sous forme de comparaisons permet de trouver des informations précieuses.
+Mais les jeux de données recueillis contiennent souvent des résultats de comparaisons en contradiction les uns avec les autres, parce que nos préférences changent et que les comparaisons observées sont contaminées par du bruit.
 Une approche raisonnée pour traiter de telles données intransitives consiste à postuler un modèle probabiliste de comparaisons.
 Dans cette thèse, nous revisitons le modèle de choix proposé par Luce (dont l'étude remonte à près d'un siècle) dans le contexte de la collecte de données en ligne et à grande échelle.
-Notre but est d'apprendre un classement sur un ensemble d'objets partir de comparaisons d'une façon \emph{efficace}: \emph{statistiquement}, en termes de \emph{ressources de calcul}, et aussi en termes de \emph{quantité de données}.
+Notre but est d'apprendre un classement sur un ensemble d'objets à partir de comparaisons d'une façon \emph{efficace}: statistiquement, en matière de ressources de calcul et sur le plan de la quantité de données.
 
-Tout d'abord, nous examinons le problème algorithmique de l'estimation des paramètres du modèle à partir de données sous formes de comparaisons, et cherchons à améliorer l'efficacité statistique et calculatoire des méthodes existantes.
+Tout d'abord, nous examinons le problème algorithmique de l'estimation des paramètres du modèle à partir de données sous forme de comparaisons et cherchons à améliorer l'efficacité statistique et calculatoire des méthodes existantes.
 Notre contribution consiste à montrer qu'il est possible d'exprimer les paramètres qui maximisent la vraisemblance du modèle par la distribution stationnaire d'une chaîne de Markov.
-Ceci ouvre la voie à l'utilisation de programmes de résolution d'équation linéaires rapides ou à l'utilisation de méthodes itératives pour chaînes de Markov bien étudiées pour estimer les paramètres du modèle de Luce.
+Ceci ouvre la voie à l'utilisation de programmes de résolution d'équations linéaires rapides ou à l'utilisation de méthodes itératives pour chaînes de Markov pour estimer les paramètres du modèle de Luce.
 
 Deuxièmement, nous développons une méthode économe en données pour apprendre un classement.
-Cette méthode consiste à choisir des paires d'objets à comparer de façon adaptive, en fonction des résultats de comparaisons observées précédemment.
-Nous commençons par montrer que Quicksort, un algorithme de tri très connu, fonctionne bien même si les résultats des comparaisons sont bruités.
+Cette méthode consiste à choisir des paires d'objets à comparer de façon adaptive, en fonction des résultats de comparaisons observés précédemment.
+Nous commençons par montrer que Quicksort, un algorithme de tri connu, fonctionne bien même si les résultats des comparaisons sont bruités.
 Sous certaines hypothèses sur la distribution des paramètres du modèle, nous fournissons des bornes asymptotiques sur la qualité du classement retourné par Quicksort.
-En nous appuyant sur ce résultat, nous utilisons des algorithmes de tri comme point de départ d'une méthode d'apprentissage actif simple et pratique.
-Celle-ci donne de bons résultats sur des jeux de données du monde réel, tout en coûtant seulement une petite fraction des ressources de calcul nécessaires aux méthodes concurrentes.
+En nous appuyant sur ce résultat, nous utilisons des algorithmes de tri comme point de départ d'une méthode simple et pratique d'apprentissage actif.
+Celle-ci donne de bons résultats sur des jeux de données du monde réel tout en utilisant seulement une petite fraction des ressources de calcul nécessaires aux méthodes concurrentes.
 
 Troisièmement, nous nous penchons sur un problème de choix structurés dans un réseau.
-Plus précisément, nous étudions un modèle où des utilisateurs naviguent sur un réseau (par exemple en suivant des liens sur le Web) et entreprenons d'apprendre les probabilités de transition sur les arêtes du réseau à partir d'observations limitées.
-Nous montrons que si les transitions suivent l'axiome de Luce, leur probabilité peut être déduite du trafic (marginal) à chaque nœud du réseau.
+Plus précisément, nous étudions un modèle où des utilisateurs naviguent sur un réseau (par exemple en suivant des liens sur le Web) et entreprenons d'apprendre les probabilités de transition sur les arêtes à partir d'observations limitées.
+Nous montrons que si les transitions suivent l'axiome de Luce, leur probabilité peut être déduite du trafic (marginal) à chaque nœud.
 Nous proposons un algorithme d'estimation des paramètres qui est robuste et qui admet une implémentation efficace en ressources de calcul.
 Notre méthode peut s'appliquer à des réseaux composés de milliards de nœuds et atteint de bons résultats pour la prédiction de flux de clics sur le Web.
 
 Au-delà des préférences humaines, les modèles probabilistes de comparaisons par paire peuvent aussi s'appliquer au sport.
 Pensez au football: deux équipes se comparent l'une à l'autre, et la meilleure des deux gagne.
-Dans la dernière partie de cette thèse, nous considérons un cas pratique et nous nous attaquons au problème de prédire les résultats de matchs entre équipes nationales de football.
-Ces équipes ne jouent que quelques matchs chaque année, et de ce fait il est difficile de juger de leur force de façon précise.
-En observant que les joueurs appelés en sélection nationale jouent aussi les uns contre les autres dans leur clubs respectifs, nous proposons une façon de surmonter cette difficulté en prenant en compte les matchs entre clubs (desquels il est facile d'obtenir une grande quantité).
-Notre méthode se base sur une projection des matchs dans un \emph{espace des joueurs}, et s'appuie sur une procédure d'apprentissage économe en temps de calcul.
-Le modèle qui en résulte prédit les résultats de tournois internationaux d'une façon plus précise que d'autres modèles qui n'utilisent que les matchs entre équipes nationales.
+Dans la dernière partie de cette thèse, nous considérons un cas pratique et nous nous attaquons au problème de prédire les résultats de matchs entre équipes nationales.
+Ces équipes ne jouent que quelques matchs chaque année et de ce fait il est difficile de juger de leur force de façon précise.
+En observant que les joueurs appelés en sélection nationale jouent aussi les uns contre les autres dans leur club respectif, nous proposons une façon de surmonter cette difficulté en prenant en compte les matchs entre clubs (desquels il est facile d'obtenir une grande quantité).
+Notre méthode se base sur une projection des matchs dans un \emph{espace des joueurs} et s'appuie sur une procédure d'apprentissage économe en temps de calcul.
+Le modèle qui en résulte prédit les résultats de tournois internationaux d'une façon plus précise que d'autres modèles n'utilisant que les matchs entre équipes nationales.
 
 \paragraph{Mots-clés}
 comparaisons, choix, classements, modèles probabilistes, inférence statistique, algorithmes, apprentissage automatique, apprentissage actif, réseaux
