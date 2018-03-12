@@ -25,7 +25,7 @@ In this case,
 \label{in:eq:thu5}
 \Prob{i \succ j} = \Phi(\theta_i - \theta_j).
 \end{align}
-The vector of $N$ parameters $\bm{\theta} = [\theta_1 \ \cdots \ \theta_N]^\Tr \in \mathbf{R}^N$ drives the probabilities of all $\binom{N}{2}$ possible pairwise comparisons.
+The vector of $N$ parameters $\bm{\theta} = [\theta_1 \ \cdots \ \theta_N]^\Tr \in \mathbf{R}^N$ governs the probabilities of all $\binom{N}{2}$ possible pairwise comparisons.
 Intuitively, $\theta_i$ can be interpreted as the \emph{score} of stimulus $i$, and the probability of observing a comparison outcome for $i$ and $j$ that is consistent with the true order increases with the distance $\theta_i - \theta_j$.
 Note that as~\eqref{in:eq:thu5} only involves pairwise distances, the parameters $\bm{\theta}$ are identifiable only up to a constant.
 In order to resolve this ambiguity, the parameters are often chosen such that $\sum_i \theta_i = 0$.
@@ -82,7 +82,7 @@ He set out to address two problems:
 \item estimating the \emph{relative strength} of players in a way that is predictive of future match outcomes.
 \end{enuminline}
 %He noted that the system (most widely used the time) based on points awarded to the winner of each match failed to address these.
-To this end, he advanced a probabilistic model of game outcomes.
+To this end, he introduced a probabilistic model of game outcomes.
 In his model, every player $i \in [N]$ is characterized by a latent strength parameter $\gamma_i \in \mathbf{R}_{>0}$.
 The probability of player $i$ winning against player $j$ is a function of their relative strength:
 \begin{align}
@@ -120,7 +120,7 @@ Figure~\ref{in:fig:sigmoids} illustrates the probabilities~\eqref{in:eq:thu5} an
 \centering
 \includegraphics{in-sigmoids}
 \caption{
-Comparison of the Bradley--Terry model and a rescaled version of Thurstone's model.
+Comparison of the Bradley--Terry model (solid line) and a rescaled version of Thurstone's model (dotted line).
 The scaling constant is chosen such that the slope at the origin matches.
 }
 \label{in:fig:sigmoids}
