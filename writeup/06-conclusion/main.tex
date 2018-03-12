@@ -12,10 +12,10 @@ In this thesis, we propose several solutions that highlight different aspects of
 By expressing stationary points of the likelihood function as the stationary distribution of a Markov chain, we link recently proposed spectral estimators to maximum-likelihood methods.
 This link enables the development of new inference algorithms that are statistically and computationally efficient.
 
-\item In Chapter~\ref{ch:robustsort}, we consider the active learning setting.
+\item In Chapter~\ref{ch:robustsort}, we consider the active-learning setting.
 We study theoretically and empirically the performance of Quicksort when pairwise comparison outcomes follow the Bradley--Terry model.
-In scenarios where it is possible to adaptively select pairs of items to compare, we show that sorting-based active learning strategies lead to significant gains in sample efficiency.
-Compared to competing active learning methods, ours is computationally cheaper.
+In scenarios where it is possible to adaptively select pairs of items to compare, we show that sorting-based active-learning strategies lead to significant gains in sample efficiency.
+Compared to competing active-learning methods, ours is computationally cheaper.
 
 \item In Chapter~\ref{ch:choicerank}, we focus on choices in networks.
 In this case, we achieve data efficiency in a different way: we find that it is not necessary to observe distinct choices among well-defined sets of alternatives in order to estimate model parameters.
@@ -39,7 +39,7 @@ However, in some applications, we might have access to features that relate item
 We distinguish two cases.
 First, suppose that item $i$ is described by a real-valued feature vector $\bm{x}_i \in \mathbf{R}^D$, where typically $D \ll N$.
 Then, by setting $\theta_i = \bm{x}_i^\Tr \bm{w}$ for some latent parameter vector $\bm{w} \in \mathbf{R}^D$, we obtain the multinomial logit model \citep{mcfadden1973conditional, train2009discrete}.
-Inference in this model is well-studied, but the question of effective and efficient active learning remains widely open.
+Inference in this model is well-studied, but the issue of effective and efficient active learning remains widely open.
 Second, suppose that item $i$ is described by a binary vector $\bm{x}_i \in \{0, 1\}^D$ describing the presence or absence of certain features.
 Then, we can model comparison outcomes using the elimination-by-aspects (EBA) model \citep{tversky1972elimination}, a model closely related to that of Luce.
 Preliminary work shows that the algorithms developed in Chapter~\ref{ch:fastinference} could be extended to the EBA model in the case of pairwise comparisons.
@@ -65,4 +65,4 @@ Finally, a potential weakness of models based on Luce's axiom (as well as those 
 Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) can affect the model significantly.
 The study of robust alternatives to Luce's model is an important direction for future work.
 On the one hand, model inference will likely require the development of new tools, beyond those presented in this thesis.
-On the other hand, there is hope that the sorting-based active learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.
+On the other hand, there is hope that the sorting-based active-learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.

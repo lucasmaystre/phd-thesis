@@ -19,7 +19,7 @@ Figure~\ref{cr:fig:samplenet} gives an example of a graph and the alternatives a
   \label{cr:fig:samplenet}
 \end{figure}
 
-To define the transition probabilities, we follow \citet{kumar2015inverting} and posit a probabilistic model of choice that extends that of \citet{luce1959individual}.
+To define the transition probabilities, we follow \citet{kumar2015inverting} and posit a probabilistic model of choice, which extends that of \citet{luce1959individual}.
 For every node $i$ and every $j \in \mathcal{N}^+_i$, the probability that $j$ is selected among alternatives $\mathcal{N}^+_i$ can be written as
 \begin{align}
 \label{cr:eq:singlelik}
@@ -38,7 +38,7 @@ Given a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, edge weights 
 
 \paragraph{Notation}
 In some expressions, we use $\kappa$ to denote a constant that does not depend on the parameter vector $\bm{\gamma}$.
-Its value may change from line to line.
+Its value can change from line to line.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Sufficient Statistic}
@@ -81,7 +81,7 @@ Taking the log of the ratio on the left-hand side and using~\eqref{cr:eq:loglik}
 From this, it is easy to see that the ratio of densities is independent of $\bm{\gamma}$ if and only if $c^-_i = d^-_i$ and $c^+_i = d^+_i$, which verifies~\eqref{cr:eq:minsuff}.
 \end{proof}
 
-In other words, it is enough to observe marginal information about the number of arrivals and departures at each node---we collectively call this data the \emph{traffic} at a node---and no additional information can be gained by observing the full choice process.
+In other words, it is enough to observe marginal information about the number of arrivals and departures at each node---we call this collective data the \emph{traffic} at a node---and no additional information can be gained by observing the full choice process.
 This makes the model particularly attractive, because it means that it is unnecessary to track users across nodes.
 In several applications of practical interest, tracking users is undesirable, difficult, or outright impossible, due to
 \begin{enuminline}
@@ -91,7 +91,7 @@ In several applications of practical interest, tracking users is undesirable, di
 \end{enuminline}
 
 Note that if we make the additional assumption that the flow in the network is conserved, then $c^-_i = c^+_i$.
-If users' typical trajectories are made of many hops, it is reasonable to approximate $c^-_i$ or $c^+_i$ using that assumption, should one of the two quantities be missing.
+If users' typical trajectories are made of many hops, it is reasonable to approximate $c^-_i$ or $c^+_i$ by using this assumption, should one of the two quantities be missing.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Steady-State Inversion Problem}
@@ -107,7 +107,7 @@ The score vector $\bm{s}$ is a solution for the steady-state inversion problem i
 \label{cr:eq:balance}
 \pi_i = \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} s_i}{\sum_{k \in \mathcal{N}^+_j} w_{jk} s_k} \pi_j \quad \forall i.
 \end{align}
-In order to formalize the connection between \citeauthor{kumar2015inverting}'s work and ours, we now express the steady-state inversion problem as that of asymptotic maximum-likelihood estimation in the network choice model.
+In order to formalize the connection between \citeauthor{kumar2015inverting}'s work and ours, we express the steady-state inversion problem as that of asymptotic maximum-likelihood estimation in the network choice model.
 Suppose that we observe node-level traffic data $\mathcal{D} = \{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ about a trajectory of length $T$ starting at an arbitrary node.
 We want to obtain an estimate of the parameters $\bm{\gamma}^\star$ by maximizing the average log-likelihood $\hat{\ell}(\bm{\gamma}) = \frac{1}{T} \ell (\bm{\gamma} ; \mathcal{D})$.
 From standard convergence results for Markov chains \citep{kemeny1976finite}, it follows that as $\mathcal{G}$ is strongly connected, $\lim_{T \to \infty} c^-_i / T = \lim_{T \to \infty} c^+_i / T = \pi_i$.
@@ -133,7 +133,7 @@ As such, the network choice model presented in this chapter can be viewed as a p
 \subsection{MLE}
 \label{cr:sec:maxlik}
 
-The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave using the standard reparametrization $\gamma_i = e^{\theta_i}$.
+The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave by using the standard reparametrization $\gamma_i = e^{\theta_i}$.
 Therefore, any local minimum of the likelihood is a global minimum (c.f. Section~\ref{fi:sec:mle}).
 Unfortunately, it turns out that the conditions guaranteeing that the ML estimate is well-defined (i.e., that it exists and is unique) are restrictive and impractical.
 
@@ -142,7 +142,7 @@ Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a directed graph and $\{ a_{ij
 The \emph{comparison graph} induced by $\{ a_{ij} \}$ is the directed graph $\mathcal{G}' = (\mathcal{V}, \mathcal{E}')$, where $(i,j) \in \mathcal{E}'$ if and only if there is a node $k$ such that $i, j \in \mathcal{N}^+_k$ and $a_{kj} > 0$.
 \end{definition}
 
-The numbers $\{ a_{ij}\}$ in the definition can be loosely interpreted as transition counts (although they do not need to be integer).
+The numbers $\{ a_{ij}\}$ in the definition can be loosely interpreted as transition counts (although they do not need to be integers).
 Intuitively, there is an edge $(i, j)$ in the comparison graph whenever there is at least one instance in which $i$ and $j$ are among the alternatives and $j$ is selected.
 The notion of comparison graph leads to a precise characterization of whether the ML estimate is well-defined or not, as shown by the next theorem---an extension of Theorem~\ref{fi:thm:mlboth} to the network choice model.
 
@@ -168,7 +168,7 @@ and, without loss of generality, we can assume that $\sum_i \theta_i = 0$ and $\
 We study the conditions under which
 \begin{enuminline}
 \item super-level sets of the likelihood function $\ell(\bm{\theta})$ are bounded, and
-\item the likelihood function is strict concave.
+\item the likelihood function is strictly concave.
 \end{enuminline}
 
 First, we prove that the super-level set $\{ \bm{\theta} : \ell(\bm{\theta}) \ge c \}$ is bounded and compact for any $c$, if and only if the comparison graph is strongly connected.
@@ -186,9 +186,9 @@ Therefore, the log-likelihood can be bounded as
 and $\lim_{s \to \infty} \ell(\bm{\theta}) = -\infty$.
 Conversely, suppose that the comparison graph is not strongly connected and partition the vertices into two non-empty subsets $\mathcal{S}$ and $\mathcal{T}$ such that there is no edge from $\mathcal{S}$ to $\mathcal{T}$.
 Let $c > 0$ be any positive constant, and take $\tilde{\theta}_i = \theta_i + c$ if $i \in \mathcal{S}$ and $\tilde{\theta}_i = \theta_i$ if $i \in \mathcal{T}$ (renormalize such that $\sum_i \tilde{\theta}_i = 0$).
-Clearly, $\ell(\tilde{\bm{\theta}}) \ge \ell(\bm{\theta})$, and, by repeating this procedure, $\Norm{\bm{\theta}}$ may be driven to infinity without decreasing the likelihood.
+Clearly, $\ell(\tilde{\bm{\theta}}) \ge \ell(\bm{\theta})$, and, by repeating this procedure, $\Norm{\bm{\theta}}$ can be driven to infinity without decreasing the likelihood.
 
-Second, we shall prove that if the comparison graph is strongly connected, the log-likelihood is strictly concave (in $\bm{\theta}$).
+Second, we prove that if the comparison graph is strongly connected, the log-likelihood is strictly concave (in $\bm{\theta}$).
 In particular, for any $p \in (0,1)$,
 \begin{align}
 \label{cr:eq:strictconcav}
@@ -216,7 +216,7 @@ Because the comparison graph is strongly connected, there is always $k \in \math
 Therefore, the left and right side of~\eqref{cr:eq:strictconcav} are equal if and only if $\bm{\theta} \equiv \bm{\eta}$ up to a constant shift.
 \end{proof}
 
-In order to verify the necessary and sufficient condition of Theorem~\ref{cr:thm:mlboth} given $\{ (c^-_i, c^+_i) \}$, one has to find a non-negative solution $\{ a_{ij} \}$ to the system of equations
+In order to verify the necessary and sufficient condition of Theorem~\ref{cr:thm:mlboth} given $\{ (c^-_i, c^+_i) \}$, we have to find a non-negative solution $\{ a_{ij} \}$ to the system of equations
 \begin{align*}
 \sum_{j \in \mathcal{N}^-_i} a_{ji} = c^-_i, \quad
 \sum_{j \in \mathcal{N}^+_i} a_{ij} = c^+_i \quad \forall i.
@@ -255,7 +255,7 @@ But in general, finding a set of transitions that is compatible with given margi
 As the conditions of Theorem~\ref{cr:thm:mlboth} involve the observed traffic, we might ask the following question.
 Is there a simpler condition on the structure of $\mathcal{G}$ such that the MLE is well-defined, given sufficiently many transitions?
 We provide an answer in the form of a necessary condition for the uniqueness of the MLE that involves only the structure of the network.
-We begin with a definition that uses the notion of \emph{hypergraph}, a generalized graph where edges may be any non-empty subset of nodes.
+We begin with a definition that uses the notion of \emph{hypergraph}, a generalized graph where edges can be any non-empty subset of nodes.
 
 \begin{definition}[alternatives hypergraph]
 Given a directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{E})$, the \emph{alternatives hypergraph} is defined as $\mathcal{H} = (\mathcal{V}, \mathcal{A})$, with $\mathcal{A} = \{ \mathcal{N}^+_i : i \in \mathcal{V} \}$.
@@ -283,22 +283,19 @@ The log-likelihood can be rewritten as
     &+ \sum_{i \in \mathcal{B}} \sum_{j \in \mathcal{N}^+_i} a_{ij}
         \bigg[ \log \gamma_j - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg].
 \end{align*}
-The sum over $\mathcal{A}$ involves only parameters related to nodes in $\mathcal{S}$, while the sum over $\mathcal{B}$ involves only parameters related to nodes in $\mathcal{T}$.
+The sum over $\mathcal{A}$ involves only parameters related to nodes in $\mathcal{S}$, whereas the sum over $\mathcal{B}$ involves only parameters related to nodes in $\mathcal{T}$.
 Because the likelihood is invariant to a rescaling of the parameters, it is easy to see that we can arbitrarily rescale the parameters of the vertices in either $\mathcal{S}$ or $\mathcal{T}$ without affecting the likelihood.
 \end{proof}
 
 The network of Figure~\ref{cr:fig:samplenet} illustrates an instance where even the necessary the condition fails:
 although the graph $\mathcal{G}$ is strongly connected, its associated alternatives hypergraph $\mathcal{H}$ (depicted in Figure~\ref{cr:fig:samplehyp}) is disconnected, and no matter what the data $\mathcal{D}$ is, the ML estimate will never be uniquely defined.
-Note that this problematic situation does not only affect carefully hand-crafted networks: the alternatives hypergraph of all three real-world networks considered in Section~\ref{cr:sec:experiments} are disconnected as well.
+Note that this problematic situation does not affect only carefully hand-crafted networks: the alternatives hypergraph of all three real-world networks considered in Section~\ref{cr:sec:experiments} are disconnected as well.
 
 \begin{figure}
   \centering
   \includegraphics[width=.5\linewidth]{cr-graph-example-pref}
-  \caption{The alternatives hypergraph associated to the network of Fig.~\ref{cr:fig:samplenet}.
-The hyperedge associated to $\mathcal{N}^+_6$ is highlighted in red.
+  \caption{The alternatives hypergraph associated with the network of Fig.~\ref{cr:fig:samplenet}.
+The hyperedge associated with $\mathcal{N}^+_6$ is highlighted in red.
 Note that the component $\{3, 4\}$ is disconnected from the rest of the hypergraph.}
   \label{cr:fig:samplehyp}
 \end{figure}
-
-Guided by this connection, we study the maximum-likelihood (ML) estimate of model parameters, but find that the estimate is likely to be ill-defined in many scenarios of practical interest.
-

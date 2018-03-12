@@ -21,9 +21,9 @@ These important extensions make the model easier to apply to real-world data.
 The general problem of estimating parameters of models based on Luce's axiom has received considerable attention, as discussed at length in Chapters~\ref{ch:intro} and~\ref{ch:fastinference}.
 Of particular interest in the context of this work, \citet{hunter2004mm} develops an inference algorithm from the perspective of the minorization-maximization (MM) method.
 This method is easily generalized to other models that are based on Luce's axiom, and it yields simple, provably convergent algorithms for maximum-likelihood (ML) or maximum-a-posteriori point estimates.
-\citet{caron2012efficient} observe that these MM algorithms can be further recast as expectation-maximization (EM) algorithms by introducing suitable latent variables.
+\citet{caron2012efficient} observe that, by introducing suitable latent variables, these MM algorithms can be further recast as expectation-maximization (EM) algorithms.
 They use this observation to derive Gibbs samplers for a wide family of models.
-We take advantage of this line of work in Section~\ref{cr:sec:inference} when developing an inference algorithm for the network choice model.
+We take advantage of this line of work, in Section~\ref{cr:sec:inference}, when developing an inference algorithm for the network choice model.
 In recent years, several authors also analyzed the sample complexity of the ML estimate in Luce's choice model \citep{hajek2014minimax, vojnovic2016parameter} and investigated alternative spectral inference methods \citep{negahban2012iterative, azari2013generalized}.
 Some of these results could be applied to our setting, but in general they require observing distinct choices among well-identified sets of alternatives\footnote{%
 This is also the case for the spectral inference algorithm developed in Chapter~\ref{ch:fastinference} of this thesis, which cannot be applied in the setting studied in this chapter.
@@ -42,4 +42,4 @@ The HOTness method proposed by \citet{tomlin2003new} is somewhat related, but tr
 It attempts to estimate jointly the traffic and the probability of clicking on each link, by using a maximum-entropy approach.
 At the other end of the spectrum, BrowseRank \citep{liu2008browserank} uses detailed data collected in users' browsers to improve on PageRank.
 Our method uses only marginal traffic data that can be obtained without tracking users.
-Finally, in the context of mobility analysis, we mention \citet{ashbrook2003using} and \citet{kafsi2015traveling}, both of which use Markovian models to predict human mobility across in a network of locations.
+Finally, in the context of mobility analysis, we mention the works of \citet{ashbrook2003using} and \citet{kafsi2015traveling}, both of which use Markovian models to predict human mobility across in a network of locations.

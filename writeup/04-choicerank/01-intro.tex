@@ -3,7 +3,7 @@
 \label{cr:sec:intro}
 
 Consider the problem of estimating click probabilities for links between pages of a website, given a hyperlink graph and aggregate statistics on the number of times each page has been visited.
-Naively, one might expect that the probability of clicking on a particular link should be roughly proportional to the traffic of the link's target.
+Naively, we might expect that the probability of clicking on a particular link should be roughly proportional to the traffic of the link's target.
 %At first, one might expect that links pointing to high-traffic web pages must be more likely to be clicked.
 However, this neglects important structural effects:
 a page's traffic is influenced by
@@ -14,14 +14,14 @@ a page's traffic is influenced by
 \end{enuminline}
 In order to successfully infer click probabilities, it is therefore necessary to disentangle the \emph{preference} for a page (i.e., the intrinsic propensity of a user to click on a link pointing to it) from the page's \emph{visibility} (the exposure it gets from pages linking to it).
 Building upon recent work by \citet{kumar2015inverting}, we present a statistical framework that tackles a general formulation of the problem:
-given a network (representing possible transitions between nodes) and the marginal traffic at each node, recover the transition probabilities.
-This problem is relevant to a number of scenarios (in social, information or transportation networks) where transition data is not available due to, e.g., privacy concerns or monitoring costs.
+Given a network (representing possible transitions between nodes) and the marginal traffic at each node, recover the transition probabilities.
+This problem is relevant to a number of scenarios (in social, information or transportation networks) where transition data is not available due to privacy concerns or monitoring costs, for example.
 
 We begin by postulating the following model of traffic.
-Users navigate from node to node along the edges of the network by making a choice between adjacent nodes at each step, reminiscent of the random-surfer model introduced by \citet{brin1998anatomy}.
+Users navigate from node to node along the edges of the network, by making a choice between adjacent nodes at each step, which is reminiscent of the random-surfer model introduced by \citet{brin1998anatomy}.
 Choices are assumed to be independent and generated according to a variant of Luce's model \citep{luce1959individual}: each node in the network is chararacterized by a latent \emph{strength} parameter, and (stochastic) choice outcomes tend to favor nodes with greater strengths.
 In this model, estimating the transition probabilities amounts to estimating the strength parameters.
-Unlike the setting in which choice models are traditionally studied \citep{train2009discrete, vojnovic2016parameter}, we do not observe distinct choices among well-identified sets of alternatives.
+Unlike in the setting in which choice models are traditionally studied \citep{train2009discrete, vojnovic2016parameter}, we do not observe distinct choices among well-identified sets of alternatives.
 Instead, we only have access to aggregate, marginal statistics about the traffic at each node in the network.
 In this setting, we make the following contributions.
 
@@ -29,7 +29,7 @@ In this setting, we make the following contributions.
 \item We observe that marginal per-node traffic is a sufficient statistic for the strength parameters.
 That is, the parameters can be inferred from marginal traffic data without any loss of information.
 
-\item We show that if the parameters are endowed with a prior distribution, the inference problem becomes well-posed regardless of the network structure.
+\item We show that if the parameters are endowed with a prior distribution, the inference problem becomes well-posed, regardless of the network structure.
 This is a crucial step in making the framework applicable to real-world datasets.
 
 \item We show that model inference can scale to very large datasets.
@@ -38,16 +38,16 @@ We present an iterative EM-type inference algorithm that enables a remarkably ef
 
 %To summarize our contributions from a machine-learning practitioner's perspective, we propose a scalable method that is able to learn transition probabilities in a network, given only the network's structure and the marginal traffic at each node.
 
-We evaluate two aspects of our framework using real-world networks.
+We evaluate two aspects of our framework by using real-world networks.
 We begin by demonstrating that local preferences can indeed be inferred from global traffic: we investigate the accuracy of the transition probabilities recovered by our model on three datasets for which we have ground-truth transition data.
-First, we consider two hyperlink graphs, representing the English Wikipedia (over two million nodes) and a Hungarian news portal (approximately \num{40000} nodes), respectively.
+First, we consider two hyperlink graphs that represent the English Wikipedia (over two million nodes) and a Hungarian news portal (approximately \num{40000} nodes), respectively.
 We model clickstream data as a sequence of independent choices over the links available at each page.
 Given only the structure of the graph and the marginal traffic at every node, we estimate the number of transitions between nodes, and we find that our estimate matches ground-truth edge-level transitions accurately in both instances.
 Second, we consider the network of New York City's bicycle-sharing service.
 For a given ride, given a pick-up station, we model the drop-off station as a choice out of a set of locations.
 Our model yields promising results, suggesting that our method can be useful beyond clickstream data.
 Next, we test the scalability of the inference algorithm.
-We show that the algorithm is able to process a snapshot of the WWW hyperlink graph containing over a hundred billion edges using a single machine.
+We show that the algorithm is able to process a snapshot of the WWW hyperlink graph that contains over a hundred billion edges using a single machine.
 
 \paragraph{Outline of the Chapter}
 In Section~\ref{cr:sec:relwork}, we briefly review related literature.

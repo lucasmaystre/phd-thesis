@@ -3,7 +3,7 @@
 \label{rs:sec:proofs}
 
 Section~\ref{rs:sec:pflemmas} contains the proofs of Lemmas~\ref{rs:lem:samplecomp} and~\ref{rs:lem:dispbound}.
-Section~\ref{rs:sec:pfqdisp} presents the proof for our result on the displacement of the output of a single call to Quicksort (Theorem~\ref{rs:thm:quickdisp}), and Section~\ref{rs:sec:pfmdisp} that of our result on the displacement of the Copeland aggregation of multiple outputs (Theorem~\ref{rs:thm:multidisp}).
+Section~\ref{rs:sec:pfqdisp} presents the proof for our results on the displacement of the output of a single call to Quicksort (Theorem~\ref{rs:thm:quickdisp}), and Section~\ref{rs:sec:pfmdisp} shows our result on the displacement of the Copeland aggregation of multiple outputs (Theorem~\ref{rs:thm:multidisp}).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Lemmas~\ref{rs:lem:samplecomp} and~\ref{rs:lem:dispbound}}
@@ -12,7 +12,7 @@ Section~\ref{rs:sec:pfqdisp} presents the proof for our result on the displaceme
 We start by briefly presenting a result from graph theory that will be useful in the proof of Lemma~\ref{rs:lem:samplecomp}.
 A \emph{tournament} is a directed graph obtained by assigning a direction to every edge of a complete graph.
 The \emph{score sequence} of a tournament is defined as the nondecreasing sequence of the vertices' outdegrees.
-The following proposition is due to \citet{landau1953dominance}.
+The following proposition is by \citet{landau1953dominance}.
 
 \begin{proposition}
 \label{rs:prop:landau}
@@ -35,7 +35,7 @@ Instead, we use the tournament representation of the comparison outcomes and ana
 
 \begin{proof}[Proof of Lemma~\ref{rs:lem:samplecomp}]
 We show that the maximum call depth of Quicksort is at most $\Ceil{48 \log N}$ with high probability.
-The statement follows by noticing that at most $N$ comparisons are used at each level of the call tree.
+The statement follows by noting that at most $N$ comparisons are used at each level of the call tree.
 
 By Lemma~\ref{rs:lem:termination}, Quicksort samples a comparison outcome for each pair of items at most once.
 Therefore, we can represent these (a priori unobserved) pairwise outcomes as a tournament $\mathcal{T} = ([N], \mathcal{A})$.
@@ -49,7 +49,7 @@ The probability that the outdegree of $p$ lies in the middle half of the score s
 \frac{\Abs{\mathcal{V}} - 7}{8} \le \mathrm{outdeg}(p) \le \frac{7 \Abs{\mathcal{V}} - 5}{8}.
 \end{align*}
 In this case, at the end of the partition $\Abs{\mathcal{L}}$ and $\Abs{\mathcal{R}}$ are of size at most $7\Abs{\mathcal{V}}/8$, and in at most $\log_{8/7}(N) \le 8 \log N $ such partitions we get to a subset of size one and match the terminating case.
-Even though we do not select the pivot in the middle half every time, it is unlikely that more than $c \cdot 8 \log N$ recursions are needed (for some small constant $c$) to select the pivot in the middle range at least $8 \log N$ times.
+Even though we do not select, every time, the pivot in the middle half, it is unlikely that more than $c \cdot 8 \log N$ recursions are needed (for some small constant $c$) to select the pivot in the middle range at least $8 \log N$ times.
 Let $z_d$ i.i.d $\sim \text{Bern}(1/2)$ be the indicator variable for the event ``the pivot is selected in the middle half at level of recursion $d$''.
 Using a Chernoff bound, we have
 \begin{align*}
@@ -120,10 +120,10 @@ Finally, we bound $\Disp[\mathcal{V}]{\tilde{\sigma}}$.
 Let $\mathcal{E}_{\mathcal{V}}^- = \{ (p, i) \in \mathcal{E}_{\mathcal{V}} : i < p \}$, and similarly $\mathcal{E}_{\mathcal{V}}^+ = \{ (p, i) \in \mathcal{E}_{\mathcal{V}} : i > p \}$.
 Without loss of generality, we can assume that $\mathcal{V}$ consists of consecutive integers, and that $\kappa \doteq \Abs{\mathcal{E}_{\mathcal{V}}^-} \le \Abs{\mathcal{E}_{\mathcal{V}}^+}$.
 We proceed as follows: starting from the ranking $\Id_{\mathcal{V}}$, we progressively incorporate errors into the ranking, ending with $\tilde{\sigma}$ once all errors have been treated.
-To understand the impact of each error on \Disp[\mathcal{V}]{\tilde{\sigma}}, we look at errors in the following specific sequence.
+To understand the effect of each error on \Disp[\mathcal{V}]{\tilde{\sigma}}, we look at errors in the following specific sequence.
 \begin{enumerate}
 \item At steps $t = 1, \ldots, \kappa$, we consider the $t$-th ``smallest'' errors in $\mathcal{E}_{\mathcal{V}}^-$ and $\mathcal{E}_{\mathcal{V}}^+$.
-That is, we process $(p, i) \in \mathcal{E}_{\mathcal{V}}^-$ and $(p, i') \in \mathcal{E}_{\mathcal{V}}^+$ such that $\Abs{p - i}$ and $\Abs{p - i'}$, respectively, are smallest among errors not yet treated.
+That is, we process $(p, i) \in \mathcal{E}_{\mathcal{V}}^-$ and $(p, i') \in \mathcal{E}_{\mathcal{V}}^+$ such that $\Abs{p - i}$ and $\Abs{p - i'}$, respectively, are the smallest among errors not yet treated.
 
 \item At steps $t = \kappa + 1, \ldots, \Abs{\mathcal{E}_{\mathcal{V}}^+}$, we process the remaining errors in $\mathcal{E}_{\mathcal{V}}^+$, once again in increasing order of distance to  $p$.
 \end{enumerate}
@@ -332,7 +332,7 @@ Using \eqref{rs:eq:expordstat} and for $N$ large enough,
     \le \exp(-N' / e) \le 1 / N.
 \end{align*}
 The second-to-last inequality follows from a Chernoff bound similar to that used in the proof of Theorem~\ref{rs:thm:quickdisp}.
-Therefore, with high probability all items in $\mathcal{G}$ are at distance larger than $c / (\lambda \log^2 N)$ from their nearest neighbor for some constant $c$.
+Therefore, with high probability, all items in $\mathcal{G}$ are at distance larger than $c / (\lambda \log^2 N)$ from their nearest neighbor for some constant $c$.
 
 We will now show that after $K = \BigO{\lambda^2 \log^5 N}$ runs of Quicksort, $\hat{\sigma}(i) = i$ with high probability for all $i \in \mathcal{G}$.
 Let $i \in \mathcal{G}$, $j \in [N]$ be a pair of items, and without loss of generality assume that $i < j$.

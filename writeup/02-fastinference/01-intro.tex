@@ -3,21 +3,22 @@
 \label{fi:sec:intro}
 
 Markov chains have been used in recent work to aggregate inconsistent outcomes of pairwise comparisons and (partial) rankings \citep{dwork2001rank, negahban2012iterative, azari2013generalized}.
-The idea is to build a Markov chain that is biased towards items that have won often, and to reduce the problem of ranking items to that of finding the \emph{stationary distribution} of the chain (the ranking is then induced by the items' stationary probabilities).
+The idea is to build a Markov chain that is biased towards items that have won comparisons often, and to reduce the problem of ranking items to that of finding the \emph{stationary distribution} of the chain (the ranking is then induced by the items' stationary probabilities).
 In this chapter, we highlight a connection between the MLE of models based on Luce's choice axiom and the stationary distribution of a Markov chain parametrized by the observed choices.
 By formalizing this link, we unify previous algorithms and explicate them from an ML inference perspective.
-Beyond this, the link suggests two new algorithms for parameter inference.
-First, we develop a simple, consistent and computationally efficient spectral algorithm that is applicable to a wide range of models derived from Luce's choice axiom.
+Furthermore, the link suggests two new algorithms for parameter inference in Luce's general choice model.
+First, we develop a simple, consistent, and computationally efficient spectral algorithm that is applicable to a wide range of models derived from Luce's choice axiom.
 The exact formulation of the Markov chain used in the algorithm is distinct from related work \citep{negahban2012iterative, azari2013generalized} and achieves a significantly better statistical efficiency at no additional computational cost.
-Second, we observe that with a small adjustment, the algorithm can be used iteratively, and it then converges to the MLE.
+Second, we observe that, with a small adjustment, the algorithm can be used iteratively, and it then converges to the MLE.
 An evaluation on five real-world datasets reveals that it runs consistently faster than competing approaches and has a more predictable performance that does not depend on the structure of the data.
 The key step, finding a stationary distribution, can be offloaded to commonly available linear-algebra primitives, which makes our algorithms  scale well.
-The method we propose is intuitively pleasing, simple to understand and implement, and it outperforms the state of the art, hence we believe that it is highly useful to practitioners.
+The method we propose is intuitively pleasing, simple to understand and implement, and it outperforms the state of the art.
+Therefore, we believe that it is highly useful to practitioners.
 
 \paragraph{Outline of the Chapter}
 We begin by introducing some notations and presenting a few useful facts about the MLE and about Markov chains.
 In Section~\ref{fi:sec:relwork}, we discuss related work.
-In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\ref{fi:sec:experiments} we evaluate them on synthetic and real-world data.
+In Section~\ref{fi:sec:algorithms}, we present our algorithms and, in Section~\ref{fi:sec:experiments}, we evaluate them on synthetic and real-world data.
 
 
 \subsection{Maximum-Likelihood Estimate}
@@ -28,7 +29,7 @@ In Section~\ref{fi:sec:algorithms}, we present our algorithms, and in Section~\r
 Suppose that we collect $M$ independent choice observations in the multiset $\mathcal{D} = \{(c_m, \mathcal{A}_m) : m = 1, \ldots, M\}$.
 Each observation consists of a choice $c_m$ among a set of alternatives $\mathcal{A}_m$;
 we say that \emph{$i$ wins over $j$} and denote by $i \succ j$ whenever $i, j \in \mathcal{A}_m$ and $c_m = i$.
-We postulate that the choices are generated from Luce's choice model, and for simplicity we denote the model parameter associated with item $c_m$ by $\gamma_m$.
+We postulate that the choices are generated from Luce's choice model and, for simplicity, we denote the model parameter associated with item $c_m$ by $\gamma_m$.
 From~\eqref{in:eq:luce}, it follows that the log-likelihood of parameters $\bm{\gamma}$ given observations $\mathcal{D}$ is given by
 \begin{align}
 \label{fi:eq:loglik}
@@ -48,7 +49,7 @@ The existence and uniqueness of the MLE is completely determined by the connecti
 The likelihood function~\eqref{fi:eq:loglik} admits a unique maximizer $\bm{\gamma}^\star \in \mathbf{R}^N_{>0}$ such that $\sum_i \gamma^\star_i = 1$ if and only if $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
 \end{theorem}
 
-Throughout this chapter, we will assume that $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
+Throughout this chapter, we assume that $\mathcal{G}_{\mathcal{D}}$ is strongly connected.
 In practice, if this assumption does not hold, we can consider each strongly-connected component separately.
 Finally, note that even though $\ell(\bm{\gamma})$ admits a unique maximizer, it is not concave.
 However, reparametrizing the model using $\theta_i \doteq \log \gamma_i$, the log-likelihood becomes
@@ -91,9 +92,9 @@ In the sparse case, LU decomposition can be done significantly faster using adap
 
 \paragraph{Discrete-Time Perspective}
 Let $\epsilon < 1 / \max_i |q_{ii}|$, then $\bm{P} = \bm{I} + \epsilon \bm{Q}$ is the transition matrix of a discrete-time Markov chain that satisfies $\bm{\pi}^\Tr \bm{P} = \bm{\pi}$.
-In this case, finding the steady-state distribution is equivalent to finding the left eigenvector associated to the leading eigenvalue of the transition matrix $\bm{P}$.
+In this case, finding the steady-state distribution is equivalent to finding the left eigenvector associated with the leading eigenvalue of the transition matrix $\bm{P}$.
 This is also a well-studied linear algebra problem for which plenty of efficient, off-the-shelf algorithms exist.
 For example, power iteration methods can find the eigenvector in a few (sparse) matrix multiplications.
-Beyond these well-known algorithms, recently-proposed randomized approaches such as that of \citet{halko2011finding} make it possible to scale to very large problem sizes ($N \sim 10^6$ or more).
+Beyond these well-known algorithms, recently proposed randomized approaches such as that of \citet{halko2011finding} make it possible to scale to very-large problem sizes ($N \sim 10^6$ or more).
 
 Both the continuous-time and the discrete-time perspectives yield exactly the same resulting stationary distribution, and the algorithms presented in this paper are oblivious to this choice.

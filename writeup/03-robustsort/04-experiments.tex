@@ -4,9 +4,9 @@
 
 In practice, the comparison budget for estimating a ranking from noisy data might typically be larger than that for a single call to Quicksort, and it might not exactly match the number of comparisons required to run a given number of calls to Quicksort to completion.
 Building upon the observations made at the end of Section~\ref{rs:sec:poisson}, we suggest the following practical active-learning strategy:
-for a budget of $M$ pairwise comparisons, run the sorting procedure repeatedly until the budget is depleted (the last call might have to be truncated).
-Then, retain only the set of $M$ comparison pairs and their outcomes and discard the rankings produced by the sorting procedure.
-The final ranking estimate is then induced from the MLE over the set of $M$ comparison outcomes.
+For a budget of $M$ pairwise comparisons, run the sorting procedure repeatedly until the budget is depleted (the last call might have to be truncated);
+then, retain only the set of $M$ comparison pairs and their outcomes and discard the rankings produced by the sorting procedure;
+the final ranking estimate is then induced from the MLE over the set of $M$ comparison outcomes.
 
 In this section, we demonstrate the effectiveness of this sampling strategy on synthetic and real-world data.
 In particular, we show that it is comparable to existing AL strategies at a minuscule fraction of the computational cost.
@@ -65,7 +65,7 @@ For $N \in \{10^2, 10^3, 10^4 \}$, we generate outcomes for $N$ comparisons pair
 For each strategy, we then measure the time it takes to select the $(N\!+\!1)$-st pair of items adaptively.
 The results are presented in Table~\ref{rs:tab:runningtime}.
 Note that these numbers are intended to be considered as orders of magnitude, rather than exact values, as they depend on the particular combination of software and hardware that we use.
-The running time of the Bayesian AL strategies exceed \num{10} hours for $N = 10^4$ and the calls were stopped ahead of completion.
+The running time of the Bayesian AL strategies exceeds \num{10} hours for $N = 10^4$, and the calls were stopped ahead of completion.
 Our sorting-based methods, like random sampling, are the only AL strategies whose running time is constant for increasing $N$ (and for increasing $M$).
 In fact, their running time is negligible in comparison to the other strategies, including uncertainty sampling.
 
@@ -110,7 +110,7 @@ We generate $N$ i.i.d. parameters $\theta_1, \ldots, \theta_N$ uniformly in $[0,
 The ground-truth ranking is the one induced by the parameters.
 Figure~\ref{rs:fig:synthetic} presents results for $N = \num{200}$ and $\lambda = \num{5}$.
 In comparison to random sampling, AL is very effective and results in significantly better ranking estimates for any given number of comparisons.
-The two Bayesian methods, though being the most computationally expensive, perform the best for all values of $M$, but are nearly indistinguishable from uncertainty sampling.
+The two Bayesian methods, though being the most computationally expensive, perform the best for all values of $M$ but are nearly indistinguishable from uncertainty sampling.
 The two sorting-based strategies perform similarly (with a small edge for Mergesort).
 They are slightly worse than the Bayesian methods but are still able to reap most of the benefits of active learning.
 
@@ -139,7 +139,7 @@ Sorting-based and Bayesian AL strategies have near-identical performance startin
 \label{rs:fig:sushi}
 \end{figure}
 
-Next, we consider a dataset of Sushi preferences \citep{kamishima2009efficient}.
+Next, we consider a dataset of sushi preferences \citep{kamishima2009efficient}.
 In this dataset, \num{5000} respondents give a strict ordering over \num{10} different types of sushi.
 These \num{10} sushi are chosen among a larger set of $N = \num{100}$ items.
 To suit our purposes, we decompose each $10$-way partial ranking into pairwise comparisons, resulting in \num{225000} comparison outcomes.
@@ -179,14 +179,14 @@ Users of the website are shown a prompt with two images and a question, ``Which 
 The users can click on either image, or use a third option, \emph{neither}.
 To date, over three million comparison outcomes have been collected.
 For the purpose of our experiment, we restrict ourselves to a single emotion, \emph{happiness}; and we ignore outcomes that resulted in \emph{neither}.
-We consider \num{106887} comparison outcomes over $N = \num{6120}$ items---a significant increase in scale compared to the Sushi dataset.
+We consider \num{106887} comparison outcomes over $N = \num{6120}$ items---a significant increase in scale, compared to the sushi dataset.
 
 As the data, despite a relatively large number of comparisons, remains sparse (less than 20 comparisons per item on average), we proceed as follows.
 We fit a BT model by using all the available comparisons and use the induced ranking as ground truth.
 We then generate new, synthetic comparison outcomes from the BT model.
 In this sense, the experiment enables us to compare sampling strategies by using a large BT model with realistic parameters.
 The large number of items makes uncertainty sampling and the two Bayesian methods prohibitively expensive.
-We try a simplified, computationally less expensive version of uncertainty sampling where, at every iteration, each item is compared to its two closest neighbors, but this heuristic fails spectacularly: The resulting displacement is over $5\times$ larger than random sampling for $M = 10^6$, and is therefore not reported here.
+We try a simplified, computationally less expensive version of uncertainty sampling where, at every iteration, each item is compared to its two closest neighbors, but this heuristic fails spectacularly: The resulting displacement is over $5\times$ larger than random sampling for $M = 10^6$ and is therefore not reported here.
 
 Figure~\ref{rs:fig:gifgif} compares the displacement of random sampling to that of the two sorting-based sampling strategies for increasing $M$.
 The adaptive sampling approaches perform systematically better.

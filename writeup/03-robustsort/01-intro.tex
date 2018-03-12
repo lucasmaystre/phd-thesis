@@ -2,12 +2,12 @@
 \section{Introduction}  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \label{rs:sec:intro}
 
-Whereas pairwise comparison models and related inference algorithms have been extensively studied, the question of \emph{which pairwise comparisons to query} has received significantly less attention from the research community.
+Whereas pairwise comparison models and related inference algorithms have been extensively studied, the issue of \emph{which pairwise comparisons to query} has received significantly less attention from the research community.
 To understand the potential benefits of adaptively selecting samples, consider the case where comparison outcomes are noiseless, i.e., consistent with a linear order on a set of $N$ items.
 If pairs of items are selected at random, it is necessary to collect \BigOmega{N^2} comparisons to recover the ranking \citep{alon1994linear}.
 In contrast, by using an efficient sorting algorithm, \BigO{N \log N} adaptively chosen comparisons are sufficient.
 In this chapter, we demonstrate that sorting algorithms can also be helpful in the \emph{noisy} setting, where some comparison outcomes are inconsistent with the ranking: despite errors, sorting algorithms tend to select informative samples.
-We focus on the Bradley--Terry (BT) model, which captures the intuitive notion that some pairs of items are easy to compare, and some are more difficult (c.f. Section~\ref{in:sec:btmodel}).
+We focus on the Bradley--Terry (BT) model, that captures the intuitive notion that some pairs of items are easy to compare, but some are more difficult (c.f. Section~\ref{in:sec:btmodel}).
 
 First, we study the output of a single execution of Quicksort when comparison outcomes are generated from a BT model, under the assumption that the distance between adjacent parameters is (stochastically) uniform across the ranking.
 We measure the quality of a ranking estimate by its displacement with respect to the ground truth, i.e., the sum of rank differences.
@@ -30,12 +30,12 @@ In this regard, sorting-based AL stands out, as
 After concluding this section with some preliminaries, we review related literature in Section~\ref{rs:sec:relwork}.
 Next, in Section~\ref{rs:sec:theory}, we study the displacement of Quicksort's output under noisy comparisons.
 In Section~\ref{rs:sec:experiments}, we empirically evaluate several AL strategies on three datasets.
-For clarity of presentation, some proofs are deferred to Section~\ref{rs:sec:proofs}.
+For clarity of presentation, we defer some proofs to Section~\ref{rs:sec:proofs}.
 
 \subsection{Preliminaries and Notation}
 
 Without loss of generality, we assume that the $N$ items are enumerated by increasing preference\footnote{
-This convention greatly simplifies the notation throughout the chapter, but differs from that used in most of the preference learning literature.
+This convention greatly simplifies the notation throughout the chapter, but differs from that used in most of the preference-learning literature.
 In this chapter, the item with rank $1$ is the \emph{worst}.}, i.e., $i < j$ means that $j$ is (in expectation) preferred to $i$ for all $i, j \in [N]$.
 When $j$ is preferred to $i$ as a result of a pairwise comparison, we denote the observation by $i \prec j$.
 If $i < j$, we say that $i \prec j$ is a \emph{consistent} outcome and $j \prec i$ an \emph{inconsistent} (incorrect) outcome.

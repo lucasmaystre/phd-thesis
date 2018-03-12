@@ -20,7 +20,7 @@ Even then, I-LSR turns out to be significantly faster than other commonly used a
 
 In Chapter~\ref{ch:robustsort}, we shift our attention to the task of ``intelligently'' collecting pairwise comparison outcomes, based on the observed outcomes of previous comparisons.
 Supposing that we can adaptively choose which pair of items to query at every point in time, we seek to maximize the information obtained about the model (in particular, about the ranking of the $N$ items) in addition to minimizing the number of queries.
-In the machine-learning literature, this is known as the \emph{active learning} problem \citep{settles2012active}.
+In the machine-learning literature, this is known as the \emph{active-learning} problem \citep{settles2012active}.
 We start by analyzing QuickSort \citep{hoare1962quicksort}, a popular sorting algorithm that computes a ranking when comparisons are always consistent with the true order.
 Under natural assumptions on the distribution of Bradley--Terry model parameters (that characterize the difficulty of rankings), we show that QuickSort is remarkably resilient to inconsistent comparison outcomes.
 This leads to a practical and data-efficient sampling strategy that repeatedly runs a sorting algorithm until a given comparison budget is exhausted.

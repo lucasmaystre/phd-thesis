@@ -188,21 +188,21 @@ As a comparison, one iteration of the MM algorithm \citep{hunter2004mm} is $\Big
 Finding the stationary distribution can be implemented in different ways.
 % with $S$ ranging from $\BigO{\min(D, N^2)}$ for power methods to $\BigO{N^3}$ for a dense LU decomposition.
 For example, in a sparse regime where $D \ll N^2$, the stationary distribution can be found with the power method in a few $\BigO{D}$ sparse matrix multiplications.
-In practice, whether $D$ or $S$ turns out to be dominant in the running time is not a foregone conclusion.
+In practice, it is not clear whether $D$ or $S$ turns out to be dominant in the running time.
 
 \subsection{Bradley--Terry Model}
 \label{fi:sec:pairwise}
 
 A widely-used special case of Luce's choice model occurs when all sets of alternatives contain exactly two items, i.e., when the data consists of pairwise comparisons.
-This model was proposed by \citet{zermelo1928berechnung}, and later by \citet{bradley1952rank}.
-As the stationary distribution is invariant to changes in the time-scale, we can rescale the transition rates and set $\lambda_{ji} \doteq |\mathcal{D}_{i \succ j}|$ when using LSR on pairwise data.
+This model was proposed by \citet{zermelo1928berechnung} and later by \citet{bradley1952rank}.
+As the stationary distribution is invariant to changes in the time scale, we can rescale the transition rates and set $\lambda_{ji} \doteq |\mathcal{D}_{i \succ j}|$ when using LSR on pairwise data.
 Let $\mathcal{S}$ be the set containing the pairs of items that are compared at least once.
 In the case where each pair $(i, j) \in \mathcal{S}$ are compared exactly $C$ times, LSR is strictly equivalent to a continuous-time Markov-chain formulation of Rank Centrality \citep{negahban2012iterative}.
 In fact, our derivation justifies Rank Centrality as an approximate ML inference algorithm for the Bradley--Terry model.
 Furthermore, we provide a principled extension of Rank Centrality to the case where the number of observed comparisons is unbalanced.
 Rank Centrality considers transition rates proportional to the \emph{ratio} of wins, whereas \eqref{fi:eq:master} justifies making transition rates proportional to the \emph{count} of wins.
 
-\citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that it is minimax-optimal.
+\citet{negahban2012iterative} also provide an upper bound on the error rate of Rank Centrality, which essentially shows that the error rate is minimax-optimal.
 Because the two estimators are equivalent in the setting of balanced pairwise comparisons, the bound also applies to LSR.
 
 \subsection{Plackett--Luce Model}
@@ -227,14 +227,14 @@ In fact, for $K = 2$, their algorithm GMM-F is identical to LSR.
 When $K > 2$ however, breaking a ranking into $\binom{K}{2}$ pairwise comparisons implicitly makes the (incorrect) assumption that these comparisons are statistically independent.
 The Markov chain that LSR builds breaks rankings into pairwise rate contributions, but weights the contributions differently depending on the rank of the winning item.
 In Section~\ref{fi:sec:experiments}, we show that this weighting turns out to be crucial.
-Our approach yields a significant improvement in statistical efficiency, yet keeps the same attractive computational cost and ease of use.
+Our approach yields a significant improvement in statistical efficiency yet keeps the same attractive computational cost and ease of use.
 
 
 \subsection{Rao--Kupper Model}
 \label{fi:sec:ties}
 
 The link between the MLE and the stationary distribution of a Markov chain seemingly applies to other variants and extensions of Luce's choice model.
-As an illustration, we consider the model proposed by \citet{rao1967ties}, which extends the Bradley--Terry model to the case where a comparison between two items can result in a tie.
+For an illustration, we consider the model proposed by \citet{rao1967ties}, which extends the Bradley--Terry model to the case where a comparison between two items can result in a tie.
 This model is useful, e.g., for chess, where a significant fraction of comparison outcomes do not result in either a win or a loss.
 Letting $\alpha \in [1, \infty)$, the probabilities of $i$ winning over and tying with $j$, respectively, are given by
 \begin{align*}

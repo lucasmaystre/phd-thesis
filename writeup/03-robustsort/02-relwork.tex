@@ -10,14 +10,14 @@ Furthermore, they suggest that the ranking induced by the BT model cannot be rec
 Our work shows that by \emph{adaptively} selecting pairs based on observed outcomes, we observe substantial gains.
 
 \paragraph{Active Preference Learning}
-AL approaches for learning a ranking based on noisy comparison outcomes have been studied under various assumptions.
+AL approaches for learning a ranking from noisy comparison outcomes have been studied under various assumptions.
 \citet{braverman2008noisy} examine a model where outcomes of pairwise comparisons are flipped with a small, constant probability.
 \citet{ailon2012active} considers an adversarial setting (comparison outcomes can be arbitrary) and investigates AL in the context of finding a ranking that minimizes the number of inconsistent outcomes, also known as the minimum feedback-arc set problem on tournaments (MFAST).
 These theoretical studies imply, in their respective settings, that \BigO{N \log^k N} comparison outcomes are enough to recover a near-optimal ranking, for some $k \in \mathbf{N}_{>0}$.
 %They design an algorithm that recovers the maximum-likelihood ranking in polynomial-time using only \BigO{n \log n} comparisons, but its running time is impractical.
 \citet{jamieson2011active} propose an efficient active-ranking algorithm that is applicable if items can be embedded in $\mathbf{R}^D$ (e.g., using $D$ features) and assuming that admissible rankings satisfy some geometric constraints.
 \citet{wang2014active} study a collaborative preference-learning problem (each user is modeled by a different BT model) and show that a variant of uncertainty sampling---a well-known AL strategy---works well for their problem.
-In this work, we assume that we do not have access to item features and that comparison outcomes follow a single BT model.
+Here, we assume that we do not have access to item features and that comparison outcomes follow a single BT model.
 
 \paragraph{Bayesian Methods}
 From a practical standpoint, Bayesian methods provide an effective way to select informative samples \citep{mackay1992bayesian}.
@@ -29,10 +29,10 @@ We compare our AL strategy to these methods in Section~\ref{rs:sec:experiments}.
 
 \paragraph{Multi-Armed Bandit}
 The \emph{dueling bandit} problem \citep{yue2009karmed} is somewhat related to our work.
-In this problem, the goal is to identify the best item based on noisy comparison outcomes, using as few adaptively chosen samples as possible.
+In this problem, the goal is to identify the best item, based on noisy comparison outcomes, using as few adaptively chosen samples as possible.
 Two recent papers also extend the problem to that of recovering the entire ranking (instead of only the top element).
 The work of \citet{szorenyi2015online} is the closest to ours, as it also uses the BT model.
-They show that a quasilinear number of comparisons is sufficient to recover the true ranking (under some conditions on $\bm{\theta}$), a result that is similar to our Theorem~\ref{rs:thm:multidisp}.
+They show that a quasilinear number of comparisons is sufficient for recovering the true ranking (under some conditions on $\bm{\theta}$), a result that is similar to our Theorem~\ref{rs:thm:multidisp}.
 \citet{heckel2016active} investigate a non-parametric model and develop some theoretical guarantees.
 In contrast to these works, we study practical comparison budgets: we give theoretical guarantees for the output obtained from a single call to Quicksort, and in our experiments we never exceed $\approx 10$ calls.
 

@@ -20,7 +20,7 @@ Starting from a Gaussian prior distribution over the $M$ matches $\bm{f} = [f_1 
 \begin{align*}
 p(\bm{f} \mid \mathcal{D}) \propto \DNorm{\bm{f} \mid \bm{m}, \bm{K}} \prod_{m = 1}^M \frac{1}{1 + \exp(- f_m)}.
 \end{align*}
-This distribution is intractable, and we use the expectation propagation algorithm\footnote{%
+This distribution is intractable, and we use the expectation-propagation algorithm\footnote{%
 We use the GPy Python library (see: \url{https://sheffieldml.github.io/GPy/}) to fit the model; inference takes a minute for the 2008 test set (17 minutes for 2016).}
 to approximate it by a multivariate normal distribution \citep{minka2001family}.
 Once the posterior is computed, we can use it to generate predictions for new matches \citep{rasmussen2006gaussian}.
@@ -53,10 +53,10 @@ The majority of matches are played in competitions between clubs.}
 \end{table}
 
 We compare our predictive distributions against three baselines.
-First, we consider a simple Rao-Kupper model based on national team ratings obtained from a popular Web site\footnote{See: \url{http://www.eloratings.net/}.}.
+First, we consider a simple Rao-Kupper model based on national team ratings obtained from a popular website\footnote{See: \url{http://www.eloratings.net/}.}.
 This model is similar to ours, but
 \begin{enuminline}
-\item it does not relate matches through players, and thus does not consider club outcomes, and
+\item it does not relate matches through players, hence does not consider club outcomes, and
 \item as ratings are fixed values, it does not consider uncertainty in the ratings.
 \end{enuminline}
 Second, we consider average probabilities derived from the odds given by three large betting companies.
@@ -97,8 +97,8 @@ Table~\ref{pk:tab:eval} summarizes the results.
   \end{tabular}
 \end{table}
 
-Our predictive model performs well in 2008 and 2012, but slightly less so in 2016.
-It is noteworthy that the 2016 final tournament has been generally less predictable than earlier editions.
+Our predictive model performs well for 2008 and 2012, but slightly less so for 2016.
+It is noteworthy that the 2016 final tournament was generally less predictable than earlier editions.
 The case of the Elo baseline is interesting, as its accuracy varies wildly.
 Reasons for this might include the noise due to the online gradient updates, and the lack of proper uncertainty quantification in the ratings.
 Our method, in contrast, seems to produce more conservative predictions, but manages to achieve a more consistent performance.

@@ -1,12 +1,12 @@
 \section{Methods}
 \label{pk:sec:methods}
 
-In this section, we first show how the Bradley--Terry model of pairwise comparisons (the modern name of Zermelo's model), can be expressed in the Gaussian process framework.
-The Gaussian process viewpoint shifts the focus from \emph{items} (or, in our case, contestants) to \emph{games}: the statistical relationship between outcomes of several games is given by a covariance function.
+In this section, we first show how the Bradley--Terry model of pairwise comparisons (the modern name of Zermelo's model), can be expressed in the Gaussian-process framework.
+The Gaussian-process viewpoint shifts the focus from \emph{items} (or, in our case, contestants) to \emph{games}: the statistical relationship between outcomes of several games is given by a covariance function.
 Second, we present the \emph{player kernel}, a covariance function that relates football matches through lineups.
 
 
-\subsection{Gaussian Process Classification Viewpoint}
+\subsection{Gaussian-Process Classification Viewpoint}
 
 Suppose that we observe outcomes of comparisons between two items (e.g., two players or two teams) in a universe of items denoted $1, \ldots, N$.
 We begin by restricting ourselves to binary outcomes, i.e., we assume that one of the two items necessarily wins.
@@ -18,7 +18,7 @@ Given these parameters, the probability of observing the outcome $i \succ j$ is 
 \end{align}
 where $\bm{\theta} = [\theta_i]$ and $\bm{x} \in \mathbf{R}^N$ is such that $x_i = 1$, $x_j = -1$ and $x_k = 0$ for $k \ne i, j$.
 As such, the pairwise comparison model can be seen as a special case of logistic regression \citep[Chapter 4]{bishop2006pattern}, where the feature vector simply indicates the winning and losing items.
-Furthermore, logistic regression is itself a special case of Gaussian process classification \cite[Chapter 3]{rasmussen2006gaussian}.
+Furthermore, logistic regression is itself a special case of Gaussian-process classification \cite[Chapter 3]{rasmussen2006gaussian}.
 
 \begin{definition}[Gaussian process]
 A \emph{Gaussian process}
@@ -36,11 +36,11 @@ where $m_u = m(\bm{x}_u)$ and $k_{uv} = k(\bm{x}_u, \bm{x}_v)$.
 \end{definition}
 
 It is not hard to show that if $\bm{\theta} \sim \DNorm{\bm{0}, \sigma^2 \bm{I}}$, then $f(\bm{x}) = \bm{\theta}^\Tr \bm{x}$ is a Gaussian process with $m(\bm{x}) = 0$ and $k(\bm{x}, \bm{x}') = \sigma^2 \bm{x}^\top \bm{x}'$.
-This enables the interpretation of \eqref{pk:eq:logistic} as the likelihood of a Gaussian process classification model with the logit link function.
+This enables us to interpret \eqref{pk:eq:logistic} as the likelihood of a Gaussian-process classification model with the logit link function.
 
-The Gaussian process viewpoint shifts the focus from the parametric representation of the function $f(\bm{x})$ (in the case of \eqref{pk:eq:logistic}, a linear function of items strengths) to the covariance between two function evaluations, as defined by the kernel function $k(\bm{x}, \bm{x}')$.
+The Gaussian-process viewpoint shifts the focus from the parametric representation of the function $f(\bm{x})$ (in the case of \eqref{pk:eq:logistic}, a linear function of items strengths) to the covariance between two function evaluations, as defined by the kernel function $k(\bm{x}, \bm{x}')$.
 Intuitively (and informally), the model can simply be specified by stating how similar any two match outcomes are expected to be.
-Furthermore, the Gaussian process viewpoint also makes it possible to take advantage of the vast amount of literature and software related to accurate, efficient and scalable inference.
+Furthermore, the Gaussian-process viewpoint also makes it possible to take advantage of the vast amount of literature and software related to accurate, efficient, and scalable inference.
 
 
 \paragraph{Handling Draws}
@@ -51,7 +51,7 @@ In this extension, the two different types of outcomes have probabilities
 \Prob{i \equiv j} &= (e^{2 \alpha} - 1) \Prob{i \succ j} \Prob{j \succ i},
 \end{align*}
 where $\alpha > 0$ is an additional hyperparameter controlling the frequency of draws (see also Section~\ref{fi:sec:ties}).
-Because a draw can be written as the product of a win and a loss, model inference can still be performed using only a \emph{binary} Gaussian process classification model, with minimal changes needed to the link function.
+Because a draw can be written as the product of a win and a loss, model inference can still be performed using only a \emph{binary} Gaussian-process classification model, with the changes needed to the link function being minimal.
 
 
 \subsection{The Player Kernel}
@@ -65,7 +65,7 @@ We then define the player kernel as
 \begin{align*}
 k(\bm{z}, \bm{z}') = \sigma^2 \bm{z}^\top \bm{z}'.
 \end{align*}
-Intuitively, the function is positive if the same players are lined up in both matches, and the same players win (respectively lose).
+Intuitively, the function is positive if the same players are lined up in both matches, and the same players win (respectively, lose).
 The function is negative when players win one match, but lose the other.
 Finally, the function is zero, e.g., when the lineups are completely disjoint.
 
@@ -79,7 +79,7 @@ Figure~\ref{pk:fig:kernel} illustrates the similarity of matches across differen
   \centering
   \includegraphics{pk-kernelmatrix}
   \caption{Heatmap of the magnitude of the kernel matrix for \num{3184} matches played over the year preceding Euro 2012.
-White indicates zero correlation, black indicates nonzero correlation.
+White indicates zero correlation, black indicates non-zero correlation.
 Matches between national teams exhibit non-zero covariance with matches of all other competitions.
 }
   \label{pk:fig:kernel}
@@ -87,11 +87,11 @@ Matches between national teams exhibit non-zero covariance with matches of all o
 
 It is interesting to note that the player kernel corresponds to a linear model over the players.
 That is, it is equivalent to assuming that there is one independent skill parameter per player, and that the strength of a team is the sum of its players' skills.
-Such a model contains a massive number of parameters (possibly much more than the number of observations), and there is little hope to reliably estimate every parameter.
+Such a model contains a massive number of parameters (possibly much more than the number of observations), and there is little hope for a reliable estimation of every parameter.
 In fact, in Section~\ref{pk:sec:evaluation} we observe that the model is ``weakly'' parametric: the number of distinct players usually grows with the number of matches observed.
 The kernel-based viewpoint that we take emphasizes the fact that estimating these parameters explicitly is \emph{not} necessary.
 
 \paragraph{Relation to TrueSkill}
-Our Gaussian process model coupled to the player kernel is very similar to TrueSkill \citep{herbrich2006trueskill}.
-The most important difference is that we take advantage of the dual representation and operate in the space of matches instead of the space of players.
-Beyond the conceptual reasons outlined above, it makes inference less computationally intensive for the datasets that we consider.
+Our Gaussian-process model coupled with the player kernel is very similar to TrueSkill \citep{herbrich2006trueskill}.
+The most important difference is that we take advantage of the dual representation and operate in the space of matches, instead of in the space of players.
+Beyond the conceptual reasons outlined above, the model makes inference less computationally intensive for the datasets that we consider.
