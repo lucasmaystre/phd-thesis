@@ -3,8 +3,8 @@
 
 The Internet enables the collection of comparison data at an unprecedented scale, opening up many new opportunities for businesses and researchers.
 But it also raises substantial challenges.
-Often, the complexity of the statistical models (as characterized, e.g., by the number of items) grows concurrently to the amount of data.
-This calls for new, efficient methods for collecting and analyzing comparisons.
+Often, the complexity of the models used to analyze the data (as characterized, e.g., by the number of items) grows concurrently to the amount of data.
+This calls for new, efficient methods for collecting comparisons and learning models.
 In this thesis, we propose several solutions that highlight different aspects of efficiency.
 
 \begin{itemize}
@@ -17,8 +17,8 @@ We study theoretically and empirically the performance of Quicksort when pairwis
 In scenarios where it is possible to adaptively select pairs of items to compare, we show that sorting-based active learning strategies lead to significant gains in sample efficiency.
 Compared to competing active learning methods, ours is computationally cheaper.
 
-\item In Chapter~\ref{ch:choicerank}, we focus on the case of choices in networks.
-In this case, we achieve data efficiency in a different way: we find that it is not necessary to observe choices among well-defined sets of alternatives in order to estimate model parameters.
+\item In Chapter~\ref{ch:choicerank}, we focus on choices in networks.
+In this case, we achieve data efficiency in a different way: we find that it is not necessary to observe distinct choices among well-defined sets of alternatives in order to estimate model parameters.
 Marginal information about the incoming and outgoing traffic at each node is sufficient.
 The network structure also enables a fast algorithm that scales to very large graphs.
 
@@ -31,10 +31,10 @@ We do so by implicitly project the football matches in the space of players.
 The approach we take in most of this thesis consists of distilling challenges faced in modern applications of choice models into simpler and more fundamental problems.
 We then propose methods to address these problems.
 Throughout the thesis, we have illustrated these methods with real use-cases; however, there remain important classes of practical applications for which our methods are not applicable directly.
-We discuss three directions in which our methods could be extended.
+We discuss three directions in which our work could be extended.
 
 \begin{description}
-\item[Side information] With the exception of Chapter~\ref{ch:playerkern}, we have assumed that the item strengths $\{ \gamma_i : i \in [N] \}$ are free parameters.
+\item[Side information] With the exception of Chapter~\ref{ch:playerkern}, we have assumed that the item strengths $\{ \gamma_i \}$ or $\{ \theta_i \}$ are free parameters.
 However, in some applications, we might have access to features that relate items to each other.
 We distinguish two cases.
 First, suppose that item $i$ is described by a real-valued feature vector $\bm{x}_i \in \mathbf{R}^D$, where typically $D \ll N$.
@@ -56,13 +56,13 @@ In general, integrating latent context into choice models is an interesting aven
 As an example, online service providers use these systems in order to taylor their service to the specific tastes of a user.
 An obvious but inefficient way to achieve personalization is to learn a distinct choice model for every user.
 As many users share similar preferences, it is sensible to take advantage of similar users' choices to learn a given user's preferences.
-One approach is to postulate that there is small number of (global) Luce's models, and that a individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2015ranked}.
+One approach is to postulate that there are a small number of (global) instances of Luce's model, and that individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2015ranked}.
 The inference problem then consists of jointly learning the global models and the user-specific mixture weights.
 To this end, the algorithms developed in Chapter~\ref{ch:fastinference} could be used to carry out the \emph{M} step in the \emph{EM} algorithm of \citet{gormley2008exploring}.
 \end{description}
 
 Finally, a potential weakness of models based on Luce's axiom (as well as those based on Thurstone's ideas, see Section~\ref{in:sec:thurstone}) is that they are sensitive to outliers: the probability that the outcome of a comparison between $i$ and $j$ is inconsistent decreases \emph{exponentially} fast with $\Abs{\theta_i - \theta_j}$.
-Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) might affect the model disproportionately.
+Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) might affect the model significantly.
 The study of robust alternatives to Luce's model is an important direction for future work.
 On the one hand, model inference will likely require the development of new tools, beyond those presented in this thesis.
 On the other hand, there is hope that the sorting-based active learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.
