@@ -1,9 +1,9 @@
 \chapter{Conclusion}
 \label{ch:conclusion}
 
-The Internet enables the collection of comparison data at an unprecedented scale, opening up many new opportunities for businesses and researchers.
+Modern technologies enable the collection of comparison data at an unprecedented scale, opening up many new opportunities for businesses and researchers.
 But it also raises substantial challenges.
-Often, the complexity of the models used to analyze the data (as characterized, e.g., by the number of items) grows concurrently to the amount of data.
+Often, the number of parameters of the models used to analyze the data grows concurrently to the amount of data.
 This calls for new, efficient methods for collecting comparisons and learning models.
 In this thesis, we propose several solutions that highlight different aspects of efficiency.
 
@@ -24,17 +24,17 @@ The network structure also enables a fast algorithm that scales to very large gr
 
 \item Finally, in Chapter~\ref{ch:playerkern}, we tackle a concrete problem in sports.
 Based on past outcomes of football matches, we seek to predict the outcome of future matches between national teams.
-We devise a method that uses all the available data efficiently: by considering also the outcome of matches between clubs, we obtain predictions that outperform competing models.
-We do so by implicitly project the football matches in the space of players.
+We devise a method that uses all the available data efficiently: it considers the outcome of all matches---including those between clubs---and obtains predictions that outperform competing models.
+It does so by implicitly projecting the football matches in the space of players.
 \end{itemize}
 
-The approach we take in most of this thesis consists of distilling challenges faced in modern applications of choice models into simpler and more fundamental problems.
+The approach we take in most of this thesis consists of distilling challenges faced in modern applications of choice models into simple and fundamental problems.
 We then propose methods to address these problems.
-Throughout the thesis, we have illustrated these methods with real use-cases; however, there remain important classes of practical applications for which our methods are not applicable directly.
+We have applied these methods to real use-cases; however, there remain important classes of practical applications for which our methods are not applicable directly.
 We discuss three directions in which our work could be extended.
 
 \begin{description}
-\item[Side information] With the exception of Chapter~\ref{ch:playerkern}, we have assumed that the item strengths $\{ \gamma_i \}$ or $\{ \theta_i \}$ are free parameters.
+\item[Item features] With the exception of Chapter~\ref{ch:playerkern}, we have assumed that the item strengths $\{ \gamma_i \}$ or $\{ \theta_i \}$ are free parameters.
 However, in some applications, we might have access to features that relate items to each other.
 We distinguish two cases.
 First, suppose that item $i$ is described by a real-valued feature vector $\bm{x}_i \in \mathbf{R}^D$, where typically $D \ll N$.
@@ -48,9 +48,9 @@ Preliminary work shows that the algorithms developed in Chapter~\ref{ch:fastinfe
 For example, we might prefer to listen to a different type of music depending on whether we are spending a quiet moment or doing sports, or whether it is summer or Christmas time, etc.
 In cases where the context is explicit, we fall back to the problem of integrating side information.
 However, if the context is not explicitly observed, the problem becomes more difficult.
-In \citet{ko2016collaborative}, we study a setting in which we observe sequences of choices.
+We make a step towards adressing this problem in \citet{ko2016collaborative}, where we study a setting in which we observe sequences of choices.
 We propose a model where the context at time $t$ is encoded by previous choices made by a user in $(-\infty, t)$, and where the effective utility $\theta_i^{(t)}$ of item $i$ at time $t$ varies accordingly.
-In general, integrating latent context into choice models is an interesting avenue for future research.
+In general, integrating latent context into choice models remains an interesting avenue for future research.
 
 \item[Personalization] In applications using recommender systems, the task is often to learn a \emph{distinct} preference profile for each user.
 As an example, online service providers use these systems in order to taylor their service to the specific tastes of a user.
@@ -62,7 +62,7 @@ To this end, the algorithms developed in Chapter~\ref{ch:fastinference} could be
 \end{description}
 
 Finally, a potential weakness of models based on Luce's axiom (as well as those based on Thurstone's ideas, see Section~\ref{in:sec:thurstone}) is that they are sensitive to outliers: the probability that the outcome of a comparison between $i$ and $j$ is inconsistent decreases \emph{exponentially} fast with $\Abs{\theta_i - \theta_j}$.
-Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) might affect the model significantly.
+Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) can affect the model significantly.
 The study of robust alternatives to Luce's model is an important direction for future work.
 On the one hand, model inference will likely require the development of new tools, beyond those presented in this thesis.
 On the other hand, there is hope that the sorting-based active learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.
