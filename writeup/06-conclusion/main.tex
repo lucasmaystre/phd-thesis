@@ -2,7 +2,7 @@
 \label{ch:conclusion}
 
 Modern technologies enable the collection of comparison data at an unprecedented scale, opening up many new opportunities for businesses and researchers.
-But it also raises substantial challenges.
+But they also raise substantial challenges.
 Often, the number of parameters of the models used to analyze the data grows concurrently to the amount of data.
 This calls for new, efficient methods for collecting comparisons and learning models.
 In this thesis, we propose several solutions that highlight different aspects of efficiency.
@@ -46,14 +46,14 @@ Preliminary work shows that the algorithms developed in Chapter~\ref{ch:fastinfe
 
 \item[Context of comparisons] Sometimes, the context in which choices are made is important.
 For example, we might prefer to listen to a different type of music depending on whether we are spending a quiet moment or doing sports, or whether it is summer or Christmas time, etc.
-In cases where the context is explicit, we fall back to the problem of integrating side information.
+In cases where the context is explicit, we fall back to the problem of integrating side information in the form of feature vectors.
 However, if the context is not explicitly observed, the problem becomes more difficult.
 We make a step towards addressing this problem in \citet{ko2016collaborative}, where we study a setting in which we observe sequences of choices.
 We propose a model where the context at time $t$ is encoded by previous choices made by a user in $(-\infty, t)$, and where the effective utility $\theta_i^{(t)}$ of item $i$ at time $t$ varies accordingly.
 In general, integrating latent context into choice models remains an interesting avenue for future research.
 
 \item[Personalization] In applications using recommender systems, the task is often to learn a \emph{distinct} preference profile for each user.
-As an example, online service providers use these systems in order to tailor their service to the specific tastes of a user.
+For example, online service providers use these systems in order to tailor their service to the specific tastes of a user.
 An obvious but inefficient way to achieve personalization is to learn a distinct choice model for every user.
 As many users share similar preferences, it is sensible to take advantage of similar users' choices to learn a given user's preferences.
 One approach is to postulate that there are a small number of (global) instances of Luce's model, and that individual preferences are formed by (user-specific) mixtures of these models \citep{gormley2008exploring, ammar2015ranked}.
@@ -61,8 +61,12 @@ The inference problem then consists of jointly learning the global models and th
 To this end, the algorithms developed in Chapter~\ref{ch:fastinference} could be used to carry out the \emph{M} step in the \emph{EM} algorithm of \citet{gormley2008exploring}.
 \end{description}
 
-Finally, a potential weakness of models based on Luce's axiom (as well as those based on Thurstone's ideas, see Section~\ref{in:sec:thurstone}) is that they are sensitive to outliers: the probability that the outcome of a comparison between $i$ and $j$ is inconsistent decreases \emph{exponentially} fast with $\Abs{\theta_i - \theta_j}$.
+A potential weakness of models based on Luce's axiom (as well as those based on Thurstone's ideas, see Section~\ref{in:sec:thurstone}) is that they are sensitive to outliers: the probability that the outcome of a comparison between $i$ and $j$ is inconsistent decreases \emph{exponentially} fast with $\Abs{\theta_i - \theta_j}$.
 Hence, a small fraction of outliers (due, e.g., to the actions of dishonest users) can affect the model significantly.
-The study of robust alternatives to Luce's model is an important direction for future work.
+In addition to the extensions outlined above, the study of robust alternatives to Luce's model is an important direction for future work.
 On the one hand, model inference will likely require the development of new tools, beyond those presented in this thesis.
-On the other hand, there is hope that the sorting-based active-learning strategies presented in Chapter~\ref{ch:robustsort} can be extended to heavy-tailed noise, including the theoretical bounds on Quicksort's performance.
+On the other hand, there is hope that the sorting-based active-learning strategies presented in Chapter~\ref{ch:robustsort}---including the theoretical bounds on Quicksort's performance---can be extended to heavy-tailed noise.
+
+In conclusion, we hope to have convinced the reader that the study of comparison models is of paramount importance to improve online applications, because choices are the most natural way for humans to express their opinions (whether implicitly or explicitly).
+This thesis hopefully brings us a step closer towards effective methods for eliciting and analyzing comparison outcomes.
+As several challenges remain, research on choice models has a bright future ahead of itself.
