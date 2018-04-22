@@ -102,7 +102,7 @@ Given a strongly-connected directed graph $\mathcal{G} = (\mathcal{V}, \mathcal{
 As there are $M = \BigO{N^2}$ degrees of freedom (the transition probabilities) for $N$ constraints (the stationary distribution), the problem is in most cases underdetermined.
 Following Luce's ideas, the transition probabilities are constrained to be proportional to a latent score of the destination node as per \eqref{cr:eq:singlelik}, thus reducing the number of parameters from $M$ to $N$.
 Denote by $\bm{P}(\bm{s})$ the Markov-chain transition matrix parametrized with scores $\bm{s}$.
-The score vector $\bm{s}$ is a solution for the steady-state inversion problem if and only if $\bm{\pi} = \bm{\pi}^\Tr \bm{P}(\bm{s})$, or equivalently
+The score vector $\bm{s}$ is a solution for the steady-state inversion problem if and only if $\bm{\pi}^\Tr = \bm{\pi}^\Tr \bm{P}(\bm{s})$, or equivalently
 \begin{align}
 \label{cr:eq:balance}
 \pi_i = \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} s_i}{\sum_{k \in \mathcal{N}^+_j} w_{jk} s_k} \pi_j \quad \forall i.

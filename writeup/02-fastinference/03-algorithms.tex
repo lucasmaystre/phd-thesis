@@ -11,7 +11,7 @@ Although our derivation is made in the general choice model, we also discuss imp
 For each item $i \in [N]$, we define two sets of indices.
 Let $\mathcal{W}_i \doteq \{ m : i \in \mathcal{A}_m, c_m = i \}$ and $\mathcal{L}_i \doteq \{ m : i \in \mathcal{A}_m, c_m \ne i \}$ be the indices of the observations where item $i$ wins over and loses against the alternatives, respectively.
 We start from the log-likelihood $\ell(\bm{\gamma})$ in~\eqref{fi:eq:loglik};
-the optimality condition $\nabla \ell = 0$ implies
+the optimality condition $\nabla \ell = \bm{0}$ implies
 \begin{align}
 \left. \frac{\partial \ell(\bm{\gamma})}{\partial \gamma_i} \right\rvert_{\bm{\gamma} = \bm{\gamma}^\star}
     = \sum_{m \in W_i} \bigg[ \frac{1}{\gamma^\star_i} - \frac{1}{\sum_{j \in \mathcal{A}_m} \gamma^\star_j} \bigg]
@@ -50,7 +50,7 @@ Let $\bm{Q}(\bm{\gamma})$ be the infinitesimal generator matrix of the Markov ch
 The dynamics of the Markov chain are described by the differential equation
 \begin{align}
 \label{fi:eq:dynsys}
-\frac{d \bm{\gamma}}{dt} = \bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}).
+\frac{d \bm{\gamma}^\Tr}{dt} = \bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}).
 \end{align}
 By construction, the invariant distributions of the Markov chain coincide with the maximizers of the log-likelihood~\eqref{fi:eq:loglik}.
 Hence, we know that $\bm{\gamma}^\star$ is the unique equilibrium point for~\eqref{fi:eq:dynsys}, i.e., satisfying $\bm{\gamma}^\Tr \bm{Q}(\bm{\gamma}) = \bm{0}$.
