@@ -15,7 +15,7 @@ The outcome of the comparison between stimuli $i$ and $j$ is given by comparing 
 He further postulated that these random variables follow a jointly Gaussian distribution $\bm{x} \sim \DNorm{\bm{\theta}, \bm{\Sigma}}$.
 Denoting by $i \succ j$ the event ``$i$ wins over $j$'',
 \begin{align*}
-\Prob{i \succ j} = \Prob{x_i > x_j} = \Phi \left( \frac{\theta_i - \theta_j}{\sqrt{\Sigma_{ii} + \Sigma_{jj} - 2\Sigma{ij}}} \right),
+\Prob{i \succ j} = \Prob{x_i > x_j} = \Phi \left( \frac{\theta_i - \theta_j}{\sqrt{\Sigma_{ii} + \Sigma_{jj} - 2\Sigma_{ij}}} \right),
 \end{align*}
 where $\Phi(\cdot)$ is the cumulative density function of the standard normal distribution and the last equality is obtained by noting that $x_i - x_j \sim \DNorm{\theta_i - \theta_j, \Sigma_{ii} + \Sigma_{jj} - 2\Sigma{ij}}$.
 Thurstone considered several variants of the model that place successively more restrictive assumptions on the covariance matrix $\bm{\Sigma}$.
