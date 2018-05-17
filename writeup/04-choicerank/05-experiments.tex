@@ -21,13 +21,13 @@ We aggregate the transition counts into marginal traffic data $\{ (c^-_i, c^+_i)
 We set $\alpha = 2.0$ and $\beta = 1.0$ (these small values simply guarantee the convergence of the algorithm for any network structure) and declare convergence when $\Norm{\bm{\gamma}^{(t)} - \bm{\gamma}^{(t-1)}} / N < 10^{-8}$.
 Given $\bm{\gamma}$, we estimate transition probabilities by using $p_{ij} \propto \gamma_j$ as given by \eqref{cr:eq:singlelik}.
 To the best of our knowledge, there is no other published method that tackles the problem of estimating transition probabilities from marginal traffic data.
-We compare our method to three baselines based on simple heuristics.
+Hence, we compare our method to three baselines based on simple heuristics.
 \begin{description}
 \item[Traffic] Transitions probabilities are proportional to the traffic of the target node: $q_{ij}^T \propto c_j^{-}$.
 \item[PageRank] Transition probabilities are proportional to the PageRank score of the target node: $q_{ij}^P \propto \text{PR}_j$.
 \item[Uniform] Any transition is equiprobable: $q_{ij}^U \propto 1$.
 \end{description}
-The four estimates are compared against ground-truth transition probabilities derived from the edge traffic data: $p_{ij}^\star \propto c_{ij}$.
+The four estimates are compared against estimates of transition probabilities derived from ground-truth edge traffic data: $p_{ij}^\star \propto c_{ij}$.
 We emphasize that although per-edge transition counts $\{c_{ij}\}$ are needed to \emph{evaluate} the accuracy of the network choice model (and the baselines), these counts are not necessary for \emph{learning} the model---per-node marginal counts are sufficient.
 
 Given a node $i$, we measure the accuracy of a distribution $\bm{q}_i$ over outgoing transitions using two error metrics, the KL-divergence and the (normalized) rank displacement:
@@ -112,8 +112,9 @@ As edges can be processed in any order, it can be beneficial to reorder the edge
 For this reason, our implementation preprocesses the list of edges and reorders them in Hilbert curve order\footnote{A Hilbert space-filling curve visits all the entries of the adjacency matrix of the graph, in a way that preserves locality of both source and destination of the edges.}.
 This results in better cache locality and yields a significant speedup.
 
-We test our implementation on a hyperlink graph extracted from the 2012 Common Crawl Web corpus\footnote{
-The data are available at \url{http://webdatacommons.org/hyperlinkgraph/}.} that contains over \num{3.5} billion nodes and \num{128} billion edges \citep{meusel2014graph}.
+We test our implementation on a hyperlink graph extracted from the 2012 Common Crawl Web corpus\footnote{%
+The data are available at \url{http://webdatacommons.org/hyperlinkgraph/}.}
+that contains over \num{3.5} billion nodes and \num{128} billion edges \citep{meusel2014graph}.
 The edge list alone requires about $1$ TB of uncompressed storage.
 There is no publicly available information on the traffic at each page, therefore we generate a value $c_i$ for every node $i$ randomly and uniformly between \num{100} and \num{500}, and set both $c^-_i$ and $c^+_i$ to $c_i$.
 As such, this experiment does not attempt to measure the validity of the model (unlike the experiments of Section~\ref{cr:sec:accuracy}).

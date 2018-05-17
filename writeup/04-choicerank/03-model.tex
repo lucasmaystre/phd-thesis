@@ -29,7 +29,7 @@ for some parameter vector $\bm{\gamma} = [\gamma_1 \ \cdots \ \gamma_N]^\Tr \in 
 Intuitively, the parameter $\gamma_i$ can be interpreted as the utility of item $i$.
 The edge weights are relevant in situations where the current context modulates the alternatives' utility;
 for example, they can be used to encode the position or prominence of a link on a page in a hyperlink graph, or the distance between two locations in a mobility network.
-Luce's original choice model is obtained by setting $w_{ij} \doteq \text{constant}$.
+Luce's original choice model is obtained by setting $w_{ij} \doteq 1$ for all $i, j$.
 Note that $p_{ij}$ depends only on the out-neighborhood of node $i$.
 As such, the choice process satisfies the Markov property, and we can think of the sequence of choices as a trajectory in a Markov chain.
 
@@ -57,6 +57,7 @@ Starting from the transition probability defined in~\eqref{cr:eq:singlelik}, we 
 where $c^-_i = \sum_{j \in \mathcal{N}^-_i} c_{ji}$ and $c^+_i = \sum_{j \in \mathcal{N}^+_i} c_{ij}$ is the aggregate number of transitions arriving in and originating from $i$, respectively.
 This formulation of the log-likelihood exhibits a key feature of the model:
 the set of $2N$ counts $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a sufficient statistic of the $M = \BigO{N^2}$ counts $\{ c_{ij} : (i, j) \in \mathcal{E} \}$ for the parameters $\bm{\gamma}$.
+The following theorem is an extension of a well-known result for Luce's choice model \citep{buehlmann1963pairwise}.
 
 \begin{theorem}
 The set of aggregate transitions  $\{ (c^-_i, c^+_i) : i \in \mathcal{V} \}$ is a minimally sufficient statistic for the parameters $\bm{\gamma}$.
@@ -118,7 +119,7 @@ Therefore,
     \xrightarrow{T \to \infty} \sum_{i = 1}^N \pi_i \bigg[ \log \gamma_i - \log \sum_{k \in \mathcal{N}^+_i} w_{ik} \gamma_k \bigg].
 \end{align*}
 Let $\bm{\gamma}^\star$ be a maximizer of the average log-likelihood.
-When $T \to \infty$, the optimality condition $\nabla \hat{\ell} = \bm{0}$ implies, for all $i$,
+When $T \to \infty$, the optimality condition $\nabla \hat{\ell}(\bm{\gamma}^\star) = \bm{0}$ implies, for all $i$,
 \begin{align}
 &\frac{\partial \hat{\ell}(\bm{\gamma})}{\partial \gamma_i} \bigg|_{\bm{\gamma} = \bm{\gamma}^\star}
     = \frac{\pi_i}{\gamma^\star_i} - \sum_{j \in \mathcal{N}^-_i} \frac{w_{ji} \pi_j}{\sum_{k \in \mathcal{N}^+_j} w_{jk} \gamma^\star_k}
@@ -136,6 +137,7 @@ As such, the network choice model presented in this chapter can be viewed as a p
 The log-likelihood~\eqref{cr:eq:loglik} is not concave in $\bm{\gamma}$, but it can be made concave by using the standard reparametrization $\gamma_i = e^{\theta_i}$.
 Therefore, any local minimum of the likelihood is a global minimum (c.f. Section~\ref{fi:sec:mle}).
 Unfortunately, it turns out that the conditions guaranteeing that the ML estimate is well-defined (i.e., that it exists and is unique) are restrictive and impractical.
+The following definition extends the notion of comparison graph of Section~\ref{fi:sec:mle} to the case of choices in networks.
 
 \begin{definition}[comparison graph]
 Let $\mathcal{G} = (\mathcal{V}, \mathcal{E})$ be a directed graph and $\{ a_{ij} : (i,j) \in \mathcal{E} \}$ be non-negative numbers.

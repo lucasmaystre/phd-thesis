@@ -8,14 +8,12 @@ Two decades later, \citet{page1998pagerank} developed PageRank, an algorithm tha
 In the same vein, \citet{dwork2001rank} proposed several variants of Markov chains for aggregating heterogeneous rankings.
 Their idea was to construct a random walk that is biased towards high-ranked items, and use the ranking induced by the stationary distribution.
 More recently, \citet{negahban2012iterative} presented Rank Centrality, an algorithm for aggregating pairwise comparisons close in spirit to that of \citet{dwork2001rank}.
-When the data are generated under the Bradley--Terry model, this algorithm asymptotically recovers model parameters with only $\LittleOmega{N \log N}$ pairwise comparisons.
+When the data are generated under the Bradley--Terry model, this algorithm asymptotically recovers model parameters with only $\LittleOmega{N \log N}$ pairwise comparisons (when comparison pairs are chosen uniformly at random).
 For the more general case of rankings under the Plackett--Luce model, \citet{azari2013generalized} propose to break rankings into pairwise comparisons and to apply an algorithm similar to Rank Centrality.
 The authors show that the resulting estimator is statistically consistent.
 Lastly, \citet{fogel2014serialrank} take a seriation approach to ranking from pairwise comparisons and develop a different type of spectral algorithm.
-Interestingly, many of these spectral algorithms can be related to the method of moments, a broadly applicable alternative to maximum-likelihood estimation.
+Interestingly, many of these spectral algorithms can be related to the method of moments, a broadly applicable alternative to maximum-likelihood estimation \citep[Section~$7.2.1$]{casella2002statistical}.
 %Spectral methods / method of moments successfully applied to other problems \citet{anandkumar2012spectral}
-
-%Connection between ML and stationary distribution of a Markov chain: \citet{kumar2015inverting}
 
 The history of algorithms for maximum-likelihood inference under Luce's model goes back even further.
 In the special case of pairwise comparisons, the same iterative algorithm was independently discovered by \citet{zermelo1928berechnung}, \citet{ford1957solution} and \citet{dykstra1960rank}.

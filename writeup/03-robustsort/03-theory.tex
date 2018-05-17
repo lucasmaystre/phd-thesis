@@ -29,7 +29,7 @@ For clarity, longer proofs are deferred to Section~\ref{rs:sec:proofs}.
 
 Quicksort (Algorithm~\ref{rs:alg:quicksort}) is best described as a recursive procedure.
 At each step of the recursion, a \emph{pivot} item $p$ is chosen uniformly at random (line \ref{rs:line:pivot}).
-Then, during the \emph{partition} operation (lines \ref{rs:line:startpart}--\ref{rs:line:stoppart}), every other item is compared to $p$ and added to the set $\mathcal{L}$ or $\mathcal{R}$, depending on the outcome.
+Then, during the \emph{partition} operation (lines \ref{rs:line:startpart}--\ref{rs:line:stoppart}), every other item is compared to $p$ and added to the set $\mathcal{L}$ or $\mathcal{R}$, depending on the outcome of the comparison with the pivot.
 If all comparison outcomes are consistent, it is well-known that Quicksort terminates after sampling \BigO{N \log N} comparisons with high probability.
 What happens if we drop the consistency assumption?
 The following two lemmas state that these key properties remain valid, no matter which (and how many) comparison outcomes are inconsistent.
@@ -65,7 +65,8 @@ With respect to the standard proof, ours requires additional work in order to fo
 Lemma~\ref{rs:lem:samplecomp} complements Theorem~$3$ in \citet{ailon2010preference}, which states that Quicksort samples \BigO{N \log N} in expectation.
 These results might suggest that \emph{all} properties of Quicksort carry over to the noisy setting.
 This is not the case.
-For example, although Quicksort uses approximately $2N \ln N$ comparisons on average in the noiseless setting \citep{sedgewick2011algorithms}, this number can be distinctly different with inconsistent comparison outcomes\footnote{E.g., if comparison outcomes are uniformly random, all items are ``good'' pivots with high probability, and the average number of comparisons will be closer to $N \log_2 N$ on average, for large $N$.}.
+For example, although Quicksort uses approximately $2N \ln N$ comparisons on average in the noiseless setting \citep{sedgewick2011algorithms}, this number can be distinctly different with inconsistent comparison outcomes\footnote{%
+E.g., if comparison outcomes are uniformly random, all items are ``good'' pivots with high probability, and the average number of comparisons will be closer to $N \log_2 N$ on average, for large $N$.}.
 
 Quicksort (and efficient sorting algorithms in general) infer most pairs of items' relative position by transitivity and rely heavily on the consistency of comparison outcomes.
 In the noisy case, it is therefore important to precisely understand the effect of an inconsistent outcome on the output of the algorithm; this effect extends beyond the pair of items whose comparison outcome was inconsistent.
@@ -83,7 +84,7 @@ Then,
 
 \begin{proof}[Proof (sketch).]
 Consider the first partition operation, with pivot $p$, resulting in partitions $\mathcal{L}$ and $\mathcal{R}$.
-Denote the errors made during this partition operation by $\mathcal{E}_1$.
+Denote the set of pairs of items involved in errors made during this partition operation by $\mathcal{E}_1$.
 We can show that the displacement is bounded by
 \begin{align*}
 \Disp{\sigma} \le \Disp[\mathcal{L}]{\sigma} + \Disp[\mathcal{R}]{\sigma} + 2 \;\sum_{\mathclap{(i, j) \in \mathcal{E}_1}} \Abs{i - j},
@@ -117,7 +118,7 @@ That is,
 \end{align}
 The average distance between two items separated by $k$ positions in the ordering is $\Exp{\theta_{i+k} - \theta_i} = k / \lambda$.
 %More generally, the distance \Abs{\theta_{k+i} - \theta_i} has distribution $\DGamma{k, \lambda}$.
-Although the distance between adjacent items is constant in expectation, we let some parameters be arbitrarily close\footnote{
+Although the distance between adjacent items is constant in expectation, we let some parameters be arbitrarily close\footnote{%
 In particular, the expected minimum distance between two items (i.e., the $\min$ of $N$ exponential r.v.s) decreases as $(N\lambda)^{-1}$ as $N$ increases.}.
 The parameter $\lambda$ indirectly controls the expected level of noise; a large $\lambda$ is likely to result in a larger number of inconsistent outcomes.
 Although the precise choice of this Poisson model is driven by tractability concerns, in Section~\ref{rs:sec:iidunif} we argue that it is essentially equivalent to choosing the parameters independently and uniformly at random in the interval $[0, (N+1) / \lambda]$, when $\lambda$ is fixed and $N$ is large.
@@ -150,7 +151,7 @@ Using Lemma~\ref{rs:lem:dispbound} and the fact that every pair of items is comp
     \le 2 \sum_{i < j}\; \Abs{i - j} \Exp{z_{ij}}
     \le 2N \sum_{k = 0}^{\infty} k (1 + 1/\lambda)^{-k} = 2N \lambda (\lambda + 1).
 \end{align*}
-The random variables $\{ z_{ij} \}$ are not unconditionally independent (they are independent when conditioned on $\bm{\theta}$) but, with some more work, we can show that $\Var{\Delta} = \BigO{N}$.
+The random variables $\{ z_{ij} \}$ are not independent (they are independent when conditioned on $\bm{\theta}$) but, with some more work, we can show that $\Var{\Delta} = \BigO{N}$.
 By using a Chebyshev bound, \eqref{rs:eq:qdtot} follows.
 
 In order to prove \eqref{rs:eq:qdmax}, we take advantage of a theorem due to \citet{ailon2008reconciling} which states that

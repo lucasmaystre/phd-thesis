@@ -9,7 +9,7 @@ Then, we look at five real-world datasets and investigate the practical performa
 \paragraph{Error Metric}
 As the probability of $i$ winning over $j$ depends on the ratio of strengths $\gamma_i / \gamma_j$, the strengths are typically logarithmically spaced.
 In order to evaluate the accuracy of an estimate $\bm{\gamma}$ to ground truth parameters $\bm{\gamma}'$, we therefore use a $\log$ transformation, reminiscent of the random-utility-theoretic formulation of the choice model.
-Define $\bm{\theta} \doteq [\log \gamma_i - \kappa]$, with $\kappa$ chosen such that $\sum_i \theta_i = 0$.
+Define $\theta_i \doteq \log (\gamma_i) - \kappa$, with $\kappa$ chosen such that $\sum_i \theta_i = 0$, and let $\bm{\theta} = [\theta_i]$.
 We will consider the root-mean-squared error
 \begin{align*}
 E_{\text{RMS}} = \Vert \bm{\theta} - \bm{\theta}' \Vert_2 / \sqrt{N}.
@@ -173,7 +173,7 @@ In Table~\ref{fi:tab:mlalg}, we report the number of iterations $I$ needed to re
 \end{table}
 
 The smallest total running time $T$ is highlighted in bold for each dataset.
-We observe that Newton-Raphson does not always converge, despite the log-likelihood being strictly concave\footnote{
+We observe that Newton-Raphson does not always converge, despite the log-likelihood being strictly concave\footnote{%
 On the NASCAR dataset, this has also been noted by \citet{hunter2004mm}.
 Computing the Newton step appears to be severely unstable for many real-world datasets.
 We believe that this instability can be addressed by a careful choice of starting point, step size, or by monitoring the numerical stability;
@@ -193,7 +193,7 @@ The original comparison graph is almost complete, and $\xi = 0.899$.
 By breaking each \num{10}-way ranking into \num{5} independent pairwise comparisons, we effectively sparsify the comparison graph.
 As a result, the spectral gap decreases to \num{0.815}.
 In Figure~\ref{fi:fig:convergence}, we show the convergence rate of MM and I-LSR for the original ($K = 10$) and modified ($K = 2$) datasets.
-We observe that both algorithms display linear convergence, however the rate at which MM converges appears to be sensitive to the structure of the comparison graph.
+We observe that both algorithms display geometric convergence, however the rate at which MM converges appears to be sensitive to the structure of the comparison graph.
 In contrast, I-LSR is robust to changes in the structure.
 The spectral gap of each dataset is listed in Table~\ref{fi:tab:mlalg}.
 %Therefore, to better interpret the result of Table~\ref{fi:tab:mlalg}, we also list for each dataset the spectral gap of its comparison graph.

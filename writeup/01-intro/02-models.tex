@@ -109,7 +109,7 @@ The connection to Thurstone's model began becoming clear in \citet{bradley1953so
 \label{in:eq:bt}
 \Prob{i \succ j} = \frac{1}{1 + \exp[-(\theta_i - \theta_j)]}.
 \end{align}
-Hence, the Bradley--Terry model (as it is commonly referred to) is another instance of a ``generalized linear model'' for pairwise comparisons: the outcome probability depends on the distance $\theta_i - \theta_j$ between the two parameters corresponding to the score of the alternatives.
+Hence, the Bradley--Terry model (as it is commonly referred to) is another instance of a generalized linear model \citep{agresti2015foundations} for pairwise comparisons: the outcome probability depends on the distance $\theta_i - \theta_j$ between the two parameters corresponding to the score of the alternatives.
 \citet{yellot1977relationship} further expanded the connection, by showing that $\Prob{i \succ j}$ in~\eqref{in:eq:bt} can be rewritten as $\Prob{x_i > x_j}$ for independent random variables $\{x_k : k \in [N]\}$ such that $x_k \sim \DGumbel{\theta_k, 1}$, that is, $\Prob{x_k \le y} = \exp\{-\exp[-(y - \theta_k)]\}$.
 Outcomes can therefore also be thought of as the comparison of the realizations of two random variables centered around the alternatives' scores, similarly to Thurstone's model, which gave rise to a \emph{random utility} interpretation.
 Finally, \citet{stern1992all} showed that both Thurstone's and the Bradley--Terry model can be unified under a more general model using the gamma distribution.
@@ -154,7 +154,8 @@ The IIA property is essentially equivalent\footnote{%
 to Luce's \emph{choice axiom} \citeyearpar[p. 6]{luce1959individual}, and in this thesis we will refer to these two concepts interchangeably.
 Luce's fundamental contribution was to show that the IIA property enables an axiomatic characterization of the choice probabilities.
 
-\begin{proposition}
+% The following is more or less a reformulation of Theorem 3 in Luce's book.
+\begin{proposition}[\citealp{luce1959individual}]
 A choice model satisfies the IIA property if and only if there exists a vector $\bm{\gamma} \in \mathbf{R}_{>0}$ such that the choice probabilities are given by~\eqref{in:eq:luce}.
 \end{proposition}
 

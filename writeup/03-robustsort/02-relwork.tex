@@ -6,6 +6,7 @@
 Recently, there have been a number of results on the sample complexity of the BT model, based on the assumption that all pairs of items are chosen \emph{before} any comparison outcome is revealed
 \citep{negahban2012iterative, hajek2014minimax, rajkumar2014statistical, vojnovic2016parameter}.
 In general, these results reveal that choosing pairs of items uniformly at random is essentially optimal.
+% Explanation for the next sentence: because of the fixed dynamic range, the mean squared error has to be < 1 / N^2 (because every item only has "space" 1/N before hitting a neighbor). The results in the aforementioned papers suggest that in this case, at least N^2 log N comparisons are necessary.
 Furthermore, they suggest that the ranking induced by the BT model cannot be recovered with less than \BigOmega{N^2} comparisons.
 Our work shows that by \emph{adaptively} selecting pairs based on observed outcomes, we observe substantial gains.
 
@@ -13,7 +14,7 @@ Our work shows that by \emph{adaptively} selecting pairs based on observed outco
 AL approaches for learning a ranking from noisy comparison outcomes have been studied under various assumptions.
 \citet{braverman2008noisy} examine a model where outcomes of pairwise comparisons are flipped with a small, constant probability.
 \citet{ailon2012active} considers an adversarial setting (comparison outcomes can be arbitrary) and investigates AL in the context of finding a ranking that minimizes the number of inconsistent outcomes, also known as the minimum feedback-arc set problem on tournaments (MFAST).
-These theoretical studies imply, in their respective settings, that \BigO{N \log^k N} comparison outcomes are enough to recover a near-optimal ranking, for some $k \in \mathbf{N}_{>0}$.
+These theoretical studies imply, in their respective settings, that \BigO{N \log^K N} comparison outcomes are enough to recover a near-optimal ranking, for some constant $K$.
 %They design an algorithm that recovers the maximum-likelihood ranking in polynomial-time using only \BigO{n \log n} comparisons, but its running time is impractical.
 \citet{jamieson2011active} propose an efficient active-ranking algorithm that is applicable if items can be embedded in $\mathbf{R}^D$ (e.g., using $D$ features) and assuming that admissible rankings satisfy some geometric constraints.
 \citet{wang2014active} study a collaborative preference-learning problem (each user is modeled by a different BT model) and show that a variant of uncertainty sampling---a well-known AL strategy---works well for their problem.
